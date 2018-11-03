@@ -62,12 +62,12 @@ GRE='\033[0;32m'
 NC='\033[0m'
 BLU='\033[0;34m'
 
-cmdExt()
+cmdExtSpecial()
 {
     cmd="$1"
     echo "\n${GRE}${cmd}${NC}\c"
     echo "\n"
-    ${cmd}
+    ${cmd}  > log_train 2>log_err &
 }
 
 showMessage()
@@ -135,8 +135,8 @@ fi
 
 
 cd ${MODELDIR}
-cmdTmp="${CURRENNT} ${CURRENNTARG} > log_train 2>log_err &"
-cmdExt "${cmdTmp}"
+cmdTmp="${CURRENNT} ${CURRENNTARG}"
+cmdExtSpecial "${cmdTmp}"
 showMessage "Job submitted to background."
 showMessage "Please check nvidia-smi"
 showMessage "Please check training log in $PWD/log_train"

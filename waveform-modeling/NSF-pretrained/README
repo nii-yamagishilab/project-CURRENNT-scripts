@@ -1,0 +1,56 @@
+###########################################################################
+##  Scripts and pre-trained NSF model ----------------------------------  #
+## ---------------------------------------------------------------------  #
+##                                                                        #
+##  Copyright (c) 2018  National Institute of Informatics                 #
+##                                                                        #
+##  THE NATIONAL INSTITUTE OF INFORMATICS AND THE CONTRIBUTORS TO THIS    #
+##  WORK DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING  #
+##  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT    #
+##  SHALL THE NATIONAL INSTITUTE OF INFORMATICS NOR THE CONTRIBUTORS      #
+##  BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY   #
+##  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,       #
+##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS        #
+##  ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE   #
+##  OF THIS SOFTWARE.                                                     #
+###########################################################################
+##                         Author: Xin Wang                               #
+##                         Date:   31 Oct. 2018                           #
+##                         Contact: wangxin at nii.ac.jp                  #
+###########################################################################
+
+This script demonstrate how to generate speech waveform from pre-trained
+NSF waveform model.
+
+A few test data have been prepared. Just follow the steps below to
+run the script.
+
+The train/val file lists are in ./DATATEMP/scp
+
+The pre-trained model requires less than 1GB of GPU memory space.
+
+If GPU has > 11GB memory (k40c, k80, p100 ...), please try MEMSAVEMODE=0
+in 02_genwaveform.sh. This will use the full-speed mode of NSF.
+For smaller GPU card, please remove the long test utterances from
+TESTDATA/f0 and TESTDATA/mfbsp, and then try MEMSAVEMODE=0.
+
+--------- 
+Step1. prepare software enviroment
+1.1 pyTools:  https://github.com/nii-yamagishilab/project-CURRENNT-public
+1.2 CURRENNT: https://github.com/nii-yamagishilab/project-CURRENNT-public
+1.3 python2, with Numpy and Scipy
+
+Step2. configure 02_genwaveform.sh
+2.1 set pyToolsDir to full path of pyTools on your local machine
+2.2 set CURRENNT to full path of CURRENNT on your local machine
+2.3 set MEMSAVEMODE=1 to use memory-save mode,
+    or, if your GPU card has ~10GB memory, try MEMSAVEMODE=0
+
+Step3. run the script
+$: sh 02_genwaveform.sh
+
+The waveform should be generated in MODELS/NSF/output_trained_network
+
+---------
+If you want to try variants of NSF from the ablation test, 
+please untar the models in MODELS/models.tar

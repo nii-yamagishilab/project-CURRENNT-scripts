@@ -1,0 +1,123 @@
+###########################################################################
+##  Scripts for NSF model ----------------------------------------------  #
+## ---------------------------------------------------------------------  #
+##                                                                        #
+##  Copyright (c) 2018  National Institute of Informatics                 #
+##                                                                        #
+##  THE NATIONAL INSTITUTE OF INFORMATICS AND THE CONTRIBUTORS TO THIS    #
+##  WORK DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING  #
+##  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT    #
+##  SHALL THE NATIONAL INSTITUTE OF INFORMATICS NOR THE CONTRIBUTORS      #
+##  BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY   #
+##  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,       #
+##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS        #
+##  ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE   #
+##  OF THIS SOFTWARE.                                                     #
+###########################################################################
+##                         Author: Xin Wang                               #
+##                         Date:   31 Oct. 2018                           #
+##                         Contact: wangxin at nii.ac.jp                  #
+###########################################################################
+
+It is recommeded to trying projects/waveform-modeling/NSF-pretrained at first.
+That script contains pre-trained model and can generated waveforms.
+
+This script demonstrate how to prepare data, train NSF, and generate speech. 
+
+You may use the CMU-arctic database, SLT voice
+(http://festvox.org/cmu_arctic/dbs_slt.html).
+
+Please follow the steps to run the scripts
+
+Note: 
+CURRENNT is not that flexible if you are a tensorflow/theano/pyTorch/chainer user.
+Please check the slides of CURRENNT on http://tonywangx.github.io/slides.html,
+especially, the two slides on WaveNet:
+http://tonywangx.github.io/pdfs/CURRENNT_WAVENET.pdf
+http://tonywangx.github.io/pdfs/wavenet.pdf
+
+------------------------------------
+---
+Step1. prepare software enviroment
+
+1.1 pyTools:  https://github.com/nii-yamagishilab/project-CURRENNT-public
+1.2 CURRENNT: https://github.com/nii-yamagishilab/project-CURRENNT-public
+1.3 python2, with Numpy and Scipy
+
+---
+Step2. put data from CMU-arctic SLT to ./DATA
+
+2.1 F0: f0.tar.gz is included in DATA/, which includes F0 for train/val sets.
+    Please untar it.
+    
+2.2 mel-spectrogram: please use your scripts to extract them.
+    To be compatible with F0, please use a frame shift of 5ms;
+    I use mel-spectrogram of 80 dimensions.
+    
+2.3 waveform: just download the waveform from CMU-arctic SLT.
+    I used 32kHz (for historical reason).
+    Waveform will be downsampled to 16kHz by the scripts.
+    
+2.4 put F0 in DATA/f0 as *.f0, waveform in DATA/wav32k as *.wav,
+    and mel-spec in DATA/mfbsp as *.mfbsp 
+
+---
+Step3. configure 00_genwaveform.sh 01_train_network.sh 02_genwaveform.sh
+
+3.1 Read 00_genwaveform.sh and configure the options if required.
+    If you put the put data following Step2, there is no need to
+    change the configurations except those in Step3.2
+    
+3.2 specify the path to SOX, SV56, pyTools, and CURRENNT
+    * SOX can be installed easily.
+    * If SV56 is unavailable, please set SV56=''. Then please normalize the
+      waveform volume using other tools put them in Data/wav32k
+    * set pyToolsDir to full path of pyTools (downloaded in Step1)
+    * set CURRENNT to full path of CURRENNT
+
+---
+Step4. train the model
+
+4.1 $: sh 00_genwaveform.sh
+    This step prepares the data for CURRENNT.
+    It took around less 5 minutes on my server
+
+4.2 $: sh 01_train_network.sh
+    This step starts the training.
+    Using a p100 GPU card, the training will took 1 day
+    
+    If you want to shorten the number of epochs (50 by default),
+    please change max_epochs in CONFIGS/train_config.cfg
+
+    You can check the training log in MODELS/NSF/log_train.
+    
+    Don't be surprised if you see the network with ~500 'layers'.
+    In my implementation, each 'layer' may only correspond to a single
+    operation (e.g., adding, weighting) in tensorflow.
+    
+    Don't be surprised if you see the training and validation sentences
+    number are larger than what is provided. Utterance are truncated
+    into short utterances in order to fit in the GPU. This truncation
+    size is specified in CONFIGS/train_config.cfg truncate_seq=
+
+    I uploaded my log_train in NSF-pretrained/MODELS/NSF/
+    
+---
+Step5. generate waveforms
+
+5.1 put F0 and mel-spec of test set in TESTDATA/f0 and TESTDATA/mfbsp
+
+5.2 run 
+    $: sh 02_genwaveform.sh
+    This step will generate the waveforms
+
+
+    If your GPU card has sufficient memory, 
+    you may try MEMSAVEMODE=0 to use full-speed mode.
+
+    If you want to check early results, you can
+    generate waveforms by changing MODEL to $PWD/MODELS/NSF/epoch***.autosave,
+    where *** denotes the training epoch.
+    
+--------------------------------
+

@@ -27,7 +27,9 @@ run the script.
 
 The pre-trained model requires less than 1GB of GPU memory space.
 
---------- 
+---------
+Step0. untar trained_network.jsn.tar.gz in MODELS/wavenet001
+
 Step1. prepare software enviroment
 1.1 pyTools:  https://github.com/nii-yamagishilab/project-CURRENNT-public
 1.2 CURRENNT: https://github.com/nii-yamagishilab/project-CURRENNT-public

@@ -62,9 +62,9 @@ Step2. put data from CMU-arctic SLT to ./DATA
     and mel-spec in DATA/mfbsp as *.mfbsp 
 
 ---
-Step3. configure 00_genwaveform.sh 01_train_network.sh 02_genwaveform.sh
+Step3. configure 00_prepare_data.sh 01_train_network.sh 02_genwaveform.sh
 
-3.1 Read 00_genwaveform.sh and configure the options if required.
+3.1 Read 00_prepare_data.sh and configure the options if required.
     If you put the put data following Step2, there is no need to
     change the configurations except those in Step3.2
     

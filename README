@@ -31,4 +31,10 @@ This repository contains the scripts to use CURRENNT
   - NSF-scripts
   Scripts to train NSF on CMU-arctic SLT voice. 
 
+  - WaveNet-pretrained
+  Wavenet trained on SLT. This is a demonstration
+  script to generate waveforms from a trained WaveNet model.
+  The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/
 
+  - WaveNet-scripts
+  Scripts to train WaveNet on CMU-arctic SLT voice. 

@@ -22,7 +22,6 @@ fi
 
 if [ ! -e ${SV56} ]; then
     echo "Warning: sv56 is not found, waveform will not be normalized"
-    exit
 fi
 
 

@@ -14,7 +14,8 @@ from pyTools import display
 def lstdirNoExt(fileDir):
     """ return the list of file names without extension                  
     """
-    return [x.split('.')[0] for x in os.listdir(fileDir)]
+    #return [x.split('.')[0] for x in os.listdir(fileDir)]
+    return [x.split('.')[0] for x in os.listdir(fileDir) if not x.startswith('.')]
 
 def crossSet(list1, list2):
     """ return the cross-set of list1 and list2                          

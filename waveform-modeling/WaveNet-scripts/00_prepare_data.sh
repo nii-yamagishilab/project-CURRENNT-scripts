@@ -94,6 +94,10 @@ if [ ! -d ${DATADIR} ]; then
     mkdir ${DATADIR}
 fi
 
+if [ -z "${F0EXT}" ]; then
+    F0EXT=None
+fi
+
 check()
 {
     Errors=`grep Error ${LOG} | wc -l`

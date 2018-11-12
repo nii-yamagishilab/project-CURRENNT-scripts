@@ -68,11 +68,13 @@ def createFileLst(dataDirs, dataListDirs, trainortest, trainSetRatio=0.8, random
                 trainFilePtr.write('%s\n' % (fileName))
             trainFilePtr.close()
 
-            valFileOut = dataListDirs + os.path.sep + 'val.lst'
-            valFilePtr = open(valFileOut, 'w')
-            for fileName in valSet:
-                valFilePtr.write('%s\n' % (fileName))
-            valFilePtr.close()
+            if len(valSet):
+                valFileOut = dataListDirs + os.path.sep + 'val.lst'
+                valFilePtr = open(valFileOut, 'w')
+                for fileName in valSet:
+                    valFilePtr.write('%s\n' % (fileName))
+                valFilePtr.close()
+                
             display.self_print('\ttrain/val sizes: %d, %d' % (len(trainSet), len(valSet)), 'warning')
         else:
             display.self_print('\ttrain/val sizes: %d, 0' % (len(dataList)), 'warning')

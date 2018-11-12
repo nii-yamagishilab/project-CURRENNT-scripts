@@ -33,7 +33,7 @@ scriptsDir=${pyToolsDir}/scripts/utilities-new
 SOX=/usr/bin/sox
 
 # path of SV56 for waveform normalization
-#  if not available, please normalize the waveform before using this script
+#  if not available, please set SV56='', and normalize the waveform before using this script
 SV56=/work/smg/wang/TOOL/bin/sv56demo
 
 # === input/output configuration

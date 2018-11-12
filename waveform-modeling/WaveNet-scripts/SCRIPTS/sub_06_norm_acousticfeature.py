@@ -1,15 +1,18 @@
 #!/usr/bin/python
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import sys
 import imp
 from ioTools import readwrite as py_rw
+from six.moves import zip
 
 try:
     meanStdToolPath = sys.argv[9] + os.path.sep + 'dataProcess'
     meanStdTool = imp.load_source('meanStd', meanStdToolPath + os.path.sep + 'meanStd.py')
 except ImportError:
-    print "Cannot found %s/dataProcess" % (sys.argv[9])
+    print("Cannot found %s/dataProcess" % (sys.argv[9]))
         
 if __name__ == "__main__":
     dataLst = sys.argv[1]
@@ -65,8 +68,8 @@ if __name__ == "__main__":
     
     meanstd_data = py_rw.read_raw_mat(mvoutputPath, 1)
     if f0Dim >= 0:
-        print "Please note:"
-        print "F0 mean: %f" % (meanstd_data[f0Dim])
-        print "F0 std: %f" % (meanstd_data[dimCnt+f0Dim])
+        print("Please note:")
+        print("F0 mean: %f" % (meanstd_data[f0Dim]))
+        print("F0 std: %f" % (meanstd_data[dimCnt+f0Dim]))
 
 

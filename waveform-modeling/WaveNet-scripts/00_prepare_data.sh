@@ -108,13 +108,13 @@ cmdExt()
     cmd="$1"
     echo "\n${GRE}${cmd}${NC}\c"
     echo "\n"
-    ${cmd}
+    ${cmd}  >> ${LOG} 2>>${LOG}
 }
 
 echo "------------------------------------------------"
 echo "------ Step1. generating data lists-  ----------"
 echo "------------------------------------------------"
-cmd="python ./SCRIPTS/sub_01_prepare_list.py ${ACOUSDIRS},${WAVDIR} ${DATADIR}/scp ${TRAINUTT} > ${LOG} 2>${LOG}"
+cmd="python ./SCRIPTS/sub_01_prepare_list.py ${ACOUSDIRS},${WAVDIR} ${DATADIR}/scp ${TRAINUTT}"
 cmdExt "${cmd}"
 check
 
@@ -125,11 +125,11 @@ echo "------------------------------------------------"
 # 2. normalize and down sample the waveform files
 WAVFORMNORMDIR=${DATADIR}/wav16knorm
 cmd="sh ./SCRIPTS/sub_02_waveform_process.sh ${WAVDIR} ${WAVFORMNORMDIR} ${DATADIR}/scp/train.lst
-   ${scriptsDir} ${SOX} ${SV56} >> ${LOG} 2>>${LOG}"
+   ${scriptsDir} ${SOX} ${SV56}"
 cmdExt "${cmd}"
 
 if [ -e ${DATADIR}/scp/val.lst ]; then
-    cmd="sh ./SCRIPTS/sub_02_waveform_process.sh ${WAVDIR} ${WAVFORMNORMDIR} ${DATADIR}/scp/val.lst ${scriptsDir} ${SOX} ${SV56} >> ${LOG} 2>>${LOG}"
+    cmd="sh ./SCRIPTS/sub_02_waveform_process.sh ${WAVDIR} ${WAVFORMNORMDIR} ${DATADIR}/scp/val.lst ${scriptsDir} ${SOX} ${SV56}"
     cmdExt "${cmd}"
 fi
 check
@@ -142,10 +142,10 @@ echo "------------------------------------------------"
 MUWAVDIR=${DATADIR}/wav16knorm_mulaw   # by default use 10 bits mu-law compression
 RAWWAVDIR=${DATADIR}/wav16knorm_float
 
-cmd="sh ./SCRIPTS/sub_03_waveform_mulaw_float.sh ${WAVFORMNORMDIR} ${MUWAVDIR} ${RAWWAVDIR} ${DATADIR}/scp/train.lst ${MULAWBITS} ${scriptsDir} >> ${LOG} 2>>${LOG}"
+cmd="sh ./SCRIPTS/sub_03_waveform_mulaw_float.sh ${WAVFORMNORMDIR} ${MUWAVDIR} ${RAWWAVDIR} ${DATADIR}/scp/train.lst ${MULAWBITS} ${scriptsDir}"
 cmdExt "${cmd}"
 if [ -e ${DATADIR}/scp/val.lst ]; then
-    cmd="sh ./SCRIPTS/sub_03_waveform_mulaw_float.sh ${WAVFORMNORMDIR} ${MUWAVDIR} ${RAWWAVDIR} ${DATADIR}/scp/val.lst ${MULAWBITS} ${scriptsDir} >> ${LOG} 2>>${LOG}"
+    cmd="sh ./SCRIPTS/sub_03_waveform_mulaw_float.sh ${WAVFORMNORMDIR} ${MUWAVDIR} ${RAWWAVDIR} ${DATADIR}/scp/val.lst ${MULAWBITS} ${scriptsDir}"
     cmdExt "${cmd}"
 fi
 check
@@ -163,10 +163,10 @@ echo "------ Step4. time index files for CURRENNT-----"
 echo "------------------------------------------------"
 # 4. prepare a simple time step index files
 TIMEINDEXDIR=${DATADIR}/idxData
-cmd="sh ./SCRIPTS/sub_04_timeidx_get.sh ${MELDIR} ${MELDIM} ${MELEXT} ${UPSAMPRATE} ${TIMEINDEXDIR} ${DATADIR}/scp/train.lst ${scriptsDir} >> ${LOG} 2>>${LOG}"
+cmd="sh ./SCRIPTS/sub_04_timeidx_get.sh ${MELDIR} ${MELDIM} ${MELEXT} ${UPSAMPRATE} ${TIMEINDEXDIR} ${DATADIR}/scp/train.lst ${scriptsDir}"
 cmdExt "${cmd}"
 if [ -e ${DATADIR}/scp/val.lst ]; then
-    cmd="sh ./SCRIPTS/sub_04_timeidx_get.sh ${MELDIR} ${MELDIM} ${MELEXT} ${UPSAMPRATE} ${TIMEINDEXDIR} ${DATADIR}/scp/val.lst ${scriptsDir} >> ${LOG} 2>>${LOG}"
+    cmd="sh ./SCRIPTS/sub_04_timeidx_get.sh ${MELDIR} ${MELDIM} ${MELEXT} ${UPSAMPRATE} ${TIMEINDEXDIR} ${DATADIR}/scp/val.lst ${scriptsDir}"
     cmdExt "${cmd}"
 fi
 check
@@ -181,11 +181,11 @@ if [ ! -d ${NCFLOATWAV} ]; then
     mkdir ${NCFLOATWAV}
 fi
 
-cmd="sh ./SCRIPTS/sub_05_package_datanc.sh ${NCFLOATWAV}/DATA_TRAIN ${TIMEINDEXDIR} ${MUWAVDIR} ${DATADIR}/scp/train.lst $PWD/CONFIGS/data_config.py ${scriptsDir} >> ${LOG} 2>>${LOG}"
+cmd="sh ./SCRIPTS/sub_05_package_datanc.sh ${NCFLOATWAV}/DATA_TRAIN ${TIMEINDEXDIR} ${MUWAVDIR} ${DATADIR}/scp/train.lst $PWD/CONFIGS/data_config.py ${scriptsDir}"
 cmdExt "${cmd}"
 
 if [ -e ${DATADIR}/scp/val.lst ]; then
-    cmd="sh ./SCRIPTS/sub_05_package_datanc.sh ${NCFLOATWAV}/DATA_VAL ${TIMEINDEXDIR} ${MUWAVDIR} ${DATADIR}/scp/val.lst $PWD/CONFIGS/data_config.py ${scriptsDir} >> ${LOG} 2>>${LOG}"
+    cmd="sh ./SCRIPTS/sub_05_package_datanc.sh ${NCFLOATWAV}/DATA_VAL ${TIMEINDEXDIR} ${MUWAVDIR} ${DATADIR}/scp/val.lst $PWD/CONFIGS/data_config.py ${scriptsDir}"
     cmdExt "${cmd}"
 fi
 check
@@ -198,7 +198,7 @@ echo "------------------------------------------------"
 #  note: only train set will be used to caculate mean/std
 #        F0 mean/std will be conducted over voiced regions
 MEANSTD=${DATADIR}/meanstd.bin
-cmd="python ./SCRIPTS/sub_06_norm_acousticfeature.py ${DATADIR}/scp/train.lst ${ACOUSDIRS} ${ACOUSEXTS} ${ACOUSDIMS} NONE ${F0EXT} ${DATADIR}/scp ${MEANSTD} ${scriptsDir} >> ${LOG} 2>>${LOG}"
+cmd="python ./SCRIPTS/sub_06_norm_acousticfeature.py ${DATADIR}/scp/train.lst ${ACOUSDIRS} ${ACOUSEXTS} ${ACOUSDIMS} NONE ${F0EXT} ${DATADIR}/scp ${MEANSTD} ${scriptsDir}"
 cmdExt "${cmd}"
 check
 

@@ -94,6 +94,10 @@ if [ ! -e ${DATANCDIR}/DATA_TRAIN/data.scp ]; then
 fi
 
 trainData=`cat ${DATANCDIR}/DATA_TRAIN/data.scp | tr '\n' ',' | sed 's/,$//'`
+if [ -z "$trainData" ]; then
+    echo "Cannot find train data.nc. Please check ${DATANCDIR}/DATA_TRAIN/data.scp"
+    exit
+fi
 
 if [ -e ${DATANCDIR}/DATA_VAL/data.scp ]; then
     valData=`cat ${DATANCDIR}/DATA_VAL/data.scp | tr '\n' ',' | sed 's/,$//'`

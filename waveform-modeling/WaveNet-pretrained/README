@@ -32,7 +32,11 @@ Step0. untar trained_network.jsn.tar.gz in MODELS/wavenet001
 
 Step1. prepare software enviroment
 1.1 pyTools:  https://github.com/nii-yamagishilab/project-CURRENNT-public
+    please compile it following pyTools/README
+    
 1.2 CURRENNT: https://github.com/nii-yamagishilab/project-CURRENNT-public
+    please compile it following CURRENNT-modified/README
+    
 1.3 python2, with Numpy and Scipy
 
 Step2. configure 02_genwaveform.sh

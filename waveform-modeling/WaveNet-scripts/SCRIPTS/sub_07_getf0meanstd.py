@@ -1,8 +1,11 @@
 #!/usr/bin/python
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import sys
 from ioTools import readwrite as py_rw
+from six.moves import zip
 
 if __name__ == "__main__":
     meanstd_data = sys.argv[1]
@@ -27,6 +30,6 @@ if __name__ == "__main__":
     meanstd_data = py_rw.read_raw_mat(meanstd_data, 1)
     
     if f0Dim >= 0:
-        print "%f %f" % (meanstd_data[f0Dim], meanstd_data[dimCnt+f0Dim])
+        print("%f %f" % (meanstd_data[f0Dim], meanstd_data[dimCnt+f0Dim]))
 
 

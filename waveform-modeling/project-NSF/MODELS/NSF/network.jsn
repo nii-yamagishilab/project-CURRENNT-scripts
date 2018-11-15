@@ -1,0 +1,3810 @@
+{
+    "layers": [
+        {
+            "name": "input",
+            "type": "input",
+            "size": 1
+        },
+        {
+            
+			
+			"name": "exInputL1",
+            "type": "externalloader",
+            "size": 81,
+            "resolution": 80,
+            "bias": 1
+        },
+        {
+            
+			"name": "exInputSkip",
+            "type": "skipini",
+            "size": 81,
+            "resolution": 80,
+            "bias": 1
+        },
+        {
+            
+			"name": "exInputL2",
+            "type": "blstm",
+            "size": 64,
+            "resolution": 80,
+            "bias": 1,
+            "clock": ""
+        },
+        {
+            
+			"name": "exInputL3",
+            "type": "cnn",
+            "size": 63,
+            "resolution": 80,
+            "bias": 1,
+            "window_width": "63*1",
+            "window_tap_interval": "63*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 0,
+            "tanhoutput": 1
+        },
+        {
+            
+            "name": "exInputAdd",
+            "type": "skipcat",
+            "size": 64,
+            "resolution": 80,
+            "layerFlag": "wavenetConditionInputLayer",
+            "bias": 1,
+            "preSkipLayer": "exInputL3,exInputSkip",
+            "preSkipLayerDim": "0_63_80_81",
+            "learningRate": 0
+        },
+	 {
+	    "size": 8,
+            "name": "StusinWavGen",
+	    "bias": 1.0,
+	    "type": "signalgen",
+	    "frequencySR": 16000,
+	    "frequencyF0Mag": 0.1,
+	    "frequencyNoiseMag": 0.01,
+	    "frequencyBins": 64,
+	    "frequencyHarmonics": 7
+	},
+	{
+	    "name": "StusinWavGen2",
+            "type": "feedforward_tanh",
+            "size": 1,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StusinWavGen3",
+            "type": "skipini",
+            "size": 1,
+            "bias": 1
+        },
+	{
+	    "name": "StucausalEmbedding",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StucausalSkip",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {          
+	    "name": "StudiluteB1L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+	    "name": "StudiluteB1L1wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+	    "name": "StudiluteB1L1out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+	    "name": "StudiluteB1L1skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StucausalSkip,StudiluteB1L1out"
+        },
+        {
+            
+	    "name": "StudiluteB1L1temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L1skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L1skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L1temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L1temp"
+        },
+        {
+            
+			"name": "StudiluteB1L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L2wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L2out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L2skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L1temp2,StudiluteB1L2out"
+        },
+        {
+            
+			"name": "StudiluteB1L2temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L2skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L2skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L2temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L2temp"
+        },
+        {
+            
+			"name": "StudiluteB1L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L3wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L3out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L3skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L2temp2,StudiluteB1L3out"
+        },
+        {
+            
+			"name": "StudiluteB1L3temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L3skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L3skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L3temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L3temp"
+        },
+        {
+            
+			"name": "StudiluteB1L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L4wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L4out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L4skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L3temp2,StudiluteB1L4out"
+        },
+        {
+            
+			"name": "StudiluteB1L4temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L4skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L4skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L4temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L4temp"
+        },
+        {
+            
+			"name": "StudiluteB1L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L5wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L5out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L5skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L4temp2,StudiluteB1L5out"
+        },
+        {
+            
+			"name": "StudiluteB1L5temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L5skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L5skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L5temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L5temp"
+        },
+        {
+            
+			"name": "StudiluteB1L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L6wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L6out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L6skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L5temp2,StudiluteB1L6out"
+        },
+        {
+            
+			"name": "StudiluteB1L6temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L6skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L6skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L6temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L6temp"
+        },
+        {
+            
+			"name": "StudiluteB1L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L7wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L7out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L7skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L6temp2,StudiluteB1L7out"
+        },
+        {
+            
+			"name": "StudiluteB1L7temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L7skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L7skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L7temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L7temp"
+        },
+        {
+            
+			"name": "StudiluteB1L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L8wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L8out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L8skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L7temp2,StudiluteB1L8out"
+        },
+        {
+            
+			"name": "StudiluteB1L8temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L8skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L8skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L8temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L8temp"
+        },
+        {
+            
+			"name": "StudiluteB1L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L9wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L9out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L9skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L8temp2,StudiluteB1L9out"
+        },
+        {
+            
+			"name": "StudiluteB1L9temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L9skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L9skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L9temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L9temp"
+        },
+        {
+            
+			"name": "StudiluteB1L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB1L10wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB1L10out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L10skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L9temp2,StudiluteB1L10out"
+        },
+        {
+            
+			"name": "StudiluteB1L10temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L10skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB1L10skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB1L10temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L10temp"
+        },
+	{
+            
+			"name": "StupostprocessingW1Add",
+            "type": "skipadd",
+            "size": 128,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB1L1skip,StudiluteB1L2skip,StudiluteB1L3skip,StudiluteB1L4skip,StudiluteB1L5skip,StudiluteB1L6skip,StudiluteB1L7skip,StudiluteB1L8skip,StudiluteB1L9skip,StudiluteB1L10skip"
+        },
+	{
+	    
+            "name": "StupostprocessingW1L1",
+	    "type": "operator",
+	    "size": 128,
+	    "bias": 1,
+	    "setZero": "128*0.1"
+	},
+	{
+            
+            "name": "StupostprocessingW1L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingW1L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingW1transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingW1L3,StusinWavGen3"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingW1transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingW1transform",
+	    "preSkipLayerDim": "0_1"
+	},
+	{
+	    "name": "StucausalEmbedding2",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+	    "name": "StucausalSkip2",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+            "name": "StudiluteB2L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L1wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L1out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L1skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StucausalSkip2,StudiluteB2L1out"
+        },
+        {
+            
+			"name": "StudiluteB2L1temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L1skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L1skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L1temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L1temp"
+        },
+        {
+            
+			"name": "StudiluteB2L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L2wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L2out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L2skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L1temp2,StudiluteB2L2out"
+        },
+        {
+            
+			"name": "StudiluteB2L2temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L2skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L2skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L2temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L2temp"
+        },
+        {
+            
+			"name": "StudiluteB2L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L3wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L3out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L3skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L2temp2,StudiluteB2L3out"
+        },
+        {
+            
+			"name": "StudiluteB2L3temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L3skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L3skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L3temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L3temp"
+        },
+        {
+            
+			"name": "StudiluteB2L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L4wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L4out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L4skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L3temp2,StudiluteB2L4out"
+        },
+        {
+            
+			"name": "StudiluteB2L4temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L4skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L4skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L4temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L4temp"
+        },
+        {
+            
+			"name": "StudiluteB2L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L5wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L5out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L5skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L4temp2,StudiluteB2L5out"
+        },
+        {
+            
+			"name": "StudiluteB2L5temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L5skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L5skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L5temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L5temp"
+        },
+        {
+            
+			"name": "StudiluteB2L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L6wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L6out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L6skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L5temp2,StudiluteB2L6out"
+        },
+        {
+            
+			"name": "StudiluteB2L6temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L6skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L6skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L6temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L6temp"
+        },
+        {
+            
+			"name": "StudiluteB2L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L7wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L7out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L7skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L6temp2,StudiluteB2L7out"
+        },
+        {
+            
+			"name": "StudiluteB2L7temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L7skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L7skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L7temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L7temp"
+        },
+        {
+            
+			"name": "StudiluteB2L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L8wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L8out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L8skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L7temp2,StudiluteB2L8out"
+        },
+        {
+            
+			"name": "StudiluteB2L8temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L8skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L8skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L8temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L8temp"
+        },
+        {
+            
+			"name": "StudiluteB2L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L9wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L9out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L9skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L8temp2,StudiluteB2L9out"
+        },
+        {
+            
+			"name": "StudiluteB2L9temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L9skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L9skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L9temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L9temp"
+        },
+        {
+            
+			"name": "StudiluteB2L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB2L10wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB2L10out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L10skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L9temp2,StudiluteB2L10out"
+        },
+        {
+            
+			"name": "StudiluteB2L10temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L10skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB2L10skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB2L10temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L10temp"
+        },
+	{
+            
+			"name": "StupostprocessingW2Add",
+            "type": "skipadd",
+            "size": 128,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB2L1skip,StudiluteB2L2skip,StudiluteB2L3skip,StudiluteB2L4skip,StudiluteB2L5skip,StudiluteB2L6skip,StudiluteB2L7skip,StudiluteB2L8skip,StudiluteB2L9skip,StudiluteB2L10skip"
+        },
+	{
+	    
+            "name": "StupostprocessingW2L1",
+	    "type": "operator",
+	    "size": 128,
+	    "bias": 1,
+	    "setZero": "128*0.01"
+	},
+	{
+            
+            "name": "StupostprocessingW2L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingW2L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingW2transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingW2L3,StupostprocessingW1transform"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingW2transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingW2transform",
+	    "preSkipLayerDim": "0_1"
+	},
+	{
+	    "name": "StucausalEmbedding3",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+	    "name": "StucausalSkip3",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+	{
+            
+            "name": "StudiluteB3L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L1wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L1out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L1skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StucausalSkip3,StudiluteB3L1out"
+        },
+        {
+            
+			"name": "StudiluteB3L1temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L1skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L1skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L1temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L1temp"
+        },
+        {
+            
+			"name": "StudiluteB3L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L2wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L2out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L2skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L1temp2,StudiluteB3L2out"
+        },
+        {
+            
+			"name": "StudiluteB3L2temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L2skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L2skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L2temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L2temp"
+        },
+        {
+            
+			"name": "StudiluteB3L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L3wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L3out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L3skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L2temp2,StudiluteB3L3out"
+        },
+        {
+            
+			"name": "StudiluteB3L3temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L3skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L3skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L3temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L3temp"
+        },
+        {
+            
+			"name": "StudiluteB3L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L4wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L4out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L4skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L3temp2,StudiluteB3L4out"
+        },
+        {
+            
+			"name": "StudiluteB3L4temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L4skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L4skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L4temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L4temp"
+        },
+        {
+            
+			"name": "StudiluteB3L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L5wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L5out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L5skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L4temp2,StudiluteB3L5out"
+        },
+        {
+            
+			"name": "StudiluteB3L5temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L5skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L5skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L5temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L5temp"
+        },
+        {
+            
+			"name": "StudiluteB3L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L6wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L6out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L6skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L5temp2,StudiluteB3L6out"
+        },
+        {
+            
+			"name": "StudiluteB3L6temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L6skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L6skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L6temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L6temp"
+        },
+        {
+            
+			"name": "StudiluteB3L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L7wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L7out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L7skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L6temp2,StudiluteB3L7out"
+        },
+        {
+            
+			"name": "StudiluteB3L7temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L7skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L7skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L7temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L7temp"
+        },
+        {
+            
+			"name": "StudiluteB3L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L8wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L8out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L8skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L7temp2,StudiluteB3L8out"
+        },
+        {
+            
+			"name": "StudiluteB3L8temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L8skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L8skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L8temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L8temp"
+        },
+        {
+            
+			"name": "StudiluteB3L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L9wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L9out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L9skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L8temp2,StudiluteB3L9out"
+        },
+        {
+            
+			"name": "StudiluteB3L9temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L9skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L9skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L9temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L9temp"
+        },
+        {
+            
+			"name": "StudiluteB3L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB3L10wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB3L10out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L10skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L9temp2,StudiluteB3L10out"
+        },
+        {
+            
+			"name": "StudiluteB3L10temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L10skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB3L10skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB3L10temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L10temp"
+        },
+	{
+            
+			"name": "StupostprocessingW3Add",
+            "type": "skipadd",
+            "size": 128,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB3L1skip,StudiluteB3L2skip,StudiluteB3L3skip,StudiluteB3L4skip,StudiluteB3L5skip,StudiluteB3L6skip,StudiluteB3L7skip,StudiluteB3L8skip,StudiluteB3L9skip,StudiluteB3L10skip"
+        },
+	{
+	    
+            "name": "StupostprocessingW3L1",
+	    "type": "operator",
+	    "size": 128,
+	    "bias": 1,
+	    "setZero": "128*0.01"
+	},
+	{
+            
+            "name": "StupostprocessingW3L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingW3L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+    {
+	    "name": "StupostprocessingW3transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingW3L3,StupostprocessingW2transform"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingW3transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingW3transform",
+	    "preSkipLayerDim": "0_1"
+	},
+	{
+	    "name": "StucausalEmbedding4",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+	    "name": "StucausalSkip4",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+            "name": "StudiluteB4L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L1wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L1out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L1skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StucausalSkip4,StudiluteB4L1out"
+        },
+        {
+            
+			"name": "StudiluteB4L1temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L1skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L1skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L1temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L1temp"
+        },
+        {
+            
+			"name": "StudiluteB4L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L2wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L2out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L2skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L1temp2,StudiluteB4L2out"
+        },
+        {
+            
+			"name": "StudiluteB4L2temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L2skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L2skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L2temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L2temp"
+        },
+        {
+            
+			"name": "StudiluteB4L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L3wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L3out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L3skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L2temp2,StudiluteB4L3out"
+        },
+        {
+            
+			"name": "StudiluteB4L3temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L3skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L3skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L3temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L3temp"
+        },
+        {
+            
+			"name": "StudiluteB4L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L4wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L4out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L4skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L3temp2,StudiluteB4L4out"
+        },
+        {
+            
+			"name": "StudiluteB4L4temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L4skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L4skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L4temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L4temp"
+        },
+        {
+            
+			"name": "StudiluteB4L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L5wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L5out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L5skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L4temp2,StudiluteB4L5out"
+        },
+        {
+            
+			"name": "StudiluteB4L5temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L5skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L5skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L5temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L5temp"
+        },
+        {
+            
+			"name": "StudiluteB4L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L6wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L6out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L6skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L5temp2,StudiluteB4L6out"
+        },
+        {
+            
+			"name": "StudiluteB4L6temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L6skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L6skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L6temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L6temp"
+        },
+        {
+            
+			"name": "StudiluteB4L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L7wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L7out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L7skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L6temp2,StudiluteB4L7out"
+        },
+        {
+            
+			"name": "StudiluteB4L7temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L7skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L7skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L7temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L7temp"
+        },
+        {
+            
+			"name": "StudiluteB4L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L8wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L8out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L8skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L7temp2,StudiluteB4L8out"
+        },
+        {
+            
+			"name": "StudiluteB4L8temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L8skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L8skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L8temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L8temp"
+        },
+        {
+            
+			"name": "StudiluteB4L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L9wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L9out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L9skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L8temp2,StudiluteB4L9out"
+        },
+        {
+            
+			"name": "StudiluteB4L9temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L9skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L9skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L9temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L9temp"
+        },
+        {
+            
+			"name": "StudiluteB4L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB4L10wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB4L10out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L10skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L9temp2,StudiluteB4L10out"
+        },
+        {
+            
+			"name": "StudiluteB4L10temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L10skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB4L10skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB4L10temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L10temp"
+        },
+	{
+            
+			"name": "StupostprocessingB4Add",
+            "type": "skipadd",
+            "size": 128,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB4L1skip,StudiluteB4L2skip,StudiluteB4L3skip,StudiluteB4L4skip,StudiluteB4L5skip,StudiluteB4L6skip,StudiluteB4L7skip,StudiluteB4L8skip,StudiluteB4L9skip,StudiluteB4L10skip"
+        },
+	{
+	    
+            "name": "StupostprocessingB4L1",
+	    "type": "operator",
+	    "size": 128,
+	    "bias": 1,
+	    "setZero": "128*0.01"
+	},
+	{
+            
+            "name": "StupostprocessingB4L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingB4L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingB4transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingB4L3,StupostprocessingW3transform"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingB4transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingB4transform",
+	    "preSkipLayerDim": "0_1"
+	},
+	{
+	    "name": "StucausalEmbeddingB5",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+	    "name": "StucausalSkipB5",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+            "name": "StudiluteB5L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L1wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L1out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L1skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StucausalSkipB5,StudiluteB5L1out"
+        },
+        {
+            
+			"name": "StudiluteB5L1temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L1skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L1skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L1temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L1temp"
+        },
+        {
+            
+			"name": "StudiluteB5L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L2wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L2out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L2skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L1temp2,StudiluteB5L2out"
+        },
+        {
+            
+			"name": "StudiluteB5L2temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L2skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L2skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L2temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L2temp"
+        },
+        {
+            
+			"name": "StudiluteB5L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L3wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L3out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L3skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L2temp2,StudiluteB5L3out"
+        },
+        {
+            
+			"name": "StudiluteB5L3temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L3skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L3skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L3temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L3temp"
+        },
+        {
+            
+			"name": "StudiluteB5L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L4wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L4out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L4skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L3temp2,StudiluteB5L4out"
+        },
+        {
+            
+			"name": "StudiluteB5L4temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L4skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L4skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L4temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L4temp"
+        },
+        {
+            
+			"name": "StudiluteB5L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L5wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L5out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L5skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L4temp2,StudiluteB5L5out"
+        },
+        {
+            
+			"name": "StudiluteB5L5temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L5skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L5skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L5temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L5temp"
+        },
+        {
+            
+			"name": "StudiluteB5L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L6wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L6out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L6skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L5temp2,StudiluteB5L6out"
+        },
+        {
+            
+			"name": "StudiluteB5L6temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L6skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L6skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L6temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L6temp"
+        },
+        {
+            
+			"name": "StudiluteB5L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L7wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L7out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L7skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L6temp2,StudiluteB5L7out"
+        },
+        {
+            
+			"name": "StudiluteB5L7temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L7skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L7skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L7temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L7temp"
+        },
+        {
+            
+			"name": "StudiluteB5L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L8wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L8out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L8skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L7temp2,StudiluteB5L8out"
+        },
+        {
+            
+			"name": "StudiluteB5L8temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L8skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L8skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L8temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L8temp"
+        },
+        {
+            
+			"name": "StudiluteB5L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L9wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L9out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L9skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L8temp2,StudiluteB5L9out"
+        },
+        {
+            
+			"name": "StudiluteB5L9temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L9skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L9skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L9temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L9temp"
+        },
+        {
+            
+			"name": "StudiluteB5L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+            
+			"name": "StudiluteB5L10wavc",
+            "type": "wavnetc",
+            "size": 32,
+            "bias": 1,
+            "contextDim": 64,
+            "wavCoreOpt": 0
+        },
+        {
+            
+			"name": "StudiluteB5L10out",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L10skipadd",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L9temp2,StudiluteB5L10out"
+        },
+        {
+            
+			"name": "StudiluteB5L10temp",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L10skipouttrans",
+            "type": "feedforward_tanh",
+            "size": 128,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            
+			"name": "StudiluteB5L10skip",
+            "type": "skipini",
+            "size": 128,
+            "bias": 1
+        },
+        {
+            
+			"name": "StudiluteB5L10temp2",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L10temp"
+        },
+	{
+            
+			"name": "StupostprocessingB5Add",
+            "type": "skipadd",
+            "size": 128,
+            "bias": 1,
+            "preSkipLayer": "StudiluteB5L1skip,StudiluteB5L2skip,StudiluteB5L3skip,StudiluteB5L4skip,StudiluteB5L5skip,StudiluteB5L6skip,StudiluteB5L7skip,StudiluteB5L8skip,StudiluteB5L9skip,StudiluteB5L10skip"
+        },
+	{
+	    
+            "name": "StupostprocessingB5L1",
+	    "type": "operator",
+	    "size": 128,
+	    "bias": 1,
+	    "setZero": "128*0.01"
+	},
+	{
+            
+            "name": "StupostprocessingB5L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingB5L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingB5transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingB5L3,StupostprocessingB4transform"
+	},
+	{
+
+	    "name": "output",
+            "type": "skipcat",
+	    "size": 1,
+	    "bias": 1,
+	    "preSkipLayer": "StupostprocessingB5transform",
+	    "preSkipLayerDim": "0_1"
+	},		
+	{
+	    "name": "dftoutput",
+	    "type": "dft",
+	    "size": 1,
+	    "bias": 1,
+	    "gamma": 500.0,
+	    "fftLength": 512,
+	    "frameLength": 320,
+	    "frameShift": 80,
+	    "fftLength2": 128,
+	    "frameLength2": 80,
+	    "frameShift2": 40,
+	    "fftLength3": 2048,
+	    "frameLength3": 1920,
+	    "frameShift3": 640
+	}
+    ]
+}

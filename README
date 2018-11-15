@@ -23,18 +23,64 @@ This repository contains the scripts to use CURRENNT
 
 ./waveform-modeling
 
-  - NSF-pretrained
+  - DATA
+  Directory to store the data for model training (validation will be selected
+  automatically from these data)
+
+  - TESTDATA
+  Directory to store the data for test
+  
+  - TESTDATA-for-pretrained
+  Directory to store the data for test for the project-WaveNet-pretrained
+  and project-NSF-pretrained
+
+  - SCRIPTS
+  Scripts of the training/generation processes
+
+  - project-NSF-pretrained
   Neural source-filter model trained on SLT. This is a demonstration
   script to generate waveforms from a trained NSF model.
   The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/
   
-  - NSF-scripts
+  - project-NSF-scripts
   Scripts to train NSF on CMU-arctic SLT voice. 
 
-  - WaveNet-pretrained
+  - project-WaveNet-pretrained
   Wavenet trained on SLT. This is a demonstration
   script to generate waveforms from a trained WaveNet model.
   The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/
 
-  - WaveNet-scripts
+  - project-WaveNet-scripts
   Scripts to train WaveNet on CMU-arctic SLT voice. 
+
+
+Usage:
+1. For quick check
+   $: source ./init.sh
+   $: cd waveform-modeling/project-NSF-pretrained/
+   $: run 01_gen.sh
+
+   Waveforms should be generated in ./waveform-modeling/project-NSF-pretrained/MODELS/NSF/output
+   
+2. For model training using the provided sample data (only a few utterances from CMT-arctic)
+   $: source ./init.sh
+   $: cd waveform-modeling/project-NSF/
+   $: run 00_run.sh
+   
+   After which you can get a trained model in ./waveform-modeling/project-NSF/MODELS/NSF/trained_network.jsn
+
+   $: run 01_get.sh
+   After which you can get some waveforms in ./waveform-modeling/project-NSF/MODELS/NSF/output
+
+3. For training using your own data:
+   1. Put waveforms and acoustic features in ./DATA, which stores the training data (validation data will be
+      automatically selected from ./DATA)
+   2. Read and configure config.py in project-NSF or project-Wavenet
+   3. Run 00_run.sh
+   4. Put test data in ./TESTDATA, configure config.py and Run 01_get.sh
+
+
+Note:
+   This script assumes 16kHz waveform, acoustic features extracted with frame_shift = 5ms.
+   Otherwise, please email me on how to modify network.jsn for model training.
+   (We will add automatic configuration later)

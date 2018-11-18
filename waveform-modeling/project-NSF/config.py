@@ -60,7 +60,10 @@ ext_acous_feats = ['.mfbsp', '.f0']
 #  if F0 is not included in acoustic features, set f0_ext = None
 f0_ext = '.f0'
 
-# waveform sampling rate
+# waveform sampling rate (no matter what the original sampling rate is, the waveforms
+#  in path_waveform will be converted, and waveforms with a sampling rate of wav_samp
+#  will be used to train the network. In other words, wav_samp specifies the sampling
+#  rate of the target/generated waveform)
 wav_samp = 16000
 
 # upsampling rate of acoustic features (waveform sampling rate * acoustic feature frame shift)

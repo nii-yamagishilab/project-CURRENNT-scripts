@@ -121,8 +121,17 @@ if cfg.step2:
         else:
             f0mean = -1
             f0std = -1
-        
+            
+    # Update network configurations
+    cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_08_modify_network_jsn.py'
+    cmd = cmd + ' %s %d %d %d' % (tmp_network_file, cfg.upsampling_rate,
+                                  cfg.gen_wav_samp, sum(cfg.dim_acous_feats))
+    exe_cmd(cmd)
+
+
+    # Network training
     cmd = '%s --options_file %s --verbose 1' % (cfg.path_currennt, tmp_trn_config_template)
+    cmd = cmd + ' --network %s' % (tmp_network_file)
     cmd = cmd + ' --ExtInputDirs %s' % (','.join(cfg.path_acous_feats))
     cmd = cmd + ' --ExtInputExts %s' % (','.join(cfg.ext_acous_feats))
     cmd = cmd + ' --ExtInputDims %s' % ('_'.join([str(dim) for dim in cfg.dim_acous_feats]))

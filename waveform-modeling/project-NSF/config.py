@@ -60,6 +60,9 @@ ext_acous_feats = ['.mfbsp', '.f0']
 #  if F0 is not included in acoustic features, set f0_ext = None
 f0_ext = '.f0'
 
+# waveform sampling rate
+wav_samp = 16000
+
 # upsampling rate of acoustic features (waveform sampling rate * acoustic feature frame shift)
 #  for example, 80 = 16000 Hz * 5 ms 
 upsampling_rate = 80
@@ -111,7 +114,6 @@ mem_save_mode = 1
 gen_output_dir = gen_model_dir + '/output'
 
 # output waveform sampling rate 
-gen_wav_samp = 16000
 
 
 # --------------- Configuration done --------------
@@ -190,6 +192,7 @@ tmp_network_trn_err = 'log_err'
 
 path_pyTools_scripts = path_pyTools + '/scripts/utilities-new'
 
+gen_wav_samp = wav_samp
 ##### check
 
 assert (len(dim_acous_feats)==len(path_acous_feats)), "Error: len(dim_acous_feats)!=len(path_acous_feats)"

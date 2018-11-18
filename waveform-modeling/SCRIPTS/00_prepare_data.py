@@ -85,7 +85,8 @@ if cfg.step1:
             if os.path.isfile(tmp_lst):
                 
                 cmd = 'sh %s' % (cfg.path_scripts) + os.path.sep + 'sub_02_waveform_process.sh'
-                cmd = cmd + ' %s %s %s' % (cfg.path_waveform, tmp_wav_pre_dir, tmp_lst)
+                cmd = cmd + ' %s %s %s %d' % (cfg.path_waveform, tmp_wav_pre_dir,
+                                              tmp_lst, cfg.wav_samp)
                 cmd = cmd + ' %s %s %s' % (cfg.path_pyTools_scripts, cfg.path_sox, cfg.path_sv56)
                 exe_cmd(cmd, cfg.debug)
 

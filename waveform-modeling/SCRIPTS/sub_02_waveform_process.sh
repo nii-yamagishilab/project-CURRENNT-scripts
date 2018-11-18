@@ -3,10 +3,10 @@
 WAVINPUTDIR=$1
 WAVOUTDIR=$2
 WAVLST=$3
-
-SCRIPTDIR=$4
-SOX=$5
-SV56=$6
+SAMP=$4
+SCRIPTDIR=$5
+SOX=$6
+SV56=$7
 
 if [ ! -e ${WAVOUTDIR} ]; then
     mkdir ${WAVOUTDIR}
@@ -39,7 +39,7 @@ do
     if [ -e ${WAVINPUTDIR}/${filename}.wav ]; then
 	sh ${NORMSCRIPT} ${WAVINPUTDIR}/${filename}.wav \
 	   ${WAVOUTDIR}/${filename}_temp.wav ${SOX} ${SV56}
-	sh ${DOWNSCRIPT} ${WAVOUTDIR}/${filename}_temp.wav ${WAVOUTDIR}/${filename}.wav ${SOX}
+	sh ${DOWNSCRIPT} ${WAVOUTDIR}/${filename}_temp.wav ${WAVOUTDIR}/${filename}.wav ${SAMP} ${SOX}
 	rm ${WAVOUTDIR}/${filename}_temp.wav
     else
 	echo "Error: cannot find ${WAVINPUTDIR}/${filename}.wav"

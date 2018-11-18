@@ -84,7 +84,7 @@ if cfg.step2:
             tmp_val_data_nc_args = ''
         tmp_val_data_nc_args = ','.join(tmp_val_data_nc_list)
     else:
-        display.self_print('Warning: val data.nc is not used' % (tmp_val_nc_dir), 'warning')
+        display.self_print('Warning: val data.nc is not used %s' % (tmp_val_nc_dir), 'warning')
         tmp_val_data_nc_args = ''
 
     # Get template config.cfg
@@ -138,7 +138,7 @@ if cfg.step2:
     cmd = cmd + ' --source_data_ms %s' % (tmp_mv_data)
     cmd = cmd + ' --resolutions %d' % (cfg.upsampling_rate)
     cmd = cmd + ' --train_file %s' % (tmp_trn_data_nc_args)
-    if len(tmp_trn_data_nc_args):
+    if len(tmp_val_data_nc_args):
         cmd = cmd + ' --val_file %s' % (tmp_val_data_nc_args)
         
     if cfg.f0_ext is not None and f0mean > 0 and f0std > 0:

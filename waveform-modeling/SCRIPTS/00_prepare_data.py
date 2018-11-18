@@ -131,14 +131,14 @@ if cfg.step1:
 
         # loop over train and validation sets
         for tmp_lst in [tmp_train_lst, tmp_val_lst]:
-        
-            cmd = 'sh %s' % (cfg.path_scripts) + os.path.sep + 'sub_04_timeidx_get.sh'
-            cmd = cmd + ' %s %d %s' % (cfg.path_acous_feats[0],
-                                       cfg.dim_acous_feats[0],
-                                       cfg.ext_acous_feats[0])
-            cmd = cmd + ' %d %s %s %s' % (cfg.upsampling_rate, tmp_idx_dir, tmp_lst,
-                                          cfg.path_pyTools_scripts)
-            exe_cmd(cmd, cfg.debug)
+            if os.path.isfile(tmp_lst):
+                cmd = 'sh %s' % (cfg.path_scripts) + os.path.sep + 'sub_04_timeidx_get.sh'
+                cmd = cmd + ' %s %d %s' % (cfg.path_acous_feats[0],
+                                           cfg.dim_acous_feats[0],
+                                           cfg.ext_acous_feats[0])
+                cmd = cmd + ' %d %s %s %s' % (cfg.upsampling_rate, tmp_idx_dir, tmp_lst,
+                                              cfg.path_pyTools_scripts)
+                exe_cmd(cmd, cfg.debug)
 
     if cfg.step1s[3]:
         display.self_print_with_date('step1.4 data.nc generating for CURRENNT', 'm')
@@ -154,6 +154,8 @@ if cfg.step1:
         for tmp_lst, tmp_sub_nc_dir in zip([tmp_train_lst, tmp_val_lst],
                                            [tmp_nc_dir + os.path.sep + cfg.tmp_nc_dir_train,
                                             tmp_nc_dir + os.path.sep + cfg.tmp_nc_dir_val]):
+            if not os.path.isfile(tmp_lst):
+                continue
             cmd = 'sh %s' % (cfg.path_scripts) + os.path.sep + 'sub_05_package_datanc.sh'
             cmd = cmd + ' %s %s' % (tmp_sub_nc_dir, tmp_idx_dir)
             if cfg.waveform_mu_law_bits > 0:

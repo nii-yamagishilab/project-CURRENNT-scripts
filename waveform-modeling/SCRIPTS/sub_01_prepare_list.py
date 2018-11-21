@@ -31,12 +31,19 @@ def createFileLst(dataDirs, dataListDirs, trainortest, trainSetRatio=0.8, random
     """
     dataDirs = dataDirs.split(',')
     
-    # get the cross-set of file list                               
+    # get the cross-set of file lists
     dataList  = lstdirNoExt(dataDirs[0])
     for dataDir in dataDirs[1:]:
         listTmp  = lstdirNoExt(dataDir)
         dataList = crossSet(dataList, listTmp)
 
+    # check if file exists
+    if len(dataList) < 1:
+        display.self_print("Error: fail to generate file list. Please check:", 'error')
+        display.self_print("path_acous_feats, ext_acous_feats, path_waveform in config.py", 'error')
+        raise Exception("Error: fail to generate file list.")
+        
+    # randomize the data file list
     random.seed(random_seed)
     random_shuffle(dataList)
 
@@ -66,7 +73,11 @@ def createFileLst(dataDirs, dataListDirs, trainortest, trainSetRatio=0.8, random
                 
             trainSet = dataList[0:trainSetDivide]
             valSet = dataList[trainSetDivide:]
-        
+
+            if len(valSet) > len(trainSet):
+                display.self_print("Warning: validation set is larger than training set", 'warning')
+                display.self_print("It's better to change train_utts in config.py", 'warning')
+            
             trainFileOut = dataListDirs + os.path.sep + 'train.lst'
             trainFilePtr = open(trainFileOut, 'w')
             for fileName in trainSet:

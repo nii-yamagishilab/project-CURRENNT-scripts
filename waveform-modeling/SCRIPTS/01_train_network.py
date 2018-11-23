@@ -154,13 +154,10 @@ if cfg.step2:
 
     os.chdir(tmp_network_dir)
 
-    display.self_print("CPU job submitted. Please wait until terminated.", 'ok')
+    display.self_print("CURRENNT training job running. Please wait until terminated.", 'ok')
     display.self_print("Please open another terminal to check nvidia-smi", 'ok')
-    display.self_print("Also check %s" % (tmp_network_dir + os.path.sep + cfg.tmp_network_trn_log),
-                       'ok')
-    display.self_print("Also check %s\n" % (tmp_network_dir + os.path.sep + cfg.tmp_network_trn_err),
-                       'ok')
-    
+    display.self_print("Also check %s" % (os.path.join(tmp_network_dir, cfg.tmp_network_trn_log)), 'ok')
+    display.self_print("Also check %s\n" % (os.path.join(tmp_network_dir, cfg.tmp_network_trn_err)), 'ok')
     exe_cmd(cmd + ' > %s 2>%s' % (cfg.tmp_network_trn_log, cfg.tmp_network_trn_err), cfg.debug)
     display.self_print_with_date('Finish network training', 'ok')
     

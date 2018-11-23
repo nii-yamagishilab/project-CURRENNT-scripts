@@ -1,0 +1,248 @@
+#!/usr/bin/python
+###########################################################################
+##                                                                        #
+##  Copyright (c) 2018  National Institute of Informatics                 #
+##                                                                        #
+##  THE NATIONAL INSTITUTE OF INFORMATICS AND THE CONTRIBUTORS TO THIS    #
+##  WORK DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING  #
+##  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT    #
+##  SHALL THE NATIONAL INSTITUTE OF INFORMATICS NOR THE CONTRIBUTORS      #
+##  BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY   #
+##  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,       #
+##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS        #
+##  ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE   #
+##  OF THIS SOFTWARE.                                                     #
+###########################################################################
+##                         Author: Xin Wang                               #
+##                         Date:   31 Oct. 2018                           #
+##                         Contact: wangxin at nii.ac.jp                  #
+###########################################################################
+from __future__ import absolute_import
+from __future__ import print_function
+
+import os
+import sys
+import imp
+import random
+
+
+""" ----- Prepare data.nc files for CURRENNT -----
+"""
+
+sys.path.append(os.getcwd())
+try:
+    cfg = __import__(sys.argv[1])
+except IndexError:
+    print("Error: missing argument. Usage: python **.py CONFIG_NAME")
+    quit()
+except ImportError:
+    print("Error: cannot load library: ", sys.argv[1])
+    quit()
+sys.path.append(cfg.path_pyTools)
+from pyTools import display
+from ioTools import readwrite
+
+try:
+    meanStdToolPath = os.path.join(cfg.path_pyTools, 'scripts/utilities-new/dataProcess/meanStd.py')
+    meanStdTool = imp.load_source('meanStd', meanStdToolPath)
+except ImportError:
+    print("Cannot load %s" % meanStdToolPath)
+    
+
+def exe_cmd(cmd, debug=False):
+    display.self_print(cmd + '\n', 'highlight')
+    if not debug:
+        os.system(cmd)
+                        
+def crossSet(list1, list2):
+    """ return the cross-set of list1 and list2
+    """
+    return list(set(list1).intersection(list2)), list(set(list1).symmetric_difference(list2))
+
+
+def writeDataConfig(filePath, idxScpName, fileNameInEachNCPack):
+    filePtr = open(filePath, 'w')
+    filePtr.write("#!/usr/bin/python\n")
+    filePtr.write("import numpy as np\n")
+    filePtr.write("dataType = np.float32\n")
+    filePtr.write("flushThreshold = %d\n" % (fileNameInEachNCPack))
+    filePtr.write("inDim = [1,]\n")
+    filePtr.write("outDim = [1,]\n")
+    filePtr.write("inScpFile = ['%s',]\n" % (idxScpName))
+    filePtr.write("outScpFile = ['%s',]\n" % (idxScpName))
+    filePtr.write("normMask = [[0], [0]]\n")
+    filePtr.write("allScp = 'all.scp'\n")
+    filePtr.close()
+    
+
+
+def prepareData():
+    """ prepreData: 
+        1. create the file list
+        2. create the symbolic link to the feature data
+        3. create the index file (used by CURRENNT)
+        4. create package data of index file (data.nc)
+        5. calculate the mean and std for a specific data set
+    """
+    # create directories
+    dataDir = cfg.nnDataDirName
+    try:
+        os.mkdir(dataDir)
+    except OSError:
+        pass
+
+    dataListPath = dataDir + os.path.sep + 'lists'
+    try:
+        os.mkdir(dataListPath)
+    except OSError:
+        pass
+    
+    dataRawDir = dataDir + os.path.sep + cfg.idxDirName
+    try:
+        os.mkdir(dataRawDir)
+    except OSError:
+        pass
+
+    dataLinkDir = dataDir + os.path.sep + cfg.linkDirname
+    try:
+        os.mkdir(dataLinkDir)
+    except OSError:
+        pass
+    
+    # create file list
+    for inputDirSet, outputDirSet, dataPart in zip(cfg.inputDirs, cfg.outputDirs, cfg.dataDivision):
+
+        display.self_print('Processing ' + dataPart + ' data', 'highlight')
+        
+        # get the cross-set of file list
+        listInput  = readwrite.list_file_name_in_dir(inputDirSet[0])
+        listOutput = readwrite.list_file_name_in_dir(outputDirSet[0])
+        fileList   = listInput
+        if inputDirSet:
+            for inputDir in inputDirSet:
+                listInput2  = readwrite.list_file_name_in_dir(inputDir)
+                fileList, diffSet  = crossSet(fileList, listInput2)
+                readwrite.write_txt_list(diffSet,
+                                         os.path.join(dataListPath, dataPart,
+                                                      os.path.basename(inputDir)+'.diff.lst'))
+                
+        if outputDirSet:
+            for outputDir in outputDirSet:
+                listOutput2  = readwrite.list_file_name_in_dir(outputDir)
+                fileList, diffSet = crossSet(fileList, listOutput2)
+                readwrite.write_txt_list(diffSet,
+                                         os.path,join(dataListPath, dataPart,
+                                                      os.path.basename(outputDir) +'.diff.lst'))
+        
+        # writing the list of file name
+        random.shuffle(fileList)
+        fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
+        readwrite.write_txt_list(fileList, fileListFilePath)
+
+        # create file directories
+        dataSaveDir = dataDir + os.path.sep + dataPart
+        try:
+            os.mkdir(dataSaveDir)
+        except OSError:
+            pass
+
+        inputScpList  = []
+        outputScpList = []
+        
+        # create the fileName + fileExt lists
+        # create symbolic link
+        for inputDir, featDim, featName in zip(inputDirSet, cfg.inputDim, cfg.inputExt):
+            tmpFileScp = dataSaveDir + os.path.sep + featName + '.scp'
+            inputScpList.append(tmpFileScp)
+            filePtr = open(tmpFileScp, 'w')
+            for fileName in fileList:
+                # write full path to the feature
+                filePtr.write('%s%s%s.%s\n' % (inputDir, os.path.sep, fileName, featName))
+                if cfg.step01Prepare_LINK is True:
+                    os.system("ln -f -s %s%s%s.%s %s%s%s.%s" % \
+                              (inputDir, os.path.sep, fileName, featName,
+                               dataLinkDir, os.path.sep, fileName, featName))
+            filePtr.close()
+            
+        for outputDir, featDim, featName in zip(outputDirSet, cfg.outputDim, cfg.outputExt):
+            tmpFileScp = dataSaveDir + os.path.sep + featName + '.scp'
+            outputScpList.append(tmpFileScp)
+            filePtr = open(tmpFileScp, 'w')
+            for fileName in fileList:
+                filePtr.write('%s%s%s.%s\n' % (outputDir, os.path.sep, fileName, featName))
+                if cfg.step01Prepare_LINK is True:
+                    os.system("ln -f -s %s%s%s.%s %s%s%s.%s" % \
+                              (outputDir, os.path.sep, fileName, featName,
+                               dataLinkDir, os.path.sep, fileName, featName))
+            filePtr.close()
+
+        # create index file list
+        filePtr = open(dataSaveDir + os.path.sep + cfg.idxFileName + '.scp', 'w')
+        for fileName in fileList:
+            filePtr.write('%s%s%s.%s\n' % (dataRawDir, os.path.sep, fileName, cfg.idxFileName))
+        filePtr.close()
+
+        # create index files
+        if cfg.step01Prepare_IDX is True or cfg.step01Prepare_PACK is True:
+            # create the lab index lists
+            createIdxCmd = 'python ./utilities/dataPrepare/getLabIdx5ms.py'
+            createIdxCmd = '%s %s %s %s %s %s %s' % (createIdxCmd,
+                                                     inputDirSet[0], cfg.inputExt[0],
+                                                     cfg.inputDim[0],
+                                                     dataRawDir, cfg.idxFileName,
+                                                     fileListFilePath)
+            display.self_print('Creating idx', 'highlight')
+            exe_cmd(createIdxCmd, cfg.debug)
+        else:
+            display.self_print('skip creating idx', 'highlight')
+        
+        # package the data    
+        if cfg.step01Prepare_IDX is True or cfg.step01Prepare_PACK is True:
+            # write data_config.cfg
+            writeDataConfig(dataSaveDir + os.path.sep + 'data_config.py',
+                            cfg.idxFileName + '.scp', cfg.fileNameInEachNCPack)
+            # pack data
+            packDataCmd = 'sh ./utilities/packData.sh %s' % (dataSaveDir)
+
+            display.self_print('Packing data', 'highlight')
+            exe_cmd(packDataCmd, cfg.debug)
+        else:
+            display.self_print('skip packing data', 'highlight')
+
+            
+    # create file list
+    for inputDirSet, outputDirSet, dataPart in zip(cfg.inputDirs, cfg.outputDirs, cfg.dataDivision):
+
+
+        dataSaveDir = dataDir + os.path.sep + dataPart
+        inputScpList  = []
+        outputScpList = []
+        
+        for inputDir, featDim, featName in zip(inputDirSet, cfg.inputDim, cfg.inputExt):
+            inputScpList.append(dataSaveDir + os.path.sep + featName + '.scp')
+            
+        for outputDir, featDim, featName in zip(outputDirSet, cfg.outputDim, cfg.outputExt):
+            outputScpList.append(dataSaveDir + os.path.sep + featName + '.scp')
+            
+        # calculate mean and std
+        if dataPart == cfg.computMeanStdOn and cfg.step01Prepare_MV is True:
+            display.self_print('Calculating mean and std', 'highlight')
+
+            meanStdTool.meanStdNormMask(inputScpList, cfg.inputDim, cfg.inputNormMask,
+                                        dataSaveDir + os.path.sep + cfg.nnDataInputMV)
+            display.self_print("\nSave input mean-std as %s" % (os.path.join(dataSaveDir, cfg.nnDataInputMV)), 'highlight')
+            
+            meanStdTool.meanStdNormMask(outputScpList, cfg.outputDim, cfg.outputNormMask,
+                                        dataSaveDir + os.path.sep + cfg.nnDataOutputMV)
+            display.self_print("\nSave output mean-std as %s" % (os.path.join(dataSaveDir, cfg.nnDataOutputMV)), 'highlight')
+        else:
+            display.self_print('skip calculating mean and std', 'highlight')
+
+            
+if __name__ == "__main__":
+    if cfg.step01:
+        display.self_print_with_date('Step1. preparing data', 'h')
+        prepareData()
+    else:
+        display.self_print_with_date('skip step1(preparing data)', 'h')
+    

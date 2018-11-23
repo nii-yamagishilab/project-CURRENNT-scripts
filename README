@@ -20,7 +20,12 @@
 ###########################################################################
 
 This repository contains the scripts to use CURRENNT
+\- waveform-modeling: scripts for waveform models
+\- acoustic-modeling: scripts for acoustic models
 
+Please read the intruction below 
+
+----------------- 1. waveform models --------------------
 ./waveform-modeling
 
   - DATA
@@ -80,7 +85,50 @@ Usage:
    4. Put test data in ./TESTDATA, configure config.py and Run 01_get.sh
 
 
+----------------- 2. acoustic models --------------------
+./acoustic-modeling
+
+To be updated
+
+
+
+-----------------------------------------------------------
+
+
 Note:
-   This script assumes 16kHz waveform, acoustic features extracted with frame_shift = 5ms.
-   Otherwise, please email me on how to modify network.jsn for model training.
-   (We will add automatic configuration later)
+   1. All the feature files except waveforms should be saved as binary, float32, little-endian.
+      You may check the data included in waveform-modeling/TESTDATA-for-pretrained/mfbsp/*.
+      $: source ./init.sh
+      $: python
+      >>> from ioTools import readwrite
+      >>> mel = readwrite.read_raw_mat('./waveform-modeling/TESTDATA-for-pretrained/mfbsp/arctic_a0001.mfbsp', 80)
+      >>> mel.shape
+      (671, 80)
+      >>> mel[0]
+      array([-0.5804557 ,  0.64407444,  0.95468473,  0.9076864 ,  0.7409921 ,
+        0.5190042 ,  0.2543492 ,  0.07272982, -0.02690054, -0.08740515,
+       -0.14761803, -0.24591875, -0.40614623, -0.49193513, -0.69396436,
+       -0.6916913 , -0.67114395, -0.7134891 , -0.8428167 , -0.9381612 ,
+       -0.9604182 , -1.020919  , -1.0435845 , -1.077764  , -1.1341914 ,
+       -1.2459651 , -1.2637303 , -1.3517176 , -1.3730341 , -1.4908298 ,
+       -1.5803422 , -1.6830492 , -1.495914  , -1.3974593 , -1.4675162 ,
+       -1.5840678 , -1.6725454 , -1.584573  , -1.7740629 , -2.0816884 ,
+       -1.8013108 , -1.7561418 , -2.1837492 , -2.3368633 , -2.0934896 ,
+       -2.2621613 , -2.200103  , -2.3064234 , -1.9597349 , -2.2220097 ,
+       -2.296505  , -2.0561726 , -2.4601874 , -1.997487  , -2.0367327 ,
+       -2.2498186 , -2.8739617 , -2.859662  , -2.680149  , -3.1865113 ,
+       -3.172631  , -2.8548572 , -3.0105433 , -2.7395592 , -2.7438028 ,
+       -2.625576  , -2.8859007 , -2.8262408 , -2.6442852 , -2.847031  ,
+       -2.9952297 , -2.9672284 , -2.6831682 , -3.2138064 , -3.3470006 ,
+       -3.4002392 , -2.8704414 , -2.958755  , -3.2552214 , -3.5245233 ],
+      dtype=float32)
+      >>> mel[0,0]
+      -0.5804557
+      >>> f0 = readwrite.read_raw_mat('./waveform-modeling/TESTDATA-for-pretrained/f0/arctic_a0001.f0', 1)
+      >>> f0.shape
+      (671,)
+      
+      Here, the a binary mel-spectrogram with 671 frames and 60 dimenions/frame.
+      The F0 is one-dimensional and has 671 frames. 
+      
+

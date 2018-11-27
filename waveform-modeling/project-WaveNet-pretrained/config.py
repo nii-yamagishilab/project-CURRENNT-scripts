@@ -97,7 +97,7 @@ network_trn_config = 'train_config.cfg'
 gen_model_dir = model_dir
 
 # path of the network file
-gen_network_path = model_dir + os.path.sep + '/trained_network.jsn'
+gen_network_path = gen_model_dir + os.path.sep + '/trained_network.jsn'
 
 # test data directory (in the same order as path_acous_feats)
 tmp_test_path = prjdir + '/../TESTDATA-for-pretrained'
@@ -120,17 +120,17 @@ gen_output_dir = gen_model_dir + '/output'
 debug = False
 
 # path of pyTools
-path_pyTools = os.getenv('TEMP_WAVEFORM_PROJECT_PYTOOLS_PATH')
+path_pyTools = os.getenv('TEMP_CURRENNT_PROJECT_PYTOOLS_PATH')
 
 # path of CURRENNT
-path_currennt = os.getenv('TEMP_WAVEFORM_PROJECT_CURRENNT_PATH')
+path_currennt = os.getenv('TEMP_CURRENNT_PROJECT_CURRENNT_PATH')
 
 # path of SOX
-path_sox = os.getenv('TEMP_WAVEFORM_PROJECT_SOX_PATH')
+path_sox = os.getenv('TEMP_CURRENNT_PROJECT_SOX_PATH')
 
 # path of SV56
 #  if SV56 is unavailable, set sv56 = None, and normalize the waveform using your own tools
-path_sv56 = os.getenv('TEMP_WAVEFORM_PROJECT_SV56_PATH')
+path_sv56 = os.getenv('TEMP_CURRENNT_PROJECT_SV56_PATH')
 
 
 if path_sv56 is None or path_sox is None or path_currennt is None or path_pyTools is None:

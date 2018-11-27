@@ -165,10 +165,42 @@ initialModelWhichLayers = None
 
 
 # ------------ Generation configuration ------------
-
+# Note:
+#   For conveninence, the four configurations below can be set by system environment.
+#   Before running scripts, please use export to set the system environemnt variables.
+#   For example:
+#     export=TEMP_ACOUSTIC_MODEL_INPUT_DIRS=DIRECTORY_FEATURE_1,DIRECTORY_FEATURE_2
+#   
 # test_inputDirs: directories of the test data files
-tmpDir  = os.path.join(prjdir, '../TESTDATA')
-test_inputDirs = [[tmpDir + '/lab_test', tmpDir + '/spk_test']]
+if os.getenv('TEMP_ACOUSTIC_MODEL_INPUT_DIRS') is None:
+    # specify here if you don't want to use getenv
+    tmpDir  = os.path.join(prjdir, '../TESTDATA')
+    test_inputDirs = [[tmpDir + '/lab_test', tmpDir + '/spk_test']]
+else:
+    tmp_inpput_path = os.getenv('TEMP_ACOUSTIC_MODEL_INPUT_DIRS')
+    test_inputDirs = [tmp_inpput_path.split(',')]
+    if len(test_inputDirs[0]) != len(inputDim):
+        raise Exception("Error: invalid path TEMP_ACOUSTIC_MODEL_INPUT_DIRS=%s" % (tmp_inpput_path))
+    
+# test_modelDir: directory of the trained model
+if os.getenv('TEMP_ACOUSTIC_MODEL_DIRECTORY') is None:
+    test_modelDir = model_dir
+else:
+    test_modelDir = os.getenv('TEMP_ACOUSTIC_MODEL_DIRECTORY')
+    
+# test_network: path of the trained network.
+#  You can also use *.autosave from any epoch rather than the final trained_network.jsn
+if os.getenv('TEMP_ACOUSTIC_NETWORK_PATH') is None:
+    test_network = os.path.join(test_modelDir, 'trained_network.jsn')
+else:
+    test_network = os.getenv('TEMP_ACOUSTIC_NETWORK_PATH')
+
+# outputDir: directory to store generated acoustic features
+if os.getenv('TEMP_ACOUSTIC_OUTPUT_DIRECTORY') is None:
+    outputDir = os.path.join(test_modelDir, 'output_trained')
+else:
+    outputDir = os.getenv('TEMP_ACOUSTIC_OUTPUT_DIRECTORY')
+
 
 # test_dataDivision: a temporary name to the test set
 test_dataDivision = ['testset_1']
@@ -178,14 +210,6 @@ test_dataDivision = ['testset_1']
 #  By default -1, all the test files in test_inputDirs will be synthesized
 outputUttNum = -1
 
-# test_modelDir: directory of the trained model
-test_modelDir = model_dir
-# test_network: path of the trained network.
-#  You can also use *.autosave from any epoch rather than the final trained_network.jsn
-test_network = os.path.join(test_modelDir, 'trained_network.jsn')
-
-# outputDir: directory to store generated acoustic features
-outputDir = os.path.join(test_modelDir, 'output_trained')
 
 # If MDN is used, choose the standard deviation of the noise for random sampling
 #  0.0  -> mean-based generation
@@ -223,18 +247,26 @@ wavformGenerator = 'WORLD'
 debug = False
 
 # path of pyTools
-path_pyTools = os.getenv('TEMP_WAVEFORM_PROJECT_PYTOOLS_PATH')
+path_pyTools = os.getenv('TEMP_CURRENNT_PROJECT_PYTOOLS_PATH')
 # path of CURRENNT
-path_currennt = os.getenv('TEMP_WAVEFORM_PROJECT_CURRENNT_PATH')
+path_currennt = os.getenv('TEMP_CURRENNT_PROJECT_CURRENNT_PATH')
 if path_currennt is None or path_pyTools is None:
     raise Exception("Please initialize the tool paths by source ../../init.sh")
 # path of project scripts
 path_scripts = prjdir + '/../SCRIPTS'
 path_pyTools_scripts = path_pyTools + '/scripts/utilities-new'
+
 #
+
 nnDataDirName  = os.path.join(prjdir,'DATATEMP')
 nnDataDirNameTrain = nnDataDirName
-nnDataDirNameTest  = nnDataDirName + '_test'
+
+if os.getenv('TEMP_ACOUSTIC_TEMP_OUTPUT_DIRECTORY') is None:
+    nnDataDirNameTest  = nnDataDirName + '_test'
+else:
+    # In case multiple processes are running simultaneously, the intermediate
+    # files should be separated saved
+    nnDataDirNameTest = os.getenv('TEMP_ACOUSTIC_TEMP_OUTPUT_DIRECTORY')
 
 idxDirName    = 'idxFiles'
 idxFileName   = 'idx'
@@ -281,10 +313,8 @@ assert len(outputDim) == len(outputDelta), "len(outputputDim) != len(outputDelta
 inputExt = [x.lstrip('.') for x in inputExt if x.startswith('.')]
 outputExt = [x.lstrip('.') for x in outputExt if x.startswith('.')]
 
-if not len(list(set(inputExt))) == len(inputExt):
-    print("Some Input features use the same name extensions.")
-    raise Exception("Please modify the input file name extensions and inputExt")
 
-if not len(list(set(outputExt))) == len(outputExt):
-    print("Some Output features use the same name extensions.")
-    raise Exception("Please modify the output file name extensions and outputExt")
+if not len(list(set(outputExt + inputExt))) == len(outputExt + inputExt):
+    print("Error: some output/input features use the same name extensions.")
+    print("Error: please modify file name extensions and outputExt/inputExt in config")
+    raise Exception("Configure error")

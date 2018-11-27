@@ -24,7 +24,7 @@ import os
 import sys
 import imp
 import random
-
+import numpy as np
 
 """ ----- Prepare data.nc files for CURRENNT -----
 """
@@ -137,6 +137,32 @@ def prepareData():
         fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
         readwrite.write_txt_list(fileList, fileListFilePath)
 
+
+        # before start, take a simple test on the configuration of feature dimension
+        frameNum = None
+        for inputDir, featDim, featName in zip(inputDirSet, cfg.inputDim, cfg.inputExt):
+            inputFile = os.path.join(inputDir, fileList[0]) + '.' + featName
+            if os.path.isfile(inputFile):
+                tmpframeNum = readwrite.read_raw_mat(inputFile, featDim).shape[0]
+                if frameNum is None:
+                    frameNum = tmpframeNum
+                elif np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
+                    display.self_print("Large mismatch of frame numbers %s" % (fileList[0]))
+                    display.self_print("Please check whether inputDim are correct", 'error')
+                    display.self_print("Or check input features are corrupted", 'error')
+                    raise Exception("Error: mismatch of frame numbers")
+
+        for outputDir, featDim, featName in zip(outputDirSet, cfg.outputDim, cfg.outputExt):
+            outputFile = os.path.join(outputDir, fileList[0]) + '.' + featName
+            if os.path.isfile(outputFile):
+                tmpframeNum = readwrite.read_raw_mat(outputFile, featDim).shape[0]
+                if np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
+                    display.self_print("Large mismatch of frame numbers %s" % (fileList[0]))
+                    display.self_print("Please check whether inputDim are correct", 'error')
+                    display.self_print("Or check input features are corrupted", 'error')
+                    raise Exception("Error: mismatch of frame numbers")
+        
+        
         # create file directories
         dataSaveDir = dataDir + os.path.sep + dataPart
         try:

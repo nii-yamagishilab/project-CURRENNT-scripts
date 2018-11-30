@@ -34,15 +34,25 @@ if [ ! -e ${DOWNSCRIPT} ]; then
     echo "Error: cannot find ${DOWNSCRIPT}"
 fi
 
-for filename in `cat ${WAVLST}`
-do
-    if [ -e ${WAVINPUTDIR}/${filename}.wav ]; then
-	sh ${NORMSCRIPT} ${WAVINPUTDIR}/${filename}.wav \
-	   ${WAVOUTDIR}/${filename}_temp.wav ${SOX} ${SV56}
-	sh ${DOWNSCRIPT} ${WAVOUTDIR}/${filename}_temp.wav ${WAVOUTDIR}/${filename}.wav ${SAMP} ${SOX}
-	rm ${WAVOUTDIR}/${filename}_temp.wav
-    else
-	echo "Error: cannot find ${WAVINPUTDIR}/${filename}.wav"
-    fi
-done
+
+if command -v "parallel" >/dev/null 2>&1 ; then
+    # use parallel if available
+    cat ${WAVLST} | parallel sh ${NORMSCRIPT} ${WAVINPUTDIR}/{}.wav ${WAVOUTDIR}/{}_temp.wav ${SOX} ${SV56}
+    cat ${WAVLST} | parallel sh ${DOWNSCRIPT} ${WAVOUTDIR}/{}_temp.wav ${WAVOUTDIR}/{}.wav ${SAMP} ${SOX}
+    cat ${WAVLST} | parallel rm ${WAVOUTDIR}/{}_temp.wav
+    
+else
+    # not use parallel
+    for filename in `cat ${WAVLST}`
+    do
+	if [ -e ${WAVINPUTDIR}/${filename}.wav ]; then
+	    sh ${NORMSCRIPT} ${WAVINPUTDIR}/${filename}.wav \
+	       ${WAVOUTDIR}/${filename}_temp.wav ${SOX} ${SV56}
+	    sh ${DOWNSCRIPT} ${WAVOUTDIR}/${filename}_temp.wav ${WAVOUTDIR}/${filename}.wav ${SAMP} ${SOX}
+	    rm ${WAVOUTDIR}/${filename}_temp.wav
+	else
+	    echo "Error: cannot find ${WAVINPUTDIR}/${filename}.wav"
+	fi
+    done
+fi
 

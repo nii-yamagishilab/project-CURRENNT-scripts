@@ -294,22 +294,29 @@ def wavCreate(testDataDir):
     else:
         datamv = 'NONE'
 
+    if hasattr(cfg, 'vu_threshold'):
+        vuThres = cfg.vu_threshold
+        display.self_print("Use vu_threshold %f" % (vuThres), 'highlight')
+    else:
+        vuThres = 0.5
+
+        
     exe_cmd("ls %s/*.htk > %s/gen.scp" % (testDataDir, testDataDir), cfg.debug)
-    wavCmd = 'python %s %s %f %s %d %s %d %s %d %s %s %s %s' \
+    wavCmd = 'python %s %s %f %s %d %s %d %s %d %s %s %s %s %f' \
              % (pythonScript, testDataDir, cfg.wavPostFilter,
                 testDataDir, mlpgFlag[0],
                 testDataDir, mlpgFlag[1],
                 testDataDir, mlpgFlag[2],
                 "%s/gen.scp" % (testDataDir),
                 cfg.wavformGenerator,
-                datamv, cfg.path_pyTools_scripts)
+                datamv, cfg.path_pyTools_scripts, vuThres)
     
     exe_cmd(wavCmd, cfg.debug)
 
     if cfg.lf0UV:
         uvScript = os.path.join(cfg.path_pyTools_scripts, 'dataGen/useUVonLf0.py')
         if cfg.lf0UVExternalDir is None:
-            uvCmd = 'python %s %s %s %s %s %s' % (uvScript, testDataDir, 0.5,
+            uvCmd = 'python %s %s %s %s %s %s' % (uvScript, testDataDir, vuThres,
                                                   cfg.lf0ext, cfg.vuvext, testDataDir)
         else:
             uvCmd = 'python %s %s %s %s %s %s' % (uvScript, testDataDir, cfg.lf0UVExternalThre,

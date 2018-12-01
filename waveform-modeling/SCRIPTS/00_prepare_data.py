@@ -51,7 +51,10 @@ if cfg.step1:
 
     assert len(cfg.step1s) == 5, 'len(step1s) should be 5 %s' % (sys.argv[1])
 
-    tmp_data_dir = os.getcwd() + os.path.sep + cfg.tmp_data_dir
+    if os.path.dirname(cfg.tmp_data_dir):
+        tmp_data_dir = cfg.tmp_data_dir
+    else:
+        tmp_data_dir = os.getcwd() + os.path.sep + cfg.tmp_data_dir
     tmp_data_scp_dir = tmp_data_dir + os.path.sep + cfg.tmp_scp_name
     tmp_train_lst = tmp_data_scp_dir + os.path.sep + cfg.tmp_scp_train_name
     tmp_val_lst = tmp_data_scp_dir + os.path.sep + cfg.tmp_scp_val_name
@@ -66,9 +69,11 @@ if cfg.step1:
 
     if cfg.step1s[0]:
         display.self_print_with_date('step1.1 generating data lists', 'm')
-        tmp_acous_path = ','.join(cfg.path_acous_feats)        
+        tmp_acous_path = ','.join(cfg.path_acous_feats)
+        tmp_feat_ext = ','.join(cfg.ext_acous_feats)
         cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_01_prepare_list.py'
         cmd = cmd + ' %s,%s' % (tmp_acous_path, cfg.path_waveform)
+        cmd = cmd + ' %s,.wav' % (tmp_feat_ext)
         cmd = cmd + ' %s' % (tmp_data_scp_dir)
         cmd = cmd + ' %f' % (cfg.train_utts)
     

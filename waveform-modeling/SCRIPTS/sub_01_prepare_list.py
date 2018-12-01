@@ -13,11 +13,14 @@ from random import shuffle as random_shuffle
 from pyTools import display
 
 
-def lstdirNoExt(fileDir):
+def lstdirNoExt(fileDir, ext=None):
     """ return the list of file names without extension                  
     """
     #return [x.split('.')[0] for x in os.listdir(fileDir)]
-    return [x.split('.')[0] for x in os.listdir(fileDir) if not x.startswith('.')]
+    if ext is None:
+        return [x.split('.')[0] for x in os.listdir(fileDir) if not x.startswith('.')]
+    else:
+        return [x.split('.')[0] for x in os.listdir(fileDir) if not x.startswith('.') and x.endswith(ext)]
 
 def crossSet(list1, list2):
     """ return the cross-set of list1 and list2                          
@@ -25,16 +28,18 @@ def crossSet(list1, list2):
     return list(set(list1).intersection(list2))
 
 
-def createFileLst(dataDirs, dataListDirs, trainortest, trainSetRatio=0.8, random_seed=12345):
+def createFileLst(dataDirs, dataExts, dataListDirs, trainortest, trainSetRatio=0.8, random_seed=12345):
     """ create data lists 
         output *.scp will be in dataListDirs
     """
     dataDirs = dataDirs.split(',')
+    dataExts = dataExts.split(',')
+    assert len(dataDirs) == len(dataExts), 'Error: sub_1_prepare_list.py dataDirs and dataExts wrong'
     
     # get the cross-set of file lists
-    dataList  = lstdirNoExt(dataDirs[0])
-    for dataDir in dataDirs[1:]:
-        listTmp  = lstdirNoExt(dataDir)
+    dataList  = lstdirNoExt(dataDirs[0], dataExts[0])
+    for dataDir, dataExt in zip(dataDirs[1:], dataExts[1:]):
+        listTmp  = lstdirNoExt(dataDir, dataExt)
         dataList = crossSet(dataList, listTmp)
 
     # check if file exists
@@ -107,14 +112,15 @@ def createFileLst(dataDirs, dataListDirs, trainortest, trainSetRatio=0.8, random
 if __name__ == "__main__":
     
     dataDirs = sys.argv[1]
-    dataListDir = sys.argv[2]
+    dataExts = sys.argv[2]
+    dataListDir = sys.argv[3]
     try:
-        trainRatio = float(sys.argv[3])
+        trainRatio = float(sys.argv[4])
     except ValueError:
         trainRatio = None
 
     try:
-        if sys.argv[4] == 'testset':
+        if sys.argv[5] == 'testset':
             trainortest = 'test'
         else:
             trainortest = 'train'
@@ -125,6 +131,6 @@ if __name__ == "__main__":
         os.mkdir(dataListDir)
     except OSError:
         pass
-    createFileLst(dataDirs, dataListDir, trainortest,
+    createFileLst(dataDirs, dataExts, dataListDir, trainortest,
                   trainSetRatio=trainRatio)
         

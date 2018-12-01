@@ -50,7 +50,10 @@ def exe_cmd(cmd, debug=False):
 if cfg.step3:
     display.self_print_with_date('Step3. Generating', 'h')
 
-    tmp_test_data_dir = os.getcwd() + os.path.sep + cfg.tmp_test_data_dir
+    if os.path.dirname(cfg.tmp_test_data_dir):
+        tmp_test_data_dir = cfg.tmp_test_data_dir
+    else:
+        tmp_test_data_dir = os.getcwd() + os.path.sep + cfg.tmp_test_data_dir
     tmp_data_scp_dir = tmp_test_data_dir + os.path.sep + cfg.tmp_scp_name
     tmp_test_lst = tmp_data_scp_dir + os.path.sep + 'test.lst'
     tmp_idx_dir = tmp_test_data_dir + os.path.sep + cfg.tmp_idx_dir
@@ -72,9 +75,10 @@ if cfg.step3:
         
     if True:
         display.self_print_with_date('step3.1 generating data lists', 'm')
-        tmp_acous_path = ','.join(cfg.path_test_acous_feats)        
+        tmp_acous_path = ','.join(cfg.path_test_acous_feats)
+        tmp_feat_ext = ','.join(cfg.ext_acous_feats)
         cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_01_prepare_list.py'
-        cmd = cmd + ' %s %s -1 testset' % (tmp_acous_path, tmp_data_scp_dir)
+        cmd = cmd + ' %s %s %s -1 testset' % (tmp_acous_path, tmp_feat_ext, tmp_data_scp_dir)
         exe_cmd(cmd, cfg.debug)
     
                     

@@ -338,6 +338,7 @@ if __name__ == "__main__":
         if cfg.step03Prepare_DATA is True:
             testDataDirs = prepareData(cfg.nnDataDirNameTest)
         else:
+            testDataDirs = []
             display.self_print('Skip packaing data', 'highlight')
 
         # for each test data dir
@@ -351,12 +352,12 @@ if __name__ == "__main__":
             else:
                 display.self_print('Skip generating output from network', 'highlight')
 
-            if cfg.step03WaveFormGen is True:
-                # generate waveform
-                wavCreate(cfg.outputDir)
-                display.self_print("\nGenerated waveforms in %s" % (cfg.outputDir), 'highlight')
-            else:
-                display.self_print('Skip generating waveform', 'highlight')
+        if cfg.step03WaveFormGen is True:
+            # generate waveform
+            wavCreate(cfg.outputDir)
+            display.self_print("\nGenerated waveforms in %s" % (cfg.outputDir), 'highlight')
+        else:
+            display.self_print('Skip generating waveform', 'highlight')
         display.self_print_with_date('Finish', 'h')
     else:
         display.self_print_with_date('skip step3 (Generating from networks)', 'h')

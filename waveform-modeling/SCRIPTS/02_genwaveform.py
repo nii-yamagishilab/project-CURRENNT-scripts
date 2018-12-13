@@ -77,8 +77,10 @@ if cfg.step3:
         display.self_print_with_date('step3.1 generating data lists', 'm')
         tmp_acous_path = ','.join(cfg.path_test_acous_feats)
         tmp_feat_ext = ','.join(cfg.ext_acous_feats)
+        tmp_feat_dim = '_'.join([str(x) for x in cfg.dim_acous_feats])
         cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_01_prepare_list.py'
-        cmd = cmd + ' %s %s %s -1 testset' % (tmp_acous_path, tmp_feat_ext, tmp_data_scp_dir)
+        cmd = cmd + ' %s %s %s %s -1 testset' % (tmp_acous_path, tmp_feat_ext, tmp_feat_dim,
+                                                 tmp_data_scp_dir)
         exe_cmd(cmd, cfg.debug)
     
                     

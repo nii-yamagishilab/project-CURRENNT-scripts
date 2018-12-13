@@ -11,7 +11,7 @@ import numpy as np
 import random
 from random import shuffle as random_shuffle
 from pyTools import display
-
+from ioTools import readwrite
 
 def lstdirNoExt(fileDir, ext=None):
     """ return the list of file names without extension                  
@@ -28,12 +28,13 @@ def crossSet(list1, list2):
     return list(set(list1).intersection(list2))
 
 
-def createFileLst(dataDirs, dataExts, dataListDirs, trainortest, trainSetRatio=0.8, random_seed=12345):
+def createFileLst(dataDirs, dataExts, dataDim, dataListDirs, trainortest, trainSetRatio=0.8, random_seed=12345):
     """ create data lists 
         output *.scp will be in dataListDirs
     """
     dataDirs = dataDirs.split(',')
     dataExts = dataExts.split(',')
+    dataDims = [int(x) for x in dataDim.split('_')]
     assert len(dataDirs) == len(dataExts), 'Error: sub_1_prepare_list.py dataDirs and dataExts wrong'
     
     # get the cross-set of file lists
@@ -52,6 +53,21 @@ def createFileLst(dataDirs, dataExts, dataListDirs, trainortest, trainSetRatio=0
     random.seed(random_seed)
     random_shuffle(dataList)
 
+    # before start, take a simple test on the configuration of feature dimension
+    frameNum = None
+    for inputDir, featDim, featName in zip(dataDirs[0:-1], dataDims[0:-1], dataExts[0:-1]):
+        inputFile = os.path.join(inputDir, dataList[0]) + '.' + featName.lstrip('.')
+        if os.path.isfile(inputFile):
+            tmpframeNum = readwrite.read_raw_mat(inputFile, featDim).shape[0]
+            if frameNum is None:
+                frameNum = tmpframeNum
+            elif np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
+                display.self_print("Large mismatch of frame numbers %s" % (dataList[0]))
+                display.self_print("Please check whether inputDim are correct", 'error')
+                display.self_print("Or check input features are corrupted", 'error')
+                raise Exception("Error: mismatch of frame numbers")
+    
+    
     display.self_print('Generating data lists in to %s' % (dataListDirs), 'highlight')
 
     if trainortest == 'test':
@@ -113,14 +129,15 @@ if __name__ == "__main__":
     
     dataDirs = sys.argv[1]
     dataExts = sys.argv[2]
-    dataListDir = sys.argv[3]
+    dataDims = sys.argv[3]
+    dataListDir = sys.argv[4]
     try:
-        trainRatio = float(sys.argv[4])
+        trainRatio = float(sys.argv[5])
     except ValueError:
         trainRatio = None
 
     try:
-        if sys.argv[5] == 'testset':
+        if sys.argv[6] == 'testset':
             trainortest = 'test'
         else:
             trainortest = 'train'
@@ -131,6 +148,6 @@ if __name__ == "__main__":
         os.mkdir(dataListDir)
     except OSError:
         pass
-    createFileLst(dataDirs, dataExts, dataListDir, trainortest,
+    createFileLst(dataDirs, dataExts, dataDims, dataListDir, trainortest,
                   trainSetRatio=trainRatio)
         

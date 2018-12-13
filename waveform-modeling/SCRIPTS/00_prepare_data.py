@@ -71,12 +71,13 @@ if cfg.step1:
         display.self_print_with_date('step1.1 generating data lists', 'm')
         tmp_acous_path = ','.join(cfg.path_acous_feats)
         tmp_feat_ext = ','.join(cfg.ext_acous_feats)
+        tmp_feat_dim = '_'.join([str(x) for x in cfg.dim_acous_feats])
         cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_01_prepare_list.py'
         cmd = cmd + ' %s,%s' % (tmp_acous_path, cfg.path_waveform)
         cmd = cmd + ' %s,.wav' % (tmp_feat_ext)
+        cmd = cmd + ' %s_1' % (tmp_feat_dim)
         cmd = cmd + ' %s' % (tmp_data_scp_dir)
         cmd = cmd + ' %f' % (cfg.train_utts)
-    
         exe_cmd(cmd, cfg.debug)
 
     

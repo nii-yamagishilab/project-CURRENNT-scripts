@@ -127,8 +127,10 @@ Note:
       >>> f0 = readwrite.read_raw_mat('./waveform-modeling/TESTDATA-for-pretrained/f0/arctic_a0001.f0', 1)
       >>> f0.shape
       (671,)
-      
-      Here, the a binary mel-spectrogram with 671 frames and 60 dimenions/frame.
-      The F0 is one-dimensional and has 671 frames. 
-      
 
+      Here, the binary mel-spectrogram is a matrix with 671 frames and 80 dimenions/frame.
+      The F0 is one-dimensional vector with 671 frames. 
+      
+      Notice that in physical memory, one datum in a two dimensional data matrix (e.g., mel-spectrom) is 
+      accessed through DataArray[D * n + d], where D is the feature dimension, n is the frame index, and d is
+      the dimension index within one frame.

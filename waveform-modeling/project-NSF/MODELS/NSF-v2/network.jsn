@@ -1,0 +1,1364 @@
+{
+    "layers": [
+        {
+            "name": "input",
+            "type": "input",
+            "size": 1
+        },
+        {			
+	    "name": "exInputL1",
+            "type": "externalloader",
+            "size": 81,
+            "resolution": 80,
+            "bias": 1
+        },
+        {
+            
+			"name": "exInputSkip",
+            "type": "skipini",
+            "size": 81,
+            "resolution": 80,
+            "bias": 1
+        },
+        {
+            
+			"name": "exInputL2",
+            "type": "blstm",
+            "size": 64,
+            "resolution": 80,
+            "bias": 1,
+            "clock": ""
+        },
+        {
+            
+			"name": "exInputL3",
+            "type": "cnn",
+            "size": 63,
+            "resolution": 80,
+            "bias": 1,
+            "window_width": "63*1",
+            "window_tap_interval": "63*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 0,
+            "tanhoutput": 1
+        },
+        {
+            
+            "name": "exInputAdd",
+            "type": "skipcat",
+            "size": 64,
+            "resolution": 80,
+            "bias": 1,
+            "preSkipLayer": "exInputL3,exInputSkip",
+            "preSkipLayerDim": "0_63_80_81",
+            "learningRate": 0
+        },
+	{
+
+	    "name": "exInputUpSampleB1L1",
+            "type": "operator",
+	    "size": 64,
+	    "bias": 1,
+	    "changeResolution": 1,
+	    "resolution": 1
+	},
+        {
+	    "name": "exInputUpSampleIni",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+	{
+            "name": "exInputFiltering",
+	    "type": "filtering",
+	    "size": 64,
+	    "bias": 1,
+	    "filterCoeffs": "80*0.0125"
+	},
+	{
+	    
+            "name": "exInputFiltering2",
+	    "type": "filtering",
+	    "size": 64,
+	    "bias": 1,
+	    "filterCoeffs": "80*0.0125"
+	},
+        {
+            
+	    "name": "exInputSkipOutput",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+	{
+            
+            "name": "exInputSkipF0Output",
+            "type": "skipcat",
+            "size": 1,
+            "bias": 1,
+            "preSkipLayer": "exInputUpSampleIni",
+            "preSkipLayerDim": "63_64"
+        },
+	 {
+	    "size": 8,
+            "name": "StusinWavGen",
+	    "bias": 1.0,
+	    "type": "signalgen",
+	    "frequencySR": 16000,
+	    "frequencyF0Mag": 0.1,
+	    "frequencyNoiseMag": 0.01,
+	    "frequencyBins": 64,
+	    "frequencyHarmonics": 7
+	},
+	{
+	    "name": "StusinWavGen2",
+            "type": "feedforward_tanh",
+            "size": 1,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StusinWavGen3",
+            "type": "skipini",
+            "size": 1,
+            "bias": 1
+        },
+		{
+	    	"name": "StudiluteB1L0Embedding",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StudiluteB1L0",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {          
+	    	"name": "StudiluteB1L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L1addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L1cnn,StudiluteB1L0"
+        },
+        {          
+	    	"name": "StudiluteB1L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L2addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L2cnn,StudiluteB1L1addLing"
+        },
+        {          
+	    	"name": "StudiluteB1L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L3addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L3cnn,StudiluteB1L2addLing"
+        },
+        {          
+	    	"name": "StudiluteB1L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L4addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L4cnn,StudiluteB1L3addLing"
+        },
+        {          
+	    	"name": "StudiluteB1L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L5addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L5cnn,StudiluteB1L4addLing"
+        },
+        {          
+	    	"name": "StudiluteB1L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L6addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L6cnn,StudiluteB1L5addLing"
+        },
+        {          
+	    	"name": "StudiluteB1L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L7addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L7cnn,StudiluteB1L6addLing"
+        },
+        {          
+	    	"name": "StudiluteB1L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L8addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L8cnn,StudiluteB1L7addLing"
+        },
+        {          
+	    	"name": "StudiluteB1L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L9addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L9cnn,StudiluteB1L8addLing"
+        },
+         {          
+	    	"name": "StudiluteB1L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB1L10addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB1L10cnn,StudiluteB1L9addLing"
+        },
+	{
+	    
+            "name": "StupostprocessingB1L1",
+	    "type": "operator",
+	    "size": 64,
+	    "bias": 1,
+	    "setZero": "64*0.1"
+	},
+	{
+            
+            "name": "StupostprocessingB1L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingB1L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingB1transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingB1L3,StusinWavGen3"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingB1transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingB1transform",
+	    "preSkipLayerDim": "0_1"
+	},
+	{
+	    "name": "StudiluteB2L0Embedding",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StudiluteB2L0",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {          
+	    	"name": "StudiluteB2L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L1addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L1cnn,StudiluteB2L0"
+        },
+        {          
+	    	"name": "StudiluteB2L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L2addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L2cnn,StudiluteB2L1addLing"
+        },
+        {          
+	    	"name": "StudiluteB2L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L3addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L3cnn,StudiluteB2L2addLing"
+        },
+        {          
+	    	"name": "StudiluteB2L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L4addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L4cnn,StudiluteB2L3addLing"
+        },
+        {          
+	    	"name": "StudiluteB2L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L5addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L5cnn,StudiluteB2L4addLing"
+        },
+        {          
+	    	"name": "StudiluteB2L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L6addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L6cnn,StudiluteB2L5addLing"
+        },
+        {          
+	    	"name": "StudiluteB2L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L7addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L7cnn,StudiluteB2L6addLing"
+        },
+        {          
+	    	"name": "StudiluteB2L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L8addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L8cnn,StudiluteB2L7addLing"
+        },
+        {          
+	    	"name": "StudiluteB2L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L9addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L9cnn,StudiluteB2L8addLing"
+        },
+         {          
+	    	"name": "StudiluteB2L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB2L10addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB2L10cnn,StudiluteB2L9addLing"
+        },
+	{
+	    
+            "name": "StupostprocessingB2L1",
+	    "type": "operator",
+	    "size": 64,
+	    "bias": 1,
+	    "setZero": "64*0.1"
+	},
+	{
+            
+            "name": "StupostprocessingB2L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingB2L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingB2transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingB2L3,StupostprocessingB1transform"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingB2transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingB2transform",
+	    "preSkipLayerDim": "0_1"
+	},
+			{
+	    	"name": "StudiluteB3L0Embedding",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StudiluteB3L0",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {          
+	    	"name": "StudiluteB3L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L1addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L1cnn,StudiluteB3L0"
+        },
+        {          
+	    	"name": "StudiluteB3L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L2addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L2cnn,StudiluteB3L1addLing"
+        },
+        {          
+	    	"name": "StudiluteB3L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L3addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L3cnn,StudiluteB3L2addLing"
+        },
+        {          
+	    	"name": "StudiluteB3L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L4addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L4cnn,StudiluteB3L3addLing"
+        },
+        {          
+	    	"name": "StudiluteB3L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L5addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L5cnn,StudiluteB3L4addLing"
+        },
+        {          
+	    	"name": "StudiluteB3L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L6addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L6cnn,StudiluteB3L5addLing"
+        },
+        {          
+	    	"name": "StudiluteB3L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L7addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L7cnn,StudiluteB3L6addLing"
+        },
+        {          
+	    	"name": "StudiluteB3L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L8addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L8cnn,StudiluteB3L7addLing"
+        },
+        {          
+	    	"name": "StudiluteB3L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L9addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L9cnn,StudiluteB3L8addLing"
+        },
+         {          
+	    	"name": "StudiluteB3L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB3L10addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB3L10cnn,StudiluteB3L9addLing"
+        },
+	{
+	    
+            "name": "StupostprocessingB3L1",
+	    "type": "operator",
+	    "size": 64,
+	    "bias": 1,
+	    "setZero": "64*0.1"
+	},
+	{
+            
+            "name": "StupostprocessingB3L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingB3L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingB3transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingB3L3,StupostprocessingB2transform"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingB3transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingB3transform",
+	    "preSkipLayerDim": "0_1"
+	},
+			{
+	    	"name": "StudiluteB4L0Embedding",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StudiluteB4L0",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {          
+	    	"name": "StudiluteB4L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L1addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L1cnn,StudiluteB4L0"
+        },
+        {          
+	    	"name": "StudiluteB4L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L2addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L2cnn,StudiluteB4L1addLing"
+        },
+        {          
+	    	"name": "StudiluteB4L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L3addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L3cnn,StudiluteB4L2addLing"
+        },
+        {          
+	    	"name": "StudiluteB4L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L4addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L4cnn,StudiluteB4L3addLing"
+        },
+        {          
+	    	"name": "StudiluteB4L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L5addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L5cnn,StudiluteB4L4addLing"
+        },
+        {          
+	    	"name": "StudiluteB4L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L6addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L6cnn,StudiluteB4L5addLing"
+        },
+        {          
+	    	"name": "StudiluteB4L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L7addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L7cnn,StudiluteB4L6addLing"
+        },
+        {          
+	    	"name": "StudiluteB4L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L8addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L8cnn,StudiluteB4L7addLing"
+        },
+        {          
+	    	"name": "StudiluteB4L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L9addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L9cnn,StudiluteB4L8addLing"
+        },
+         {          
+	    	"name": "StudiluteB4L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB4L10addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB4L10cnn,StudiluteB4L9addLing"
+        },
+	{
+	    
+            "name": "StupostprocessingB4L1",
+	    "type": "operator",
+	    "size": 64,
+	    "bias": 1,
+	    "setZero": "64*0.1"
+	},
+	{
+            
+            "name": "StupostprocessingB4L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingB4L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingB4transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingB4L3,StupostprocessingB3transform"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingB4transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingB4transform",
+	    "preSkipLayerDim": "0_1"
+	},
+	{
+	    	"name": "StudiluteB5L0Embedding",
+            "type": "feedforward_tanh",
+            "size": 64,
+            "bias": 1,
+            "batchnorm": 0
+        },
+        {
+            "name": "StudiluteB5L0",
+            "type": "skipini",
+            "size": 64,
+            "bias": 1
+        },
+        {          
+	    	"name": "StudiluteB5L1cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*1",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L1addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L1cnn,StudiluteB5L0"
+        },
+        {          
+	    	"name": "StudiluteB5L2cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*2",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L2addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L2cnn,StudiluteB5L1addLing"
+        },
+        {          
+	    	"name": "StudiluteB5L3cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*4",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L3addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L3cnn,StudiluteB5L2addLing"
+        },
+        {          
+	    	"name": "StudiluteB5L4cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*8",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L4addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L4cnn,StudiluteB5L3addLing"
+        },
+        {          
+	    	"name": "StudiluteB5L5cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*16",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L5addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L5cnn,StudiluteB5L4addLing"
+        },
+        {          
+	    	"name": "StudiluteB5L6cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*32",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L6addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L6cnn,StudiluteB5L5addLing"
+        },
+        {          
+	    	"name": "StudiluteB5L7cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*64",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L7addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L7cnn,StudiluteB5L6addLing"
+        },
+        {          
+	    	"name": "StudiluteB5L8cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*128",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L8addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L8cnn,StudiluteB5L7addLing"
+        },
+        {          
+	    	"name": "StudiluteB5L9cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*256",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L9addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L9cnn,StudiluteB5L8addLing"
+        },
+         {          
+	    	"name": "StudiluteB5L10cnn",
+            "type": "cnn",
+            "size": 64,
+            "bias": 1,
+            "window_width": "64*2",
+            "window_tap_interval": "64*512",
+            "window_height": "",
+            "window_stride": "",
+            "causal": 1,
+            "tanhoutput": 1
+        },
+        {
+	    	"name": "StudiluteB5L10addLing",
+            "type": "skipadd",
+            "size": 64,
+            "bias": 1,
+            "preSkipLayer": "exInputSkipOutput,StudiluteB5L10cnn,StudiluteB5L9addLing"
+        },
+	{
+	    
+            "name": "StupostprocessingB5L1",
+	    "type": "operator",
+	    "size": 64,
+	    "bias": 1,
+	    "setZero": "64*0.1"
+	},
+	{
+            
+            "name": "StupostprocessingB5L2",
+            "type": "feedforward_tanh",
+            "size": 16,
+            "bias": 1,
+            "batchnorm": 1
+        },
+        {
+            
+	    "name": "StupostprocessingB5L3",
+            "type": "feedforward_tanh",
+            "size": 2,
+            "bias": 1,
+            "batchnorm": 1
+        },
+	{
+	    "name": "StupostprocessingB5transform",
+            "type": "structTrans",
+	    "size": 3,
+	    "bias": 1,
+	    "transType": 3,
+	    "preSkipLayer": "StupostprocessingB5L3,StupostprocessingB4transform"
+	},
+	{
+
+	    "size": 1,
+            "name": "StupostprocessingB5transformskipcat",
+	    "bias": 1.000000,
+	    "type": "skipcat",
+	    "preSkipLayer": "StupostprocessingB5transform",
+	    "preSkipLayerDim": "0_1"
+	},
+	{
+	    "name": "dftoutput",
+	    "type": "dft",
+	    "size": 1,
+	    "bias": 1,
+	    "gamma": 500.0,
+	    "fftLength": 512,
+	    "frameLength": 320,
+	    "frameShift": 80,
+	    "fftLength2": 128,
+	    "frameLength2": 80,
+	    "frameShift2": 40,
+	    "fftLength3": 2048,
+	    "frameLength3": 1920,
+	    "frameShift3": 640
+	}
+    ]
+}

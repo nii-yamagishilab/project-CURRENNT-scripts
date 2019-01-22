@@ -36,20 +36,20 @@ if __name__ == "__main__":
         network_data = json.load(file_ptr)
 
     # change if necessary
-    if network_data.has_key('layers'):
+    if 'layers' in network_data:
         for layer_idx in range(len(network_data['layers'])):
             # change time resolution for condition layer
-            if network_data['layers'][layer_idx].has_key('resolution'):
+            if 'resolution' in network_data['layers'][layer_idx]:
                 if network_data['layers'][layer_idx]['resolution'] > 1:
                     network_data['layers'][layer_idx]['resolution'] = resolution
                     
             # change sampling frequency for source module of NSF
-            if network_data['layers'][layer_idx].has_key('frequencySR'):
+            if 'frequencySR' in network_data['layers'][layer_idx]:
                network_data['layers'][layer_idx]['frequencySR'] = sampling_rate
 
 
             # change input layer size of conditional layer
-            if network_data['layers'][layer_idx].has_key('type'):
+            if 'type' in network_data['layers'][layer_idx]:
                 if network_data['layers'][layer_idx]['type'] == 'externalloader':
                     try:
                         network_data['layers'][layer_idx]['size'] = acous_dim
@@ -61,9 +61,9 @@ if __name__ == "__main__":
                         
             # change skip-connection of F0 for NSF
             # this change is only used for network.jsn provided
-            if network_data['layers'][layer_idx].has_key('layerFlag'):
+            if 'layerFlag' in network_data['layers'][layer_idx]:
                 if network_data['layers'][layer_idx]['layerFlag'] == 'wavenetConditionInputLayer':
-                    if network_data['layers'][layer_idx].has_key('preSkipLayerDim'):
+                    if 'preSkipLayerDim' in network_data['layers'][layer_idx]:
                         tmp = network_data['layers'][layer_idx]['preSkipLayerDim']
                         try:
                             tmp_dim = [int(x) for x in tmp.split('_')]

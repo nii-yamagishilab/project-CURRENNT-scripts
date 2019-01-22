@@ -79,8 +79,11 @@ path_waveform = tmp_path + os.path.sep + 'wav32k'
 waveform_mu_law_bits = -1
 
 # training/validation set divition
+# training/validation set divition
 #  train_utts = N, where N is an integer: uses N randomly selected utterances as training set
-#  train_utts = R, where R is (0, 1): uses R * 100% utterances as training set
+#      for example, train_utts = 1000, uses 1000 utterances out of all the data as training set
+#  train_utts = R, where R is a float number 0<R<1: uses R * 100% of all utterances as training set
+#      for example, train_utts = 0.8, uses 80% utterances as training set
 #  train_utts = -1: all utterances as training set, no validation set
 train_utts = 1000
 

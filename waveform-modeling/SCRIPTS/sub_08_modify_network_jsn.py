@@ -27,6 +27,12 @@ if __name__ == "__main__":
     except ValueError:
         raise Exception("Error: input acoustic dim incorrect %s, sub_08" % (sys.argv[4]))
 
+    try:
+        waveform_quantization_bits = int(sys.argv[5])
+    except ValueError:
+        raise Exception("Error: waveform quantization config incorrect %s, sub_08" % (sys.argv[5]))
+
+    
     if not os.path.isfile(network_path):
         display.self_print('Error: not found %s' % (network_path), 'error')
         quit()
@@ -75,6 +81,18 @@ if __name__ == "__main__":
                             tmp_dim[-1] = acous_dim
                             tmp = '_'.join(str(x) for x in tmp_dim)
                             network_data['layers'][layer_idx]['preSkipLayerDim'] = tmp
+
+            # update the layer size in case the network uses waveform quantization
+            # both output and feedback layer sizes must be changed
+            if waveform_quantization_bits > 0:
+                # feedback layer
+                if network_data['layers'][layer_idx]['type'] == 'feedback':
+                    network_data['layers'][layer_idx]['size'] = 2 ** waveform_quantization_bits
+                    
+                # output layer
+                if layer_idx == len(network_data['layers']) - 2:
+                    network_data['layers'][layer_idx]['size'] = 2 ** waveform_quantization_bits
+            
                             
     else:
         raise Exception("Error: %s is invalid: no layers found" % (network_path))

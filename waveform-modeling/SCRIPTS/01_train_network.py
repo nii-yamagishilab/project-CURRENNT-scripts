@@ -124,8 +124,9 @@ if cfg.step2:
             
     # Update network configurations
     cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_08_modify_network_jsn.py'
-    cmd = cmd + ' %s %d %d %d' % (tmp_network_file, cfg.upsampling_rate,
-                                  cfg.gen_wav_samp, sum(cfg.dim_acous_feats))
+    cmd = cmd + ' %s %d %d %d %d' % (tmp_network_file, cfg.upsampling_rate,
+                                     cfg.gen_wav_samp, sum(cfg.dim_acous_feats),
+                                     cfg.waveform_mu_law_bits)
     exe_cmd(cmd)
 
 

@@ -67,22 +67,28 @@ Usage:
 
    Waveforms should be generated in ./waveform-modeling/project-NSF-pretrained/MODELS/NSF/output
    
-2. For model training using the provided sample data (only a few utterances from CMT-arctic)
+2. For model training using the provided sample data
+   
    $: source ./init.sh
    $: cd waveform-modeling/project-NSF/
    $: run 00_run.sh
    
    After which you can get a trained model in ./waveform-modeling/project-NSF/MODELS/NSF/trained_network.jsn
 
-   $: run 01_get.sh
+   $: run 01_gen.sh
    After which you can get some waveforms in ./waveform-modeling/project-NSF/MODELS/NSF/output
 
-3. For training using your own data:
+   00_run.sh and 01_gen.sh are only for demonstration. Please don't expect good output since the model
+   is only trained using less than 10 utterances.
+   
+   To train a good model, you may need to use the whole data from one speaker of the CMU-arctic corpus.
+
+3. For training using your own data (or CMU-arctic data):
    1. Put waveforms and acoustic features in ./DATA, which stores the training data (validation data will be
       automatically selected from ./DATA)
    2. Read and configure config.py in project-NSF or project-Wavenet
    3. Run 00_run.sh
-   4. Put test data in ./TESTDATA, configure config.py and Run 01_get.sh
+   4. Put test data in ./TESTDATA, configure config.py and Run 01_gen.sh
 
 
 ----------------- 2. acoustic models --------------------

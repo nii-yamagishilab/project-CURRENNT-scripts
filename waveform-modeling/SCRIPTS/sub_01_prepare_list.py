@@ -46,7 +46,8 @@ def createFileLst(dataDirs, dataExts, dataDim, dataListDirs, trainortest, trainS
     # check if file exists
     if len(dataList) < 1:
         display.self_print("Error: fail to generate file list. Please check:", 'error')
-        display.self_print("path_acous_feats, ext_acous_feats, path_waveform in config.py", 'error')
+        display.self_print("path_acous_feats, ext_acous_feats, path_waveform in config.py;", 'error')
+        display.self_print("Please also check the names of input data files.", 'error')
         raise Exception("Error: fail to generate file list.")
         
     # randomize the data file list

@@ -71,6 +71,9 @@ wav_samp = 16000
 upsampling_rate = 80
 
 # (abosolute) path of the directories of waveform
+#  Note: the example data are stored in wav32k because they are indeed 32k waveforms,
+#        but you can use 48k, 16k waveforms and store them in directories with different names.
+#        The script will automatically do downsampling
 path_waveform = tmp_path + os.path.sep + 'wav32k'
 
 # waveform representation
@@ -138,6 +141,9 @@ else:
 #  for NSF, if sentences are short, mem_save_mode can be 0
 mem_save_mode = 1
 
+# use CPU to generate waveform?
+#  for WaveNet, using CPU is also OK
+flag_CPU_gen = 0
 
 # --------------- Configuration done --------------
 

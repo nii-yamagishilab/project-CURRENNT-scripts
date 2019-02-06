@@ -108,6 +108,10 @@ path_test_acous_feats = [tmp_test_path + os.path.sep + 'mfbsp']
 #  for NSF, if sentences are short, mem_save_mode can be 0
 mem_save_mode = 1
 
+# use CPU to generate waveform?
+#  for WaveNet, using CPU is also OK
+flag_CPU_gen = 0
+
 # output data directory
 gen_output_dir = gen_model_dir + '/output'
 

@@ -154,6 +154,13 @@ if cfg.step3:
         # configuration specific for Wavenet mu-law
         cmd = cmd + ' --ScheduleSampOpt 4 --ScheduleSampPara 0'
         cmd = cmd + ' --mdnSoftmaxGenMethod 2'
+        
+    try:
+        if cfg.flag_CPU_gen > 0:
+            cmd = cmd + ' --cuda off'
+    except AttributeError:
+        pass
+        
     cmd = cmd + ' --network %s' % (cfg.gen_network_path)    
     cmd = cmd + ' --ff_output_file %s' % (cfg.gen_output_dir)
     cmd = cmd + ' --ff_input_file %s' % (tmp_test_data_nc_args)

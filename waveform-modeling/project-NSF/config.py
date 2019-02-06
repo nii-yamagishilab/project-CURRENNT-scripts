@@ -71,6 +71,9 @@ wav_samp = 16000
 upsampling_rate = 80
 
 # (abosolute) path of the directories of waveform
+#  Note: the example data are stored in wav32k because they are indeed 32k waveforms,
+#        but you can use 48k, 16k waveforms and store them in directories with different names.
+#        The script will automatically do downsampling
 path_waveform = tmp_path + os.path.sep + 'wav32k'
 
 # waveform representation
@@ -100,6 +103,8 @@ network_trn_config = 'train_config.cfg'
 
 
 # ----- Network generation configuration
+# This part can be configured in 01_gen.sh, which is more conveninent
+#  
 # directory of model for generation
 # test_inputDirs: directories of the test data files
 if os.getenv('TEMP_WAVEFORM_MODEL_INPUT_DIRS') is None:
@@ -131,12 +136,15 @@ if os.getenv('TEMP_WAVEFORM_OUTPUT_DIRECTORY') is None:
     gen_output_dir = gen_model_dir + '/output'
 else:
     gen_output_dir = os.getenv('TEMP_WAVEFORM_OUTPUT_DIRECTORY')
-
-    
+  
 # waveform generation mode
 #  for WaveNet only mem_save_mode = 1
 #  for NSF, if sentences are short, mem_save_mode can be 0
 mem_save_mode = 1
+
+# use CPU to generate waveform?
+#  for WaveNet, using CPU is also OK
+flag_CPU_gen = 0
 
 
 # --------------- Configuration done --------------

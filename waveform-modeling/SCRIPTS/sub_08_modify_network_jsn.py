@@ -67,7 +67,7 @@ if __name__ == "__main__":
                         
             # change skip-connection of F0 for NSF
             # this change is only used for network.jsn provided
-            if 'layerFlag' in network_data['layers'][layer_idx]:
+            if 'layerFlag' in network_data['layers'][layer_idx] and waveform_quantization_bits <= 0:
                 if network_data['layers'][layer_idx]['layerFlag'] == 'wavenetConditionInputLayer':
                     if 'preSkipLayerDim' in network_data['layers'][layer_idx]:
                         tmp = network_data['layers'][layer_idx]['preSkipLayerDim']

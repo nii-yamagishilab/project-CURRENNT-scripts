@@ -27,6 +27,17 @@ This script demonstrate how to prepare data, train NSF, and generate speech.
 You may use the CMU-arctic database, SLT voice
 (http://festvox.org/cmu_arctic/dbs_slt.html).
 
+Please note the network files in MODELS/NSF*
+1. NSF: original NSF (for ICASSP2019)
+2. NSF-L3: original NSF using only one window configuration
+3. NSF-MSE: original NSF using MSE not STFT criterion
+4. NSF-N2: origional NSF with b = 0 in normalization flow (x * b + a)
+5. NSF-S3: original NSF without sine excitation
+
+6. NSF-v2: simplified NSF model
+The improved NSF will be uploaded later
+
+
 Please follow the steps to run the scripts
 
 Note: 

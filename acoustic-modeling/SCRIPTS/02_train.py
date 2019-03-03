@@ -71,25 +71,32 @@ def prepareCURRENNT(modelDir):
         mdnConfigPath = modelDir + os.path.sep + cfg.nnMDNConfigName
     else:
         mdnConfigPath = None
-        
-    networkTool.modifyNetworkFile(cfg.network, sum(cfg.inputDim), sum(cfg.outputDim),
-                                  cfg.mdnConfig, network, mdnConfigPath)
+
+    try:
+        networkTool.modifyNetworkFile(cfg.network, sum(cfg.inputDim), sum(cfg.outputDim),
+                                      cfg.mdnConfig, network, mdnConfigPath)
+    except Exception as e:
+        print("Fail to parse %s" % (cfg.network))
+        print(e)
+        quit()
 
 
     ## find the necessary input/output data
     dataDir    = cfg.nnDataDirName
     trainNcDir = dataDir + os.path.sep + cfg.trainSet
     valNcDir   = dataDir + os.path.sep + cfg.valSet
-    linkDataDir= dataDir + os.path.sep + cfg.linkDirname
+    #linkDataDir= dataDir + os.path.sep + cfg.linkDirname
+    linkDataDirInput = dataDir + os.path.sep + cfg.linkDirname_input
+    linkDataDirOutput = dataDir + os.path.sep + cfg.linkDirname_output
     
     trainFileList = [trainNcDir + os.path.sep + fileName for fileName in os.listdir(trainNcDir) if fileName.startswith(cfg.nnDataNcPreFix)]
     valFileList   = [valNcDir + os.path.sep + fileName for fileName in os.listdir(valNcDir) if fileName.startswith(cfg.nnDataNcPreFix)]
 
-    inputDirs     = ','.join([linkDataDir for x in range(len(cfg.inputDim))])
+    inputDirs     = ','.join([linkDataDirInput for x in range(len(cfg.inputDim))])
     inputDims     = '_'.join([str(x) for x in cfg.inputDim])
     inputExts     = ','.join(['.' +x for x in cfg.inputExt])
 
-    outputDirs    = ','.join([linkDataDir for x in range(len(cfg.outputDim))])
+    outputDirs    = ','.join([linkDataDirOutput for x in range(len(cfg.outputDim))])
     outputDims    = '_'.join([str(x) for x in cfg.outputDim])
     outputExts    = ','.join(['.' +x for x in cfg.outputExt])
 

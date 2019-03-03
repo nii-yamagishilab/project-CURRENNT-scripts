@@ -58,7 +58,7 @@ def exe_cmd(cmd, debug=False):
 def lstdirNoExt(fileDir):
     """ return the list of file names without extension
     """
-    return [x.split('.')[0] for x in os.listdir(fileDir)]
+    return [os.path.splitext(x)[0] for x in os.listdir(fileDir)]
     
 def crossSet(list1, list2):
     """ return the cross-set of list1 and list2
@@ -203,7 +203,7 @@ def prepareData(dataDir):
         
         # write data_config.cfg
         writeDataConfig(dataSaveDir + os.path.sep + 'data_config.py',
-                        cfg.idxFileName + '.scp', cfg.fileNameInEachNCPack)
+                        cfg.idxFileName + '.scp', cfg.fileNumInEachNCPack)
 
         
         # pack data

@@ -62,6 +62,11 @@ step03WaveFormGen = step03
 
 
 # ------------ Data configuration ------------
+# list of data for each data division
+#  len(dataLists) should be = len(inputDirs) = len(outputDirs)
+# if dataLists[n] = None, datalist will be automatically created (logs the files in the directory)
+# if dataLists[n] = PATH_TO_THE_DATA_LIST, the script will use the data listed 
+dataLists = [None, None]
 
 # -- input feature configuration
 # inputDirs: absolute path of directories of input features.
@@ -272,13 +277,15 @@ idxDirName    = 'idxFiles'
 idxFileName   = 'idx'
 nnDataNcPreFix= 'data.nc'
 linkDirname   = 'link'
+linkDirname_input  = 'link_input'
+linkDirname_output = 'link_output'
 
 nnDataInputMV='input_meanstd.bin'
 nnDataOutputMV='output_meanstd.bin'
 nnModelCfgname= 'config.cfg'
 nnMDNConfigName='mdn.config'
 #
-fileNameInEachNCPack = 3000
+fileNumInEachNCPack = 5000
 tmp_network_trn_log = 'log_train'
 tmp_network_trn_err = 'log_err'
 
@@ -314,7 +321,12 @@ inputExt = [x.lstrip('.') for x in inputExt if x.startswith('.')]
 outputExt = [x.lstrip('.') for x in outputExt if x.startswith('.')]
 
 
-if not len(list(set(outputExt + inputExt))) == len(outputExt + inputExt):
-    print("Error: some output/input features use the same name extensions.")
-    print("Error: please modify file name extensions and outputExt/inputExt in config")
+if not len(list(set(outputExt))) == len(outputExt):
+    print("Error: some output features use the same name extensions.")
+    print("Error: please modify file name extensions and outputExt in config")
+    raise Exception("Configure error")
+
+if not len(list(set(inputExt))) == len(inputExt):
+    print("Error: some output features use the same name extensions.")
+    print("Error: please modify file name extensions and outputExt in config")
     raise Exception("Configure error")

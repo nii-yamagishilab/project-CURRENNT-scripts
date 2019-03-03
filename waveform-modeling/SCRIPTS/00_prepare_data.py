@@ -68,17 +68,35 @@ if cfg.step1:
         pass
 
     if cfg.step1s[0]:
-        display.self_print_with_date('step1.1 generating data lists', 'm')
-        tmp_acous_path = ','.join(cfg.path_acous_feats)
-        tmp_feat_ext = ','.join(cfg.ext_acous_feats)
-        tmp_feat_dim = '_'.join([str(x) for x in cfg.dim_acous_feats])
-        cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_01_prepare_list.py'
-        cmd = cmd + ' %s,%s' % (tmp_acous_path, cfg.path_waveform)
-        cmd = cmd + ' %s,.wav' % (tmp_feat_ext)
-        cmd = cmd + ' %s_1' % (tmp_feat_dim)
-        cmd = cmd + ' %s' % (tmp_data_scp_dir)
-        cmd = cmd + ' %f' % (cfg.train_utts)
-        exe_cmd(cmd, cfg.debug)
+        if hasattr(cfg, 'trn_list') and hasattr(cfg, 'val_list'):
+            if os.path.isfile(cfg.trn_list) and os.path.isfile(cfg.val_list):
+                display.self_print_with_date('step1.1 copying data lists', 'm')
+                tmp_acous_path = ','.join(cfg.path_acous_feats)
+                tmp_feat_ext = ','.join(cfg.ext_acous_feats)
+                tmp_feat_dim = '_'.join([str(x) for x in cfg.dim_acous_feats])
+                cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_01_check_list.py'
+                cmd = cmd + ' %s,%s' % (tmp_acous_path, cfg.path_waveform)
+                cmd = cmd + ' %s,.wav' % (tmp_feat_ext)
+                cmd = cmd + ' %s_1' % (tmp_feat_dim)
+                cmd = cmd + ' %s' % (tmp_data_scp_dir)
+                cmd = cmd + ' %s' % (cfg.trn_list)
+                cmd = cmd + ' %s' % (cfg.val_list)
+                exe_cmd(cmd, cfg.debug)
+            else:
+                display.self_print('cannot find %s %s' % (cfg.trn_list, cfg.val_list), 'error')
+                quit()
+        else:
+            display.self_print_with_date('step1.1 generating data lists', 'm')
+            tmp_acous_path = ','.join(cfg.path_acous_feats)
+            tmp_feat_ext = ','.join(cfg.ext_acous_feats)
+            tmp_feat_dim = '_'.join([str(x) for x in cfg.dim_acous_feats])
+            cmd = 'python %s' % (cfg.path_scripts) + os.path.sep + 'sub_01_prepare_list.py'
+            cmd = cmd + ' %s,%s' % (tmp_acous_path, cfg.path_waveform)
+            cmd = cmd + ' %s,.wav' % (tmp_feat_ext)
+            cmd = cmd + ' %s_1' % (tmp_feat_dim)
+            cmd = cmd + ' %s' % (tmp_data_scp_dir)
+            cmd = cmd + ' %f' % (cfg.train_utts)
+            exe_cmd(cmd, cfg.debug)
 
     
     if cfg.step1s[1]:

@@ -45,15 +45,17 @@ step3 = True
 # ---- Data configuration
 
 # (abosolute) path of the directories of acoustic features
-#  [path_of_feature_1, path_of_feature_2, ..., path_of_feature_3]
+#  [path_of_feature_1, path_of_feature_2, ..., path_of_feature_N]
 tmp_path = prjdir + '/../DATA'
 path_acous_feats = [tmp_path + os.path.sep + 'mfbsp',
                     tmp_path + os.path.sep + 'f0',]
 
 # dimension of acoustic features
+#  [dim_of_feature1, dim_of_feature2, ..., dim_of_feature_N]
 dim_acous_feats = [80, 1]
 
 # file name extensions of acoustic features
+#  [extension_of_feature1, extension_of_feature2, ..., extension_of_feature_N]
 ext_acous_feats = ['.mfbsp', '.f0']
 
 # which ext denotes F0?
@@ -81,7 +83,14 @@ path_waveform = tmp_path + os.path.sep + 'wav32k'
 #  waveform_mu_law_bits = -1: float-valued waveform (for NSF)
 waveform_mu_law_bits = -1
 
-# training/validation set divition
+# Set train/validation data list
+#  each list should be a list of file names (without file extension)
+trn_list = prjdir + '/../DATA/list/train.lst'
+val_list = prjdir + '/../DATA/list/val.lst'
+# 
+# To randomly divide data into train/val, set trn_list = None and val_list = None
+#  and use the train_utts to divide the data
+
 # training/validation set divition
 #  train_utts = N, where N is an integer: uses N randomly selected utterances as training set
 #      for example, train_utts = 1000, uses 1000 utterances out of all the data as training set

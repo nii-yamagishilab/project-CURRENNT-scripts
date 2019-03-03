@@ -160,7 +160,7 @@ if cfg.step3:
             cmd = cmd + ' --cuda off'
     except AttributeError:
         pass
-        
+    
     cmd = cmd + ' --network %s' % (cfg.gen_network_path)    
     cmd = cmd + ' --ff_output_file %s' % (cfg.gen_output_dir)
     cmd = cmd + ' --ff_input_file %s' % (tmp_test_data_nc_args)
@@ -175,6 +175,12 @@ if cfg.step3:
         cmd = cmd + ' --F0MeanForSourceModule %f' % (f0mean)
         cmd = cmd + ' --F0StdForSourceModule %f' % (f0std)
 
+    try:
+        if cfg.additiona_command is not None:
+            cmd = cmd + '  ' + cfg.additiona_command
+    except AttributeError:
+        pass
+        
     exe_cmd(cmd, cfg.debug)
 
 

@@ -59,13 +59,22 @@ def crossSet(list1, list2):
     """
     return list(set(list1).intersection(list2)), list(set(list1).symmetric_difference(list2))
 
+def listSameContent(list1):
+    if len(list1) == 1:
+        return True
+    else:
+        temp = list1[0]
+        for ele in list1[1:]:
+            if temp != ele:
+                return False
+        return True
 
-def writeDataConfig(filePath, idxScpName, fileNameInEachNCPack):
+def writeDataConfig(filePath, idxScpName, fileNumInEachNCPack):
     filePtr = open(filePath, 'w')
     filePtr.write("#!/usr/bin/python\n")
     filePtr.write("import numpy as np\n")
     filePtr.write("dataType = np.float32\n")
-    filePtr.write("flushThreshold = %d\n" % (fileNameInEachNCPack))
+    filePtr.write("flushThreshold = %d\n" % (fileNumInEachNCPack))
     filePtr.write("inDim = [1,]\n")
     filePtr.write("outDim = [1,]\n")
     filePtr.write("inScpFile = ['%s',]\n" % (idxScpName))
@@ -103,39 +112,70 @@ def prepareData():
     except OSError:
         pass
 
-    dataLinkDir = dataDir + os.path.sep + cfg.linkDirname
-    try:
-        os.mkdir(dataLinkDir)
-    except OSError:
-        pass
+
+    # decide whether create the symbolic link to each file
+    if len(cfg.inputDirs) == 1 and len(cfg.outputDirs) == 1:
+        # no validation set
+        flagFileUseSymbolLink = False
+    elif listSameContent(cfg.inputDirs) and listSameContent(cfg.outputDirs) and listSameContent(cfg.inputDirs[0]) and listSameContent(cfg.outputDirs[0]):
+        # all data have been in the same directory
+        flagFileUseSymbolLink = False
+    else:
+        flagFileUseSymbolLink = True
+
+        
+    #dataLinkDir = dataDir + os.path.sep + cfg.linkDirname
+    dataLinkDirInput = dataDir + os.path.sep + cfg.linkDirname_input
+    dataLinkDirOutput = dataDir + os.path.sep + cfg.linkDirname_output    
+    # prepare for data link
+    if flagFileUseSymbolLink:
+        try:
+            os.mkdir(dataLinkDirInput)
+            os.mkdir(dataLinkDirOutput)
+        except OSError:
+            pass
+    else:
+        if os.path.islink(dataLinkDirInput):
+            os.system("rm %s" % (dataLinkDirInput))
+        if os.path.islink(dataLinkDirOutput):
+            os.system("rm %s" % (dataLinkDirOutput))
+        os.system("ln -s %s %s" % (cfg.inputDirs[0][0], dataLinkDirInput))
+        os.system("ln -s %s %s" % (cfg.outputDirs[0][0], dataLinkDirOutput))
+
     
     # create file list
-    for inputDirSet, outputDirSet, dataPart in zip(cfg.inputDirs, cfg.outputDirs, cfg.dataDivision):
+    for dataList, inputDirSet, outputDirSet, dataPart in zip(cfg.dataLists, cfg.inputDirs, cfg.outputDirs, cfg.dataDivision):
 
         display.self_print('Processing ' + dataPart + ' data', 'highlight')
-        
-        # get the cross-set of file list
-        listInput  = readwrite.list_file_name_in_dir(inputDirSet[0])
-        listOutput = readwrite.list_file_name_in_dir(outputDirSet[0])
-        fileList   = listInput
-        if inputDirSet:
-            for inputDir in inputDirSet:
-                listInput2  = readwrite.list_file_name_in_dir(inputDir)
-                fileList, diffSet  = crossSet(fileList, listInput2)
-                tmpName = os.path.join(dataListPath, dataPart+os.path.basename(inputDir)+'.dif.lst')
-                readwrite.write_txt_list(diffSet, tmpName)
+
+        if dataList is None:
+            # get the cross-set of file list
+            listInput  = readwrite.list_file_name_in_dir(inputDirSet[0])
+            listOutput = readwrite.list_file_name_in_dir(outputDirSet[0])
+            fileList   = listInput
+            if inputDirSet:
+                for inputDir in inputDirSet:
+                    listInput2  = readwrite.list_file_name_in_dir(inputDir)
+                    fileList, diffSet  = crossSet(fileList, listInput2)
+                    tmpName = os.path.join(dataListPath, dataPart+os.path.basename(inputDir)+'.dif.lst')
+                    readwrite.write_txt_list(diffSet, tmpName)
                 
-        if outputDirSet:
-            for outputDir in outputDirSet:
-                listOutput2  = readwrite.list_file_name_in_dir(outputDir)
-                fileList, diffSet = crossSet(fileList, listOutput2)
-                tmpName = os.path.join(dataListPath, dataPart+os.path.basename(outputDir)+'.dif.lst')
-                readwrite.write_txt_list(diffSet,tmpName)
+            if outputDirSet:
+                for outputDir in outputDirSet:
+                    listOutput2  = readwrite.list_file_name_in_dir(outputDir)
+                    fileList, diffSet = crossSet(fileList, listOutput2)
+                    tmpName = os.path.join(dataListPath, dataPart+os.path.basename(outputDir)+'.dif.lst')
+                    readwrite.write_txt_list(diffSet,tmpName)
         
-        # writing the list of file name
-        random.shuffle(fileList)
-        fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
-        readwrite.write_txt_list(fileList, fileListFilePath)
+            # writing the list of file name
+            random.shuffle(fileList)
+            fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
+            readwrite.write_txt_list(fileList, fileListFilePath)
+        else:
+            fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
+            os.system("cp %s %s" % (dataList, fileListFilePath))
+            fileList = readwrite.read_txt_list(fileListFilePath)
+            
 
 
         # before start, take a simple test on the configuration of feature dimension
@@ -172,7 +212,7 @@ def prepareData():
 
         inputScpList  = []
         outputScpList = []
-        
+
         # create the fileName + fileExt lists
         # create symbolic link
         for inputDir, featDim, featName in zip(inputDirSet, cfg.inputDim, cfg.inputExt):
@@ -182,10 +222,10 @@ def prepareData():
             for fileName in fileList:
                 # write full path to the feature
                 filePtr.write('%s%s%s.%s\n' % (inputDir, os.path.sep, fileName, featName))
-                if cfg.step01Prepare_LINK is True:
+                if cfg.step01Prepare_LINK is True and flagFileUseSymbolLink:
                     os.system("ln -f -s %s%s%s.%s %s%s%s.%s" % \
                               (inputDir, os.path.sep, fileName, featName,
-                               dataLinkDir, os.path.sep, fileName, featName))
+                               dataLinkDirInput, os.path.sep, fileName, featName))
             filePtr.close()
             
         for outputDir, featDim, featName in zip(outputDirSet, cfg.outputDim, cfg.outputExt):
@@ -194,12 +234,12 @@ def prepareData():
             filePtr = open(tmpFileScp, 'w')
             for fileName in fileList:
                 filePtr.write('%s%s%s.%s\n' % (outputDir, os.path.sep, fileName, featName))
-                if cfg.step01Prepare_LINK is True:
+                if cfg.step01Prepare_LINK is True and flagFileUseSymbolLink:
                     os.system("ln -f -s %s%s%s.%s %s%s%s.%s" % \
                               (outputDir, os.path.sep, fileName, featName,
-                               dataLinkDir, os.path.sep, fileName, featName))
+                               dataLinkDirOutput, os.path.sep, fileName, featName))
             filePtr.close()
-
+        
         # create index file list
         filePtr = open(dataSaveDir + os.path.sep + cfg.idxFileName + '.scp', 'w')
         for fileName in fileList:
@@ -223,7 +263,7 @@ def prepareData():
         if cfg.step01Prepare_IDX is True or cfg.step01Prepare_PACK is True:
             # write data_config.cfg
             writeDataConfig(dataSaveDir + os.path.sep + 'data_config.py',
-                            cfg.idxFileName + '.scp', cfg.fileNameInEachNCPack)
+                            cfg.idxFileName + '.scp', cfg.fileNumInEachNCPack)
             # pack data
             packDataCmd = 'sh %s/sub_05_package_datanc.sh %s %s' % (cfg.path_scripts, dataSaveDir,
                                                                     cfg.path_pyTools_scripts)

@@ -51,9 +51,11 @@ tmp_path = prjdir + '/../DATA'
 path_acous_feats = [tmp_path + os.path.sep + 'mfbsp']
 
 # dimension of acoustic features
+#  [dim_of_feature1, dim_of_feature2, ..., dim_of_feature_N]
 dim_acous_feats = [80]
 
 # file name extensions of acoustic features
+#  [extension_of_feature1, extension_of_feature2, ..., extension_of_feature_N]
 ext_acous_feats = ['.mfbsp']
 
 # which ext denotes F0?

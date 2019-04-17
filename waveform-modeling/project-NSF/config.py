@@ -155,7 +155,12 @@ mem_save_mode = 1
 #  for WaveNet, using CPU is also OK
 flag_CPU_gen = 0
 
-
+if os.getenv('TEMP_ADDITIONAL_COMMAND') is None:             
+    # specify here if you don't want to use getenv           
+    additiona_command = None                                 
+else:                                                        
+    additiona_command = os.getenv('TEMP_ADDITIONAL_COMMAND')
+    
 # --------------- Configuration done --------------
 # -------------------------------------------------
 

@@ -34,8 +34,11 @@ Please note the network files in MODELS/NSF*
 4. NSF-N2: origional NSF with b = 0 in normalization flow (x * b + a)
 5. NSF-S3: original NSF without sine excitation
 
-6. NSF-v2: simplified NSF model
-The improved NSF will be uploaded later
+6. s-NSF: simplified NSF model
+
+7. h-NSF: harmonic-plus-noise NSF model with fixed low- and high-pass FIR filters
+
+8. h-sinc-NSF: harmonic-plus-noise NSF model with sinc-based trainable FIR filters
 
 
 Please follow the steps to run the scripts

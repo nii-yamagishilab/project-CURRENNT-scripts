@@ -42,10 +42,19 @@ Please read the intruction below
   - SCRIPTS
   Scripts of the training/generation processes
 
+  - project-NSF-v2-pretrained
+  Simplified and harmonic-plu-noise NSFs trained on SLT. This is a demonstration
+  script to generate waveforms from a trained NSF model.
+  These new NSF models are explained here: https://nii-yamagishilab.github.io/samples-nsf/nsf-v2.html
+
+
   - project-NSF-pretrained
   Neural source-filter model trained on SLT. This is a demonstration
   script to generate waveforms from a trained NSF model.
-  The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/
+  The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/nsf-v1.html
+  
+  Note: due to historical reason, meanstd.bin for these pre-trained NSF models were not calculated
+  using public-CURRENNT-scripts. Models project-NSF-pretrained can only use project-NSF-pretrained/meanstd.bin
   
   - project-NSF-scripts
   Scripts to train NSF on CMU-arctic SLT voice. 
@@ -53,7 +62,7 @@ Please read the intruction below
   - project-WaveNet-pretrained
   Wavenet trained on SLT. This is a demonstration
   script to generate waveforms from a trained WaveNet model.
-  The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/
+  The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/nsf-v1.html
 
   - project-WaveNet-scripts
   Scripts to train WaveNet on CMU-arctic SLT voice. 

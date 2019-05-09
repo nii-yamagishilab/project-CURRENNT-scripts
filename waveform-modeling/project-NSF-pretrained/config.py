@@ -75,36 +75,41 @@ path_waveform = tmp_path + os.path.sep + 'wav32k'
 #  waveform_mu_law_bits = -1: float-valued waveform (for NSF)
 waveform_mu_law_bits = -1
 
-# training/validation set divition
-#  train_utts = N, where N is an integer: uses N randomly selected utterances as training set
-#  train_utts = R, where R is (0, 1): uses R * 100% utterances as training set
-#  train_utts = -1: all utterances as training set, no validation set
-train_utts = 1000
-
-
-# ----- Network training configuration
-# directory of model
-model_dir = prjdir + '/MODELS/NSF'
-
-# name of the network file
-network_name = 'network.jsn'
-
-# common network training config
-network_trn_config = 'train_config.cfg'
-
 
 # ----- Network generation configuration
+
 # directory of model for generation
-gen_model_dir = prjdir + '/MODELS/NSF'
+# test_inputDirs: directories of the test data files
+if os.getenv('TEMP_WAVEFORM_MODEL_INPUT_DIRS') is None:
+    # test data directory (in the same order as path_acous_feats)
+    tmp_test_path = prjdir + '/../TESTDATA-for-pretrained'
+    path_test_acous_feats = [tmp_test_path + os.path.sep + 'mfbsp',
+                             tmp_test_path + os.path.sep + 'f0',]
+else:
+    tmp_inpput_path = os.getenv('TEMP_WAVEFORM_MODEL_INPUT_DIRS')
+    path_test_acous_feats = tmp_inpput_path.split(',')
+    if len(path_test_acous_feats) != len(dim_acous_feats):
+        raise Exception("Error: invalid path TEMP_WAVEFORM_MODEL_INPUT_DIRS=%s" % (tmp_inpput_path))
 
-# path of the network file
-gen_network_path = gen_model_dir + os.path.sep + '/trained_network.jsn'
+if os.getenv('TEMP_WAVEFORM_MODEL_DIRECTORY') is None:
+    # specify here if you don't want to use getenv
+    gen_model_dir = prjdir + '/MODELS/NSF'
+else:
+    gen_model_dir = os.getenv('TEMP_WAVEFORM_MODEL_DIRECTORY')
 
-# test data directory (in the same order as path_acous_feats)
-tmp_test_path = prjdir + '/../TESTDATA-for-pretrained'
-path_test_acous_feats = [tmp_test_path + os.path.sep + 'mfbsp',
-                         tmp_test_path + os.path.sep + 'f0',]
+if os.getenv('TEMP_WAVEFORM_MODEL_NETWORK_PATH') is None:
+    # specify here if you don't want to use getenv
+    # path of the network file
+    gen_network_path = gen_model_dir + os.path.sep + '/trained_network.jsn'
+else:
+    gen_network_path = os.getenv('TEMP_WAVEFORM_MODEL_NETWORK_PATH')
 
+if os.getenv('TEMP_WAVEFORM_OUTPUT_DIRECTORY') is None:
+    # output data directory
+    gen_output_dir = gen_model_dir + '/output'
+else:
+    gen_output_dir = os.getenv('TEMP_WAVEFORM_OUTPUT_DIRECTORY')
+  
 # waveform generation mode
 #  for WaveNet only mem_save_mode = 1
 #  for NSF, if sentences are short, mem_save_mode can be 0
@@ -114,8 +119,11 @@ mem_save_mode = 1
 #  for WaveNet, using CPU is also OK
 flag_CPU_gen = 0
 
-# output data directory
-gen_output_dir = gen_model_dir + '/output'
+if os.getenv('TEMP_ADDITIONAL_COMMAND') is None:             
+    # specify here if you don't want to use getenv           
+    additiona_command = None                                 
+else:                                                        
+    additiona_command = os.getenv('TEMP_ADDITIONAL_COMMAND')
 
 
 

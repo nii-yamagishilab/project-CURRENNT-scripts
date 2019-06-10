@@ -133,9 +133,9 @@
             "size": 1
         },
         {
-            "scale": "0.3",
+            "scale": "0.4",
             "name": "condSelectiveSignal4",
-            "shift": "0.4",
+            "shift": "0.3",
             "bias": 1.0,
             "type": "operator",
             "size": 1

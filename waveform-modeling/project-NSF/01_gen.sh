@@ -8,7 +8,7 @@ export TEMP_CURRENNT_PROJECT_SV56_PATH=None
 
 # ----- Method 1 
 # For generation, you can configure config.py and run
-python ../SCRIPTS/02_genwaveform.py config
+#python ../SCRIPTS/02_genwaveform.py config
 
 # ----- Method 2
 # Equivalently, you can set the environment variables below

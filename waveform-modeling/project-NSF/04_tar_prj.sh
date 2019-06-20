@@ -1,5 +1,5 @@
 #!/bin/sh
-# ----- This script make a tar ball of the project,
+# ----- This script make a tar ball of this project,
 # ----- without unnecessary files
 
 PRJNAME=`basename $PWD`

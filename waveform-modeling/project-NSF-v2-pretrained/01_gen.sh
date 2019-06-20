@@ -24,15 +24,19 @@ export TEMP_CURRENNT_PROJECT_SV56_PATH=None
 
 MODEL=s-NSF
 
-# input feature directory (equivalent to path_test_acous_feats in config.py)
+# Directories of the input features, which are separated by ','
 export TEMP_WAVEFORM_MODEL_INPUT_DIRS=$PWD/../TESTDATA-for-pretrained/mfbsp,$PWD/../TESTDATA-for-pretrained/f0
-# equivalent to gen_model_dir in config.py
+
+# Path to the model directory
 export TEMP_WAVEFORM_MODEL_DIRECTORY=$PWD/MODELS/${MODEL}
-# output directory for generated waveforms (equivalent to gen_output_dir in config.py)
+
+# Path to the directory that will save the generated waveforms
 export TEMP_WAVEFORM_OUTPUT_DIRECTORY=$PWD/MODELS/${MODEL}/output
-# equivalent to gen_network_path in config.py
+
+# Path to the trained_network.jsn (or epoch*.autosave)
 export TEMP_WAVEFORM_MODEL_NETWORK_PATH=$PWD/MODELS/${MODEL}/trained_network.jsn
-# a temporary directory to save intermediate files (which will be deleted after generation)
+
+# Path to a temporary directory to save intermediate files (which will be deleted after generation)
 export TEMP_WAVEFORM_TEMP_OUTPUT_DIRECTORY=$PWD/MODELS/${MODEL}/output_trained_tmp
 
 

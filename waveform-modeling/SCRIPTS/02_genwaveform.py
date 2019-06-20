@@ -62,16 +62,17 @@ if cfg.step3:
     tmp_sub_nc_dir = tmp_nc_dir + os.path.sep + cfg.tmp_nc_dir_test
     tmp_test_nc_scp = tmp_sub_nc_dir + os.path.sep + 'data.scp'
 
-    tmp_mv_data = os.getcwd() + os.path.sep + cfg.tmp_name_mean_file
+    # mean and std should have been written into the model, no need to read again
+    # tmp_mv_data = os.getcwd() + os.path.sep + cfg.tmp_name_mean_file
 
     try:
         os.mkdir(tmp_test_data_dir)
     except OSError:
         pass
 
-    if not os.path.isfile(tmp_mv_data):
-        display.self_print('Error: %s is not generated in 00_*.pt' % (tmp_mv_data), 'error')
-        quit()
+    #if not os.path.isfile(tmp_mv_data):
+    #    display.self_print('Error: %s is not generated in 00_*.pt' % (tmp_mv_data), 'error')
+    #    quit()
         
     if True:
         display.self_print_with_date('step3.1 generating data lists', 'm')
@@ -125,8 +126,8 @@ if cfg.step3:
         quit()        
 
         
-    # Get F0 mean and std if necessary
-    if cfg.f0_ext is not None:
+    # No need to get F0 mean and std
+    if False:
         # get F0 mean and std
         dimCnt = 0
         f0Dim = -1
@@ -167,13 +168,13 @@ if cfg.step3:
     cmd = cmd + ' --ExtInputDirs %s' % (','.join(cfg.path_test_acous_feats))
     cmd = cmd + ' --ExtInputExts %s' % (','.join(cfg.ext_acous_feats))
     cmd = cmd + ' --ExtInputDims %s' % ('_'.join([str(dim) for dim in cfg.dim_acous_feats]))
-    cmd = cmd + ' --source_data_ms %s' % (tmp_mv_data)
+    #cmd = cmd + ' --source_data_ms %s' % (tmp_mv_data)
     cmd = cmd + ' --resolutions %d' % (cfg.upsampling_rate)
     cmd = cmd + ' --waveNetMemSave %d' % (cfg.mem_save_mode)
     
-    if cfg.f0_ext is not None and f0mean > 0 and f0std > 0:
-        cmd = cmd + ' --F0MeanForSourceModule %f' % (f0mean)
-        cmd = cmd + ' --F0StdForSourceModule %f' % (f0std)
+    #if cfg.f0_ext is not None and f0mean > 0 and f0std > 0:
+    #    cmd = cmd + ' --F0MeanForSourceModule %f' % (f0mean)
+    #    cmd = cmd + ' --F0StdForSourceModule %f' % (f0std)
 
     try:
         if cfg.additiona_command is not None:

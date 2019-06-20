@@ -74,6 +74,18 @@ def writeSplitConfig(filePath):
     filePtr.write("outDim = [%s]\n" % (','.join([str(x) for x in cfg.outputDim])))
     filePtr.write("outputDelta = [%s]\n" % (','.join([str(x) for x in cfg.outputDelta])))
     filePtr.write("outputName  = ['%s']\n" % ("','".join([x for x in cfg.outputExt])))
+
+    if hasattr(cfg, 'f0quantize') and hasattr(cfg, 'f0quantizePara') and cfg.f0quantize:
+        # convert quantized F0 backinto continuous-valued F0
+        if cfg.f0quantizePara[3]:
+            filePtr.write("f0Info  = [%f, %f, %d, True]\n" % (cfg.f0quantizePara[0],
+                                                              cfg.f0quantizePara[1],
+                                                              cfg.f0quantizePara[2]))
+        else:
+            filePtr.write("f0Info  = [%f, %f, %d, False]\n" % (cfg.f0quantizePara[0],
+                                                               cfg.f0quantizePara[1],
+                                                               cfg.f0quantizePara[2]))
+    
     filePtr.close()
 
 def writeDataConfig(filePath, idxScpName, fileNameInEachNCPack):
@@ -227,8 +239,8 @@ def genSynCfg(testDataDir):
     inputExts     = ','.join(['.' +x for x in cfg.inputExt])
 
     traindataDir  = cfg.nnDataDirNameTrain
-    inputMV       = os.path.join(traindataDir, cfg.computMeanStdOn, cfg.nnDataInputMV)
-    outputMV      = os.path.join(traindataDir, cfg.computMeanStdOn, cfg.nnDataOutputMV)
+    #inputMV       = os.path.join(traindataDir, cfg.computMeanStdOn, cfg.nnDataInputMV)
+    #outputMV      = os.path.join(traindataDir, cfg.computMeanStdOn, cfg.nnDataOutputMV)
     
     config = ''
     
@@ -241,8 +253,11 @@ def genSynCfg(testDataDir):
     config = config + '--ExtInputDirs %s ' % (inputDirs)
     config = config + '--ExtInputExts %s ' % (inputExts)
     config = config + '--ExtInputDims %s ' % (inputDims)
-    config = config + '--target_data_ms %s ' % (outputMV)
-    config = config + '--source_data_ms %s ' % (inputMV)
+    #config = config + '--target_data_ms %s ' % (outputMV)
+    #config = config + '--source_data_ms %s ' % (inputMV)
+    if hasattr(cfg, 'f0quantize') and cfg.f0quantize:
+        config = config + '--mdnSoftmaxGenMethod 1 --ScheduleSampOpt 2 --ScheduleSampPara 50'
+        
     if hasattr(cfg, 'nnCurrenntGenCommand') and cfg.nnCurrenntGenCommand is not None:
         config = config + ' ' + cfg.nnCurrenntGenCommand
 
@@ -259,7 +274,7 @@ def genSplit(testDataDir):
     splitCmd = '%s %s %s %s %s' % (splitCmd, splitConfig, testDataDir, testDataDir, datamv)
     exe_cmd(splitCmd, cfg.debug)
     display.self_print('Output features are generated to %s' % (testDataDir), 'highlight')
-
+    
 def wavCreate(testDataDir):
 
 

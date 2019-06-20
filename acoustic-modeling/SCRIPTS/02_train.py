@@ -109,6 +109,7 @@ def prepareCURRENNT(modelDir):
     exe_cmd('cp %s %s' % (cfg.trainCfg, config), cfg.debug)
 
     filePtr = open(config, 'a')
+    filePtr.write('\n')
     if trainFileList:
         filePtr.write('train_file = %s\n' % (','.join(trainFileList)))
     if valFileList:

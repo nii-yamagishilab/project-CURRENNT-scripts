@@ -46,6 +46,7 @@ step3 = True
 
 # (abosolute) path of the directories of acoustic features
 #  [path_of_feature_1, path_of_feature_2, ..., path_of_feature_N]
+# Note: please put f0 as the last feature
 tmp_path = prjdir + '/../DATA'
 path_acous_feats = [tmp_path + os.path.sep + 'mfbsp',
                     tmp_path + os.path.sep + 'f0',]

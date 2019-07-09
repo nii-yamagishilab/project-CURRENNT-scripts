@@ -52,8 +52,7 @@
             "bias": 1,
             "preSkipLayer": "exInputL3,exInputSkip",
 	    "layerFlag": "wavenetConditionInputLayer",
-            "preSkipLayerDim": "0_63_80_81",
-            "learningRate": 0
+            "preSkipLayerDim": "0_63_80_81"
         },
 	{
 

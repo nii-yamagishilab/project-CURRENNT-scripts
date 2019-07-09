@@ -44,7 +44,7 @@
             "preSkipLayer": "exInputL3,exInputSkip",
             "type": "skipcat",
             "bias": 1,
-            "learningRate": 0,
+            "layerFlag": "wavenetConditionInputLayer",
             "size": 65,
             "resolution": 80,
             "preSkipLayerDim": "0_64_80_81",

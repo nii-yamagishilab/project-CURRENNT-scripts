@@ -72,7 +72,16 @@ if cfg.step2:
         if len(tmp_trn_data_nc_list) < 1:
             display.self_print('Error: not found train data.nc in %s' % (tmp_trn_nc_dir), 'error')
             quit()
-        tmp_trn_data_nc_args = ','.join(tmp_trn_data_nc_list)
+            
+        # check if in path, otherwise, change path
+        tmp_data_nc_list = []
+        for tmp_data_nc_path in tmp_trn_data_nc_list:
+            if os.path.isfile(tmp_data_nc_path):
+                tmp_data_nc_list.append(tmp_data_nc_path)
+            else:
+                tmp_data_nc_list.append(os.path.join(tmp_trn_nc_dir, os.path.basename(tmp_data_nc_path)))                
+            
+        tmp_trn_data_nc_args = ','.join(tmp_data_nc_list)
     else:
         display.self_print('Error: not found %s' % (tmp_trn_nc_scp), 'error')
         quit()        
@@ -82,7 +91,16 @@ if cfg.step2:
         if len(tmp_val_data_nc_list) < 1:
             display.self_print('Warning: val data.nc is not used', 'warning')
             tmp_val_data_nc_args = ''
-        tmp_val_data_nc_args = ','.join(tmp_val_data_nc_list)
+
+        # check if in path, otherwise, change path
+        tmp_data_nc_list = []
+        for tmp_data_nc_path in tmp_val_data_nc_list:
+            if os.path.isfile(tmp_data_nc_path):
+                tmp_data_nc_list.append(tmp_data_nc_path)
+            else:
+                tmp_data_nc_list.append(os.path.join(tmp_val_nc_dir, os.path.basename(tmp_data_nc_path)))                
+        
+        tmp_val_data_nc_args = ','.join(tmp_data_nc_list)
     else:
         display.self_print('Warning: val data.nc is not used %s' % (tmp_val_nc_dir), 'warning')
         tmp_val_data_nc_args = ''

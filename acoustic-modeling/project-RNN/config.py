@@ -273,6 +273,14 @@ else:
     # files should be separated saved
     nnDataDirNameTest = os.getenv('TEMP_ACOUSTIC_TEMP_OUTPUT_DIRECTORY')
 
+if os.getenv('TEMP_ADDITIONAL_COMMAND') is None:             
+    # specify here if you don't want to use getenv           
+    nnCurrenntGenCommand = None                                 
+else:                                                        
+    nnCurrenntGenCommand = os.getenv('TEMP_ADDITIONAL_COMMAND')
+    
+
+    
 idxDirName    = 'idxFiles'
 idxFileName   = 'idx'
 nnDataNcPreFix= 'data.nc'

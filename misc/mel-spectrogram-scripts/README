@@ -1,0 +1,11 @@
+README
+
+This script extracts 80-dim mel-spectrogram from 16kHz input waveforms
+1. Run command
+   $: python3 00_run.py
+2. Please check the extracted *.mfbsp
+
+If you want to change sampling rate, frame shift, or other configurations, please check and modify SpeechProcessing.py
+
+Note: Sample arctic_a0002.wav comes from CMU arctic corpus http://www.festvox.org/cmu_arctic/
+

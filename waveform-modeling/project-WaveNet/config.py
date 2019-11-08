@@ -192,13 +192,13 @@ else:
     tmp_test_data_dir = os.getenv('TEMP_WAVEFORM_TEMP_OUTPUT_DIRECTORY')
 
 # name of pre-processed waveform
-tmp_wav_pre_dir = 'wav16knorm'
+tmp_wav_pre_dir = 'wav_norm'
 
 # name of intermediate waveform files for mu-law
-tmp_wav_mu_law_dir = 'wav16knorm_mulaw'
+tmp_wav_mu_law_dir = 'wav_norm_mulaw'
 
 # name of intermediate waveform files for float
-tmp_wav_float_dir = 'wav16knorm_float'
+tmp_wav_float_dir = 'wav_norm_float'
 
 # name of time index file directory
 tmp_idx_dir = 'idxData'

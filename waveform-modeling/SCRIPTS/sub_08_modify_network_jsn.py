@@ -98,7 +98,7 @@ if __name__ == "__main__":
         raise Exception("Error: %s is invalid: no layers found" % (network_path))
 
     with open(network_path_tmp, 'w') as file_ptr:
-        json.dump(network_data, file_ptr, indent=4, separators=(',', ': '))
+        json.dump(network_data, file_ptr, indent=4, separators=(',', ': '), sort_keys=True)
 
     os.system("mv %s %s" % (network_path_tmp, network_path))
     display.self_print('%s updated' % (network_path), 'highlight')

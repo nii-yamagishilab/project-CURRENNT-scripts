@@ -148,6 +148,9 @@ else:
     gen_output_dir = os.getenv('TEMP_WAVEFORM_OUTPUT_DIRECTORY')
   
 # waveform generation mode
+#  mem_save_mode = 1: use memory save mode
+#  mem_save_mode = 0: use normal mode
+#
 #  for WaveNet only mem_save_mode = 1
 #  for NSF, if sentences are short, mem_save_mode can be 0
 mem_save_mode = 1
@@ -203,13 +206,13 @@ else:
 
 
 # name of pre-processed waveform
-tmp_wav_pre_dir = 'wav16knorm'
+tmp_wav_pre_dir = 'wav_norm'
 
 # name of intermediate waveform files for mu-law
-tmp_wav_mu_law_dir = 'wav16knorm_mulaw'
+tmp_wav_mu_law_dir = 'wav_norm_mulaw'
 
 # name of intermediate waveform files for float
-tmp_wav_float_dir = 'wav16knorm_float'
+tmp_wav_float_dir = 'wav_norm_float'
 
 # name of time index file directory
 tmp_idx_dir = 'idxData'

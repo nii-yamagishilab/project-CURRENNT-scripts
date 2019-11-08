@@ -2,7 +2,7 @@
 ##  Scripts for NSF model ----------------------------------------------  #
 ## ---------------------------------------------------------------------  #
 ##                                                                        #
-##  Copyright (c) 2018  National Institute of Informatics                 #
+##  Copyright (c) 2018-2019  National Institute of Informatics            #
 ##                                                                        #
 ##  THE NATIONAL INSTITUTE OF INFORMATICS AND THE CONTRIBUTORS TO THIS    #
 ##  WORK DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING  #
@@ -27,7 +27,7 @@ This script demonstrate how to prepare data, train NSF, and generate speech.
 You may use the CMU-arctic database, SLT voice
 (http://festvox.org/cmu_arctic/dbs_slt.html).
 
-Please note the network files in MODELS/NSF*
+The network files in MODELS correspond to:
 1. NSF: original NSF (for ICASSP2019)
 2. NSF-L3: original NSF using only one window configuration
 3. NSF-MSE: original NSF using MSE not STFT criterion
@@ -35,10 +35,12 @@ Please note the network files in MODELS/NSF*
 5. NSF-S3: original NSF without sine excitation
 
 6. s-NSF: simplified NSF model
-
 7. h-NSF: harmonic-plus-noise NSF model with fixed low- and high-pass FIR filters
-
 8. h-sinc-NSF: harmonic-plus-noise NSF model with sinc-based trainable FIR filters
+
+You can use the same script to train any one of the models.
+Just change "model_dir" in config.py to select one of the models.
+For example, the default is model_dir = prjdir + '/MODELS/NSF', which will use the NSF (for ICASSP2019).
 
 
 Please follow the steps to run the scripts
@@ -90,6 +92,8 @@ and feature file name extension in config.py
 ---
 Step3. configure config.py and train_config.cfg
 
+   Please open and read the comments in config.py
+   Please open and read the comments in train_config.cfg
    
 ---
 Step4. data preparation and model training
@@ -108,8 +112,10 @@ Step4. data preparation and model training
     into short utterances in order to fit in the GPU. This truncation
     size is specified in ./train_config.cfg truncate_seq=
 
-    I uploaded my log_train in ../NSF-pretrained/MODELS/models.tar.gz
-    
+    For reference, I uploaded my log_train in ../project-NSF-v2-pretrained
+    or ../ project-NSF-pretrained. Please untar MODELS/models.tar.gz and
+    you will find log_train for each model.
+   
 ---
 Step5. generate waveforms
 
@@ -120,8 +126,18 @@ Step5. generate waveforms
 5.2 run 
     $: sh 01_gen.sh
 
-    If your GPU card has sufficient memory, 
-    you may try MEMSAVEMODE=0 to use full-speed mode.
+    If your GPU card has sufficient memory, you may try the normal mode.
+    The normal mode can generate waveform in full speed.
+    To do that:
+    1. change mem_save_mode = 0 in config.py
+    2. sh 01_gen.sh
+
+    Note:
+    mem_save_mode = 0 -> normal mode, faster but requires large GPU memory space
+    mem_save_mode = 1 -> memory_save mode, slightly slower but memory friendly
+
+    If your GPU memory is insufficient while mem_save_mode = 0, you may see
+    the script terminated without generating any waveform.
 
     If you want to check early results, you can
     generate waveforms by changing MODEL to $PWD/MODELS/NSF/epoch***.autosave,

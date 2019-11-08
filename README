@@ -28,7 +28,7 @@ Please read the intruction below
 ----------------- 1. waveform models --------------------
 ./waveform-modeling
 
-  - DATA
+ | - DATA
   Directory to store the data for model training (validation will be selected
   automatically from these data)
 
@@ -47,6 +47,7 @@ Please read the intruction below
   script to generate waveforms from a trained NSF model.
   These new NSF models are explained here: https://nii-yamagishilab.github.io/samples-nsf/nsf-v2.html
 
+  If you want to train models on your own corpus, please use the training scripts in project-NSF
 
   - project-NSF-pretrained
   Neural source-filter model trained on SLT. This is a demonstration
@@ -55,16 +56,28 @@ Please read the intruction below
   
   Note: due to historical reason, meanstd.bin for these pre-trained NSF models were not calculated
   using public-CURRENNT-scripts. Models project-NSF-pretrained can only use project-NSF-pretrained/meanstd.bin
+
+  If you want to train models on your own corpus, please use the training scripts in project-NSF
   
-  - project-NSF-scripts
-  Scripts to train NSF on CMU-arctic SLT voice. 
+  - project-NSF
+  Scripts to train NSF on CMU-arctic SLT voice.
+  Note that project-NSF/MODELS contains both network.jsn for models in both project-NSF-pretrained/MODELS
+  and project-NSF-v2-pretrained/MODELS:
+   ./project-NSF/MODELS
+     |- s-NSF:  simplified NSF, used in project-NSF-v2-pretrained/MODELS/s-NSF
+     |- h-NSF:   harmonic-plus-noise NSF, used in project-NSF-v2-pretrained/MODELS/h-NSF
+     |- h-sinc-NSF: h-NSF with trainable filters, used in project-NSF-v2-pretrained/MODELS/h-sinc-NSF
+     
+     |- NSF: baseline NSF, used in project-NSF-pretrained/MODELS/NSF
+     |- NSF-L3,  NSF-MSE,  NSF-N2,  NSF-S3, used in project-NSF-pretrained/MODELS/NSF-*
+    
 
   - project-WaveNet-pretrained
   Wavenet trained on SLT. This is a demonstration
   script to generate waveforms from a trained WaveNet model.
   The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/nsf-v1.html
-
-  - project-WaveNet-scripts
+  
+  - project-WaveNet
   Scripts to train WaveNet on CMU-arctic SLT voice. 
 
 

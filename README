@@ -23,7 +23,10 @@ This repository contains the scripts to use CURRENNT
 \- waveform-modeling: scripts for waveform models
 \- acoustic-modeling: scripts for acoustic models
 
-Please read the intruction below 
+Please install CURRENNT and pyTools before using this repository.
+https://github.com/nii-yamagishilab/project-CURRENNT-public
+
+Please read the intruction below to use this repository.
 
 ----------------- 1. waveform models --------------------
 ./waveform-modeling
@@ -82,7 +85,13 @@ Please read the intruction below
 
 
 Usage:
-1. For quick check
+1. Install CURRENNT and pyTools, which can be downloaded from
+   https://github.com/nii-yamagishilab/project-CURRENNT-public
+
+2. For a quick check
+   2.1 modify the path in ./init.sh
+   
+   2.2 run commands:
    $: source ./init.sh
    $: cd waveform-modeling/project-NSF-pretrained/
    $: run 01_gen.sh

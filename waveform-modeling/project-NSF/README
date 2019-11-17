@@ -38,9 +38,17 @@ The network files in MODELS correspond to:
 7. h-NSF: harmonic-plus-noise NSF model with fixed low- and high-pass FIR filters
 8. h-sinc-NSF: harmonic-plus-noise NSF model with sinc-based trainable FIR filters
 
+
+NSF is the first version of the NSF models.
+s-NSF is the second version.
+h-NSF is the third version, and performs better than s-NSF and NSF on most voices.
+
+h-sinc-NSF is the lastest, most robust model (https://www.isca-speech.org/archive/SSW_2019/pdfs/SSW10_O_1-1.pdf)
+
+
 You can use the same script to train any one of the models.
 Just change "model_dir" in config.py to select one of the models.
-For example, the default is model_dir = prjdir + '/MODELS/NSF', which will use the NSF (for ICASSP2019).
+For example, the default is model_dir = prjdir + '/MODELS/h-sinc-NSF', which will use the h-sinc-NSF
 
 
 Please follow the steps to run the scripts

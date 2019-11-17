@@ -103,7 +103,7 @@ train_utts = 1000
 
 # ----- Network training configuration
 # directory of model
-model_dir = prjdir + '/MODELS/NSF'
+model_dir = prjdir + '/MODELS/h-sinc-NSF'
 
 # name of the network file
 network_name = 'network.jsn'

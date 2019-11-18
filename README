@@ -26,6 +26,10 @@ This repository contains the scripts to use CURRENNT
 Please install CURRENNT and pyTools before using this repository.
 https://github.com/nii-yamagishilab/project-CURRENNT-public
 
+Please also install sox http://sox.sourceforge.net
+
+Please modify the environment variables in ./init.sh
+
 Please read the intruction below to use this repository.
 
 ----------------- 1. waveform models --------------------
@@ -104,10 +108,10 @@ Usage:
    $: cd waveform-modeling/project-NSF/
    $: run 00_run.sh
    
-   After which you can get a trained model in ./waveform-modeling/project-NSF/MODELS/NSF/trained_network.jsn
+   After which you can get a trained model in ./waveform-modeling/project-NSF/MODELS/h-sinc-NSF/trained_network.jsn
 
    $: run 01_gen.sh
-   After which you can get some waveforms in ./waveform-modeling/project-NSF/MODELS/NSF/output
+   After which you can get some waveforms in ./waveform-modeling/project-NSF/MODELS/h-sinc-NSF/output
 
    00_run.sh and 01_gen.sh are only for demonstration. Please don't expect good output since the model
    is only trained using less than 10 utterances.
@@ -125,9 +129,27 @@ Usage:
 ----------------- 2. acoustic models --------------------
 ./acoustic-modeling
 
-To be updated
+|- DATA
+  Directory to store the data for model training (for demonstration)
+  
+ - TESTDATA
+  Directory to store the data for test (for demonstration)
+  
+ - project-DAR-continuous
+  Project scripts to train a DAR for continuous-valued output features.
+  The demonstration is for training a DAR model that does
+     ppg, xvector, f0 -> Mel-spectrogram
+
+ - project-RNN
+  Project scripts to train a RNN for continuous-valued output features.
+  The demonstration is for training an RNN that does
+     linguistic_features, one-hot_speaker_vector -> MGC, LF0, UV, BAP
+     
+ - SCRIPTS
+  General scripts of the training/generation processes.
 
 
+Usage: please read README in project-DAR-continuous, and follow the steps to use
 
 -----------------------------------------------------------
 

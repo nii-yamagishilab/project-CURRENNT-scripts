@@ -1,0 +1,11 @@
+
+using cache file: /tmp/ce23-ea11-a6d6-db48
+... 
+using cache file: /tmp/6677-dd12-93b5-0d23
+... Epoch:1 (training set)
+FractionNum, error, secError
+0, 18545.9, 0
+Epoch:1(validation set)
+FractionNum, error, secError
+0, 64412.1, 0
+Terminated

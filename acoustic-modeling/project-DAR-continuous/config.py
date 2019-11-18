@@ -68,7 +68,11 @@ step03WaveFormGen = False
 # list of data for train and validation sets
 # if dataLists[n] = None, data in inputDirs[n] and outputDirs[n] will be used
 # if dataLists[n] = PATH_TO_DATA_LIST, only data on the list will be used
-dataLists = [None, None]
+#  here, we use data in ../DATA/vctk_anonymize/scp/train.lst as train set
+#        we use data in ../DATA/vctk_anonymize/scp/val.lst as validation set
+tmpDir  = os.path.join(prjdir, '../DATA/vctk_anonymize')
+dataLists = [tmpDir + '/scp/train.lst',
+             tmpDir + '/scp/val.lst']
 
 # -- input feature configuration
 # inputDirs: absolute path of directories of input features.
@@ -82,17 +86,17 @@ dataLists = [None, None]
 #   same number of frames. For example, if one utterance has N frames, the speaker-id
 #   feature file should also contain N frames, where every frame has the same speaker-id.
 
-tmpDir  = os.path.join(prjdir, '../DATA/vctk_acous')
-inputDirs = [[tmpDir + '/lab_train', tmpDir + '/spk_train'],
-             [tmpDir + '/lab_val',   tmpDir + '/spk_val']]
+tmpDir  = os.path.join(prjdir, '../DATA/vctk_anonymize')
+inputDirs = [[tmpDir + '/ppg/', tmpDir + '/xvector', tmpDir + '/f0'],
+             [tmpDir + '/ppg/', tmpDir + '/xvector', tmpDir + '/f0']]
 
 # inputDim: dimensions of each type of input features
 #   len(inputDim) should be equal to len(inputDirs[0])
-inputDim  = [367, 69]
+inputDim  = [1944, 512, 1]
 
 # inputExt: file name extension of input features
 #   len(inputExt) should be equal to len(inputDirs[0])
-inputExt  = ['.lab', '.bin']
+inputExt  = ['.ppg', '.xvec', '.f0']
 
 # normMask: which dimension should NOT be normalized?
 #  len(inputNormMask) should be = len(inputDim)
@@ -100,9 +104,8 @@ inputExt  = ['.lab', '.bin']
 #    [start_dim, end_dim]: don't norm the dimensions from start_dim to end_dim
 #    ['not_norm']: don't norm all dimensions
 #    []: default (norm all the dimensions)
-#  
-#  for example, [[], ['not_norm']] will normalize *.lab, but not *.bin
-inputNormMask = [[], ['not_norm']]
+#  here, we normalize all the input features
+inputNormMask = [[], [], []]
 
 
 # -- output feature configuration
@@ -110,41 +113,40 @@ inputNormMask = [[], ['not_norm']]
 
 # outputDirs: specify the output feature directories.
 #             Here, we have mgc, lf0, vuv, and bap as output features
-tmpDir  = os.path.join(prjdir, '../DATA/vctk_acous')
-outputDirs= [[tmpDir + '/mgc_train', tmpDir + '/lf0_train', tmpDir + '/vuv_train', tmpDir + '/bap_train'],
-             [tmpDir + '/mgc_val', tmpDir + '/lf0_val', tmpDir + '/vuv_val', tmpDir + '/bap_val']]
+tmpDir  = os.path.join(prjdir, '../DATA/vctk_anonymize')
+outputDirs= [[tmpDir + '/mel'],
+             [tmpDir + '/mel']]
 
 # outputDim: dimension of output features
-outputDim = [180, 3, 1, 75]
+outputDim = [80]
 
 # outputExt: name extention of the output features
-outputExt = ['.mgc', '.lf0', '.vuv', '.bap']
+outputExt = ['.mel']
 
 # normalize all the output features
-outputNormMask = [[], [], [], []]
+outputNormMask = [[]]
 
 #  Whether each output feature has delta / delta-delta component(s):
 #   3: has static, delta-delta and delta
 #   2: has static, delta
 #   1: has static
-#  For example [3, 3, 1, 3] says that all the output mgc, lf0, and bap features contain
-#  the static, delta, and delta-delta components. But vuv only has static component
-outputDelta = [3, 3, 1, 3]
+#  Here, [1] means the output feature Mel doesn't contain delta features
+outputDelta = [1]
 
 # -- when output features contain F0
 #  If F0 is not in the output features, set lf0UV = False, lf02f0 = False
 #  
 #  Whether conver generated interpolated 'F0' into un-interpolated 'F0'?
-lf0UV = True
+lf0UV = False
 #  extension of log-liear f0
-lf0ext = '.lf0'
+lf0ext = None
 #  extension of vuv
-vuvext = '.vuv'
+vuvext = None
 
 # Whether Convert generated F0 to linear domain?
-lf02f0 = True
+lf02f0 = False
 #  extension of linear f0
-f0ext = '.f0'
+f0ext = None
 
 
 # ---- data division
@@ -165,9 +167,9 @@ computMeanStdOn = trainSet
 
 # ------------ Model  configuration ------------
 # path to the model directory
-#   here, we will use MODELS/RNN_001/ as the model directory
+#   here, we will use MODELS/DAR_001/ as the model directory
 # 
-model_dir = os.path.join(prjdir, 'MODELS', 'RNN_001')
+model_dir = os.path.join(prjdir, 'MODELS', 'DAR_001')
 
 # path to the network file
 #   here, we will use MODELS/RNN_001/network.jsn as the prototype network configuration

@@ -1,0 +1,237 @@
+ver:2019/11/05
+Configuration Infor:
+	Training Mode: Started in hybrid online/batch
+		Writting network  to 'trained_network.jsn'.
+	Validation every 1 epochs.
+
+	Training epoch number maximum: 50
+
+	Training epoch number no lowest validation error: 5
+	Autosave after EVERY EPOCH enabled.
+	Utilizing the GPU on 10 sequences in parallel.
+
+	Initialization method:
+		Uniform dist. with layer-wise range
+
+		Random seed: 1811626773
+
+Using device #0 (Tesla V100-DGXS-32GB)
+Reading network from 'network.jsn'... done.
+
+Loading training set '/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1' ...done.
+Loaded fraction:  100%
+Sequences:        1
+Sequence lengths: 210..210
+Total timesteps:  210
+
+Loading validation set '/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1' ...done.
+Loaded fraction:  100%
+Sequences:        1
+Sequence lengths: 428..428
+Total timesteps:  428
+
+Creating the neural network...
+Layer (0) [ input ]  input 
+Layer (1) [ exinput ]  externalloader 
+	Trainable layer: initialize weight randomly
+	Read MV from /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/input_meanstd.bin
+Layer (2) [ ARmodel_forward_1 ]  feedforward_logistic 
+	Trainable layer: initialize weight randomly
+Layer (3) [ ARmodel_forward_2 ]  feedforward_logistic 
+	Trainable layer: initialize weight randomly
+Layer (4) [ ARmodel_blstm_level_1 ]  blstm 
+	Trainable layer: initialize weight randomly
+Layer (5) [ feedback ]  feedback 
+	Trainable layer: initialize weight randomly
+Layer (6) [ feedback_ini ]  skipini 
+	Trainable layer: initialize weight randomly
+	Receive input from layer(s): feedback,
+
+Layer (7) [ feedback_modulate ]  skipcat 
+	Trainable layer: initialize weight randomly
+	Receive input from layer(s): feedback_ini [256 336],
+
+Layer (8) [ feedback_modulate-1 ]  operator 
+	Trainable layer: initialize weight randomly	Operator layer: 
+
+
+Layer (9) [ feedback_modulate-2 ]  operator 
+	Trainable layer: initialize weight randomly	Operator layer: 
+	inject noise: dim 80, u[-1.000000, 1.000000]
+
+
+Layer (10) [ feedback_modulate-3 ]  gatedact 
+	Trainable layer: initialize weight randomly
+Layer (11) [ ARmodel_feedback_ff_1 ]  feedforward_identity 
+	Trainable layer: initialize weight randomly
+Layer (12) [ ARmodel_feedback_ff_2 ]  feedforward_identity 
+	Trainable layer: initialize weight randomly
+Layer (13) [ feedback_end ]  skipcat 
+	Trainable layer: initialize weight randomly
+	Receive input from layer(s): feedback_ini [0 256], ARmodel_feedback_ff_2 [0 80],
+
+Layer (14) [ ARmodel_lstm_l1 ]  lstm 
+	Trainable layer: initialize weight randomly
+Layer (15) [ ARmodel_lstm_l2 ]  lstm 
+	Trainable layer: initialize weight randomly
+Layer (16) [ ARmodel_outputnew ]  feedforward_identity 
+	Trainable layer: initialize weight randomly
+Layer (17) [ ARmodel_s1 ]  skipini 
+	Trainable layer: initialize weight randomly
+	Receive input from layer(s): ARmodel_outputnew,
+
+Layer (18) [ ARmodel_s2 ]  skipadd 
+	Trainable layer: initialize weight randomly
+	Receive input from layer(s): ARmodel_s1,
+
+Layer (19) [ ARmodel_modulate_post1 ]  operator 
+	Trainable layer: initialize weight randomly	Operator layer: 
+	inject noise: dim 80, u[-1.000000, 1.000000]
+
+
+Layer (20) [ ARmodel_modulate_post2 ]  gatedact 
+	Trainable layer: initialize weight randomly
+Layer (21) [ ARmodel_cnn1 ]  cnn 
+	Trainable layer: initialize weight randomly
+	CNN 1-D convolution
+	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
+	CNN winwidth:    80*2
+	CNN winDilution: 80*1
+	CNN winHeight:   
+	CNN winStride:   
+
+Layer (22) [ ARmodel_modulate_post3 ]  operator 
+	Trainable layer: initialize weight randomly	Operator layer: 
+	inject noise: dim 80, u[-1.000000, 1.000000]
+
+
+Layer (23) [ ARmodel_modulate_post4 ]  gatedact 
+	Trainable layer: initialize weight randomly
+Layer (24) [ ARmodel_cnn2 ]  cnn 
+	Trainable layer: initialize weight randomly
+	CNN 1-D convolution
+	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
+	CNN winwidth:    80*2
+	CNN winDilution: 80*1
+	CNN winHeight:   
+	CNN winStride:   
+
+Layer (25) [ ARmodel_modulate_post5 ]  operator 
+	Trainable layer: initialize weight randomly	Operator layer: 
+	inject noise: dim 80, u[-1.000000, 1.000000]
+
+
+Layer (26) [ ARmodel_modulate_post6 ]  gatedact 
+	Trainable layer: initialize weight randomly
+Layer (27) [ ARmodel_cnn3 ]  cnn 
+	Trainable layer: initialize weight randomly
+	CNN 1-D convolution
+	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
+	CNN winwidth:    80*2
+	CNN winDilution: 80*1
+	CNN winHeight:   
+	CNN winStride:   
+
+Layer (28) [ ARmodel_modulate_post7 ]  operator 
+	Trainable layer: initialize weight randomly	Operator layer: 
+	inject noise: dim 80, u[-1.000000, 1.000000]
+
+
+Layer (29) [ ARmodel_modulate_post8 ]  gatedact 
+	Trainable layer: initialize weight randomly
+Layer (30) [ ARmodel_cnn4 ]  cnn 
+	Trainable layer: initialize weight randomly
+	CNN 1-D convolution
+	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
+	CNN winwidth:    80*2
+	CNN winDilution: 80*1
+	CNN winHeight:   
+	CNN winStride:   
+
+Layer (31) [ ARmodel_modulate_post9 ]  operator 
+	Trainable layer: initialize weight randomly	Operator layer: 
+	inject noise: dim 80, u[-1.000000, 1.000000]
+
+
+Layer (32) [ ARmodel_modulate_post10 ]  gatedact 
+	Trainable layer: initialize weight randomly
+Layer (33) [ ARmodel_cnn5 ]  cnn 
+	Trainable layer: initialize weight randomly
+	CNN 1-D convolution
+	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
+	CNN without tanh output function
+	CNN winwidth:    80*2
+	CNN winDilution: 80*1
+	CNN winHeight:   
+	CNN winStride:   
+
+Layer (34) [ ARmodel_s3 ]  skipadd 
+	Trainable layer: initialize weight randomly
+	Receive input from layer(s): ARmodel_cnn5, ARmodel_s2,
+
+Layer (35) [ postoutput ]  sse_multi 
+	Read MV from /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/output_meanstd.bin
+Creating the feedback link:
+	Reading previous layer [0-256] dim
+	From sse_multi [0-80]	Look Back []
+
+Link for SsePostOutputMultiLayer: ARmodel_s1
+Link for SsePostOutputMultiLayer: ARmodel_s3
+Network construction done.
+
+Network summary:
+     Name		Type
+(0) input		input [size: 1]
+(1) exinput		externalloader [size: 2457, bias: 1.0, weights: 0]
+(2) ARmodel_forward_1		feedforward_logistic [size: 512, bias: 1.0, weights: 1258496]
+(3) ARmodel_forward_2		feedforward_logistic [size: 512, bias: 1.0, weights: 262656]
+(4) ARmodel_blstm_level_1		blstm [size: 256, bias: 1.0, weights: 657152]
+(5) feedback		feedback [size: 336, bias: 1.0, weights: 0]
+(6) feedback_ini		skipini [size: 336, bias: 1.0, weights: 0]
+(7) feedback_modulate		skipcat [size: 80, bias: 1.0, weights: 0]
+(8) feedback_modulate-1		operator [size: 80, bias: 1.0, weights: 0]
+(9) feedback_modulate-2		operator [size: 160, bias: 1.0, weights: 0]
+(10) feedback_modulate-3		gatedact [size: 80, bias: 1.0, weights: 0]
+(11) ARmodel_feedback_ff_1		feedforward_identity [size: 80, bias: 1.0, weights: 6480]
+(12) ARmodel_feedback_ff_2		feedforward_identity [size: 80, bias: 1.0, weights: 6480]
+(13) feedback_end		skipcat [size: 336, bias: 1.0, weights: 0]
+(14) ARmodel_lstm_l1		lstm [size: 512, bias: 1.0, weights: 1740288]
+(15) ARmodel_lstm_l2		lstm [size: 256, bias: 1.0, weights: 788224]
+(16) ARmodel_outputnew		feedforward_identity [size: 80, bias: 1.0, weights: 20560]
+(17) ARmodel_s1		skipini [size: 80, bias: 1.0, weights: 0]
+(18) ARmodel_s2		skipadd [size: 80, bias: 1.0, weights: 0]
+(19) ARmodel_modulate_post1		operator [size: 160, bias: 1.0, weights: 0]
+(20) ARmodel_modulate_post2		gatedact [size: 80, bias: 1.0, weights: 0]
+(21) ARmodel_cnn1		cnn [size: 80, bias: 1.0, weights: 32080]
+(22) ARmodel_modulate_post3		operator [size: 160, bias: 1.0, weights: 0]
+(23) ARmodel_modulate_post4		gatedact [size: 80, bias: 1.0, weights: 0]
+(24) ARmodel_cnn2		cnn [size: 80, bias: 1.0, weights: 32080]
+(25) ARmodel_modulate_post5		operator [size: 160, bias: 1.0, weights: 0]
+(26) ARmodel_modulate_post6		gatedact [size: 80, bias: 1.0, weights: 0]
+(27) ARmodel_cnn3		cnn [size: 80, bias: 1.0, weights: 32080]
+(28) ARmodel_modulate_post7		operator [size: 160, bias: 1.0, weights: 0]
+(29) ARmodel_modulate_post8		gatedact [size: 80, bias: 1.0, weights: 0]
+(30) ARmodel_cnn4		cnn [size: 80, bias: 1.0, weights: 32080]
+(31) ARmodel_modulate_post9		operator [size: 160, bias: 1.0, weights: 0]
+(32) ARmodel_modulate_post10		gatedact [size: 80, bias: 1.0, weights: 0]
+(33) ARmodel_cnn5		cnn [size: 80, bias: 1.0, weights: 32080]
+(34) ARmodel_s3		skipadd [size: 80, bias: 1.0, weights: 0]
+(35) postoutput		sse_multi [size: 80]
+Total weights: 4900736
+
+
+Creating the optimizer... 
+ Optimization Techinique: Adam
+Max training epochs:       50
+Max epochs until new best: 5
+Validation error every:    1
+Test error every:          1
+Learning rate:             0.001
+Momentum:                  0
+
+Initializing and training the model from scratch
+Starting training...
+Print error per sequence / per timestep / secondary error (optional)
+ Epoch | Duration |           Training error         |           Validation error       |           Test error             |New best 
+-------+----------+----------------------------------+----------------------------------+----------------------------------+---------
+     1 |      1.2 |   18545.906 /    88.314/    0.000|   64412.141 /   150.496/    0.000|                                  |  yes ADAM

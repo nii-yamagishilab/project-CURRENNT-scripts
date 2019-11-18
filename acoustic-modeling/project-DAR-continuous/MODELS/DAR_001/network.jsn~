@@ -1,0 +1,327 @@
+{
+    "layers": [
+        {
+            "type": "input",
+            "name": "input",
+            "size": 1
+        },
+        {
+            "bias": 1.0,
+            "type": "externalloader",
+            "name": "exinput",
+            "size": 2457
+        },
+        {
+            "bias": 1.0,
+            "type": "skipini",
+            "name": "input_ini",
+            "size": 2457
+        },
+        {
+            "bias": 1.0,
+            "type": "feedforward_logistic",
+            "name": "ARmodel_forward_1",
+            "size": 512
+        },
+        {
+            "bias": 1.0,
+            "type": "feedforward_logistic",
+            "name": "ARmodel_forward_2",
+            "size": 512
+        },
+        {
+            "name": "addF0_2",
+            "bias": 1.0,
+            "size": 513,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_512_2456_2457",
+            "preSkipLayer": "ARmodel_forward_2,input_ini"
+        },
+        {
+            "bias": 1.0,
+            "type": "blstm",
+            "name": "ARmodel_blstm_level_1",
+            "size": 256
+        },
+        {
+            "name": "addF0_3",
+            "bias": 1.0,
+            "size": 257,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_256_2456_2457",
+            "preSkipLayer": "ARmodel_blstm_level_1,input_ini"
+        },
+        {
+            "bias": 1.0,
+            "type": "feedback",
+            "name": "feedback",
+            "feedbackSourceLayer": "ARmodel_outputnew",
+            "size": 337
+        },
+        {
+            "bias": 1.0,
+            "type": "skipini",
+            "name": "feedback_ini",
+            "size": 337
+        },
+        {
+            "name": "feedback_modulate",
+            "bias": 1.0,
+            "size": 80,
+            "type": "skipcat",
+            "preSkipLayerDim": "257_337",
+            "preSkipLayer": "feedback_ini"
+        },
+        {
+            "size": 80,
+            "bias": 1.0,
+            "type": "operator",
+            "scale": "80*0.5",
+            "name": "feedback_modulate-1"
+        },
+        {
+            "noiseRatio": 1.0,
+            "noiseDim": 80,
+            "name": "feedback_modulate-2",
+            "bias": 1.0,
+            "type": "operator",
+            "size": 160
+        },
+        {
+            "bias": 1,
+            "type": "gatedact",
+            "name": "feedback_modulate-3",
+            "size": 80
+        },
+        {
+            "bias": 1.0,
+            "type": "feedforward_identity",
+            "name": "ARmodel_feedback_ff_1",
+            "size": 80
+        },
+        {
+            "bias": 1.0,
+            "type": "feedforward_identity",
+            "name": "ARmodel_feedback_ff_2",
+            "size": 80
+        },
+        {
+            "name": "feedback_end",
+            "bias": 1.0,
+            "size": 336,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_256_0_80",
+            "preSkipLayer": "feedback_ini,ARmodel_feedback_ff_2"
+        },
+        {
+            "bias": 1.0,
+            "type": "lstm",
+            "name": "ARmodel_lstm_l1",
+            "size": 512
+        },
+        {
+            "bias": 1.0,
+            "type": "lstm",
+            "name": "ARmodel_lstm_l2",
+            "size": 256
+        },
+        {
+            "bias": 1.0,
+            "type": "feedforward_identity",
+            "name": "ARmodel_outputnew",
+            "size": 80
+        },
+        {
+            "bias": 1.0,
+            "type": "skipini",
+            "name": "ARmodel_s1",
+            "size": 80
+        },
+        {
+            "size": 80,
+            "bias": 1.0,
+            "type": "skipadd",
+            "preSkipLayer": "ARmodel_s1",
+            "name": "ARmodel_s2"
+        },
+        {
+            "noiseRatio": 1.0,
+            "noiseDim": 80,
+            "name": "ARmodel_modulate_post1",
+            "bias": 1.0,
+            "type": "operator",
+            "size": 160
+        },
+        {
+            "bias": 1,
+            "type": "gatedact",
+            "name": "ARmodel_modulate_post2",
+            "size": 80
+        },
+        {
+            "name": "addF0_4",
+            "bias": 1.0,
+            "size": 81,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_80_2456_2457",
+            "preSkipLayer": "ARmodel_modulate_post2,input_ini"
+        },
+        {
+            "window_tap_interval": "80*1",
+            "window_height": "",
+            "window_width": "80*2",
+            "name": "ARmodel_cnn1",
+            "window_stride": "",
+            "bias": 1,
+            "tanhoutput": 1,
+            "type": "cnn",
+            "size": 80
+        },
+        {
+            "noiseRatio": 1.0,
+            "noiseDim": 80,
+            "name": "ARmodel_modulate_post3",
+            "bias": 1.0,
+            "type": "operator",
+            "size": 160
+        },
+        {
+            "bias": 1,
+            "type": "gatedact",
+            "name": "ARmodel_modulate_post4",
+            "size": 80
+        },
+        {
+            "name": "addF0_5",
+            "bias": 1.0,
+            "size": 81,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_80_2456_2457",
+            "preSkipLayer": "ARmodel_modulate_post4,input_ini"
+        },
+        {
+            "window_tap_interval": "80*1",
+            "window_height": "",
+            "window_width": "80*2",
+            "name": "ARmodel_cnn2",
+            "window_stride": "",
+            "bias": 1,
+            "tanhoutput": 1,
+            "type": "cnn",
+            "size": 80
+        },
+        {
+            "noiseRatio": 1.0,
+            "noiseDim": 80,
+            "name": "ARmodel_modulate_post5",
+            "bias": 1.0,
+            "type": "operator",
+            "size": 160
+        },
+        {
+            "bias": 1,
+            "type": "gatedact",
+            "name": "ARmodel_modulate_post6",
+            "size": 80
+        },
+        {
+            "name": "addF0_6",
+            "bias": 1.0,
+            "size": 81,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_80_2456_2457",
+            "preSkipLayer": "ARmodel_modulate_post6,input_ini"
+        },
+        {
+            "window_tap_interval": "80*1",
+            "window_height": "",
+            "window_width": "80*2",
+            "name": "ARmodel_cnn3",
+            "window_stride": "",
+            "bias": 1,
+            "tanhoutput": 1,
+            "type": "cnn",
+            "size": 80
+        },
+        {
+            "noiseRatio": 1.0,
+            "noiseDim": 80,
+            "name": "ARmodel_modulate_post7",
+            "bias": 1.0,
+            "type": "operator",
+            "size": 160
+        },
+        {
+            "bias": 1,
+            "type": "gatedact",
+            "name": "ARmodel_modulate_post8",
+            "size": 80
+        },
+        {
+            "name": "addF0_7",
+            "bias": 1.0,
+            "size": 81,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_80_2456_2457",
+            "preSkipLayer": "ARmodel_modulate_post8,input_ini"
+        },
+        {
+            "window_tap_interval": "80*1",
+            "window_height": "",
+            "window_width": "80*2",
+            "name": "ARmodel_cnn4",
+            "window_stride": "",
+            "bias": 1,
+            "tanhoutput": 1,
+            "type": "cnn",
+            "size": 80
+        },
+        {
+            "noiseRatio": 1.0,
+            "noiseDim": 80,
+            "name": "ARmodel_modulate_post9",
+            "bias": 1.0,
+            "type": "operator",
+            "size": 160
+        },
+        {
+            "bias": 1,
+            "type": "gatedact",
+            "name": "ARmodel_modulate_post10",
+            "size": 80
+        },
+        {
+            "name": "addF0_8",
+            "bias": 1.0,
+            "size": 81,
+            "type": "skipcat",
+            "preSkipLayerDim": "0_80_2456_2457",
+            "preSkipLayer": "ARmodel_modulate_post10,input_ini"
+        },
+        {
+            "window_tap_interval": "80*1",
+            "window_height": "",
+            "window_width": "80*2",
+            "name": "ARmodel_cnn5",
+            "window_stride": "",
+            "bias": 1,
+            "tanhoutput": 0,
+            "type": "cnn",
+            "size": 80
+        },
+        {
+            "size": 80,
+            "bias": 1.0,
+            "type": "skipadd",
+            "preSkipLayer": "ARmodel_cnn5,ARmodel_s2",
+            "name": "ARmodel_s3"
+        },
+        {
+            "sourceLayers": "ARmodel_s3,ARmodel_s1",
+            "type": "sse_multi",
+            "name": "postoutput",
+            "useExternalOutput": 1,
+            "size": 80
+        }
+    ]
+}

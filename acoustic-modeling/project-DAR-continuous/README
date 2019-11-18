@@ -1,0 +1,128 @@
+###########################################################################
+##  Scripts for Acoustic models of speaker anonymization                  #
+## ---------------------------------------------------------------------  #
+##                                                                        #
+##  Copyright (c) 2018-2019  National Institute of Informatics            #
+##                                                                        #
+##  THE NATIONAL INSTITUTE OF INFORMATICS AND THE CONTRIBUTORS TO THIS    #
+##  WORK DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING  #
+##  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT    #
+##  SHALL THE NATIONAL INSTITUTE OF INFORMATICS NOR THE CONTRIBUTORS      #
+##  BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY   #
+##  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,       #
+##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS        #
+##  ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE   #
+##  OF THIS SOFTWARE.                                                     #
+###########################################################################
+##                         Author: Xin Wang                               #
+##                         Date:   31 Oct. 2018                           #
+##                         Contact: wangxin at nii.ac.jp                  #
+###########################################################################
+
+This script is used to train the acoustic models for speaker anonymization.
+
+Input: phoneme-posterior-gram, xvector, f0
+Output: Mel-spectrogram
+
+-------------------------------------
+For quick demonstration:
+---
+Step1. prepare software enviroment
+
+1.1 pyTools:  https://github.com/nii-yamagishilab/project-CURRENNT-public
+    
+1.2 CURRENNT: https://github.com/nii-yamagishilab/project-CURRENNT-public
+    please compile it following CURRENNT-modified/README
+    
+1.3 python2 or python3, with Numpy and Scipy
+
+
+---
+Step2. change the path in ../../init.sh
+
+Please modify these two environment variables in ../../init.sh
+Other variables are not related to this scripts
+
+# PATH to the root directory of pyTools
+export TEMP_CURRENNT_PROJECT_PYTOOLS_PATH
+# PATH to the compiled currennt program
+export TEMP_CURRENNT_PROJECT_CURRENNT_PATH
+
+---
+Step3. run the 00_run.sh script for demonstration of model training
+
+$: source ../../init.sh
+$: sh 00_run.sh
+
+You will see many messages printed on the screen:
+... 
+******** train config ******
+
+****************************
+
+GPU job submitted. Please wait until terminated.
+Please open another terminal to check nvidia-smi
+Also check /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_train
+Also check /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_err
+/home/smg/wang/WORK/WORK/TOOL/local/bin/currennt --options_file config.cfg --verbose 1 >log_train 2>log_err
+
+
+It means that the network is being trained.
+You can quit this demonstration by Ctrl + D.
+You can check ./log_sample_run, which has the full log printed on my screen.
+
+Note: this script is only for demonstration, it
+only uses one data provided in ../DATA/vctk_anonymize for training
+
+---
+Step4. run the 01_gen.sh script for demonstration of generation
+
+$: sh 01_gen.sh
+
+You will see many messages printed on the screen:
+..
+Writing acoustic data: LA_E_1002903
+Writing acoustic data: LA_E_1003128
+Output features are generated to /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output
+Skip generating waveform
+------------------------------------------
+---  Finish 2019-11-18 15:46:19.860724 ---
+------------------------------------------
+
+It means the generation has been done.
+The output features will be saved in MODELS/DAR_001/output
+You can check ./log_sample_gen, which has the log printed on my screen
+
+Note: this script generate random noisy because the network is not trained.
+
+
+
+
+-------------------------------------
+To train your own network
+---
+Step1. prepare your own data, and change config.py
+
+Input: phoneme-posterior-gram, xvector, f0
+Output: Mel-spectrogram
+
+You need to change config.py so that the script will know
+the path to the features, the dimension, and name extensions.
+
+Just follow the example in config.py.
+
+
+---
+Step2. if necessary, change MODELS/DAR_001/network.jsn
+
+MODELS/DAR_001/network.jsn is the network configuration file.
+It tells the script the hidden layer type/size, input/output of the neural network.
+
+By default, I assume the ppg is 1944 dimenions, xvector is 512 dimensions, f0 is 1 dimension. Thus, the input features have 2457 = 1944 + 512 + 1 dimensions.
+
+If the input feature dimension is changed, it should be also specified in "size" of the "exinput" in network.jsn
+
+
+---
+Step3. change the path in ../../init.sh
+Step4. run the 00_run.sh script for training

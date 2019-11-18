@@ -193,3 +193,43 @@ Note:
       Notice that in physical memory, one datum in a two dimensional data matrix (e.g., mel-spectrom) is 
       accessed through DataArray[D * n + d], where D is the feature dimension, n is the frame index, and d is
       the dimension index within one frame.
+
+   2. You can use numpy.tofile to write the data into binary,float32,litten-endian format.
+      You can also use the write_raw_mat function in pyTools, which is a wrapper of numpy.tofile
+      
+      $: source ./init.sh
+      $: python
+      >>> from ioTools import readwrite
+      >>> import numpy as np
+      >>> data = np.random.randn(10,2)
+      >>> data
+      array([[-1.0792218 , -2.00836936],
+             [-0.84080859,  1.81592092],
+             [ 0.48318553, -0.76937456],
+             [-1.90552536, -0.68052287],
+             [-0.72223174, -2.97435219],
+	     [ 0.19932163,  0.29391472],
+	     [ 0.36049151,  0.64871376],
+	     [ 0.73407896,  0.6574951 ],
+	     [ 0.5137015 , -0.67185778],
+	     [-0.62208806, -0.35707845]])
+      # write data to './tmp_data.bin'
+      >>> readwrite.write_raw_mat(data, 'tmp_data.bin')
+      True
+      # read data from './tmp_data.bin'
+      >>> data_read =readwrite.read_raw_mat('tmp_data.bin', 2)
+      # data_read should be the same to data
+      # (except for the nuemrical reason due to the conversion from
+      #  float64 to float32)
+      >>> data_read
+      array([[-1.0792218 , -2.0083694 ],
+      	     [-0.8408086 ,  1.815921  ],
+             [ 0.48318553, -0.76937455],
+	     [-1.9055253 , -0.68052286],
+	     [-0.72223175, -2.9743521 ],
+	     [ 0.19932163,  0.2939147 ],
+	     [ 0.3604915 ,  0.64871377],
+	     [ 0.73407894,  0.6574951 ],
+	     [ 0.5137015 , -0.6718578 ],
+	     [-0.6220881 , -0.35707846]], dtype=float32)
+							       

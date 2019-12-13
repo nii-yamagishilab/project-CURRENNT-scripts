@@ -131,8 +131,8 @@ outputNormMask = [[], [], [], []]
 #  the static, delta, and delta-delta components. But vuv only has static component
 outputDelta = [3, 3, 1, 3]
 
-# -- when output features contain F0
-#  If F0 is not in the output features, set lf0UV = False, lf02f0 = False
+# -- when output features contain F0 and UV flag
+#  If F0 and UV are not in the output features, set lf0UV = False, lf02f0 = False
 #  
 #  Whether conver generated interpolated 'F0' into un-interpolated 'F0'?
 lf0UV = True

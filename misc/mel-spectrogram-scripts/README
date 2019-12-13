@@ -5,7 +5,15 @@ This script extracts 80-dim mel-spectrogram from 16kHz input waveforms
    $: python3 00_run.py
 2. Please check the extracted *.mfbsp
 
-If you want to change sampling rate, frame shift, or other configurations, please check and modify SpeechProcessing.py
+If you want to change sampling rate, frame shift, or other configurations,
+please check and modify SpeechProcessing.py
 
-Note: Sample arctic_a0002.wav comes from CMU arctic corpus http://www.festvox.org/cmu_arctic/
+Note:
+1. arctic_a0002.wav isfrom CMU arctic http://www.festvox.org/cmu_arctic/
+2. If you want to produce mel-spectrogram that can be used as input to the
+   pre-trained NSF models in this github repository, you may need to download
+   the 16k waveform from http://www.festvox.org/cmu_arctic/, change the volume
+   using P.56 to -26dev, and extract Mels-spec using 00_run.py.
+   The P.56 can be found here https://www.itu.int/rec/T-REC-G.191-201901-I/en
+   
 

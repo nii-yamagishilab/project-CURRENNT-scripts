@@ -11,13 +11,16 @@
 # 3. Please check the extracted *.mfbsp
 
 # Sample arctic_a0002.wav comes from CMU arctic corpus http://www.festvox.org/cmu_arctic/
-#
+# 
+# Note to NII yamagishi-lab members:
+# fftl=512 is only used to the pre-trained model in this repository
+# please use fftl=1024 or 2048 for other experiments
 
 import wave, numpy
 from speechprocessing import SpeechProcessing
 
 fname = './arctic_a0002.wav'
-sp = SpeechProcessing()
+sp = SpeechProcessing(fftl=512)
 
 with wave.Wave_read(fname) as f:
     T = numpy.frombuffer(f.readframes(f.getnframes()), numpy.int16).astype(numpy.float32)

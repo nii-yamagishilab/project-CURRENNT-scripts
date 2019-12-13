@@ -149,10 +149,9 @@ Usage:
   General scripts of the training/generation processes.
 
 
-Usage: please read README in project-DAR-continuous, and follow the steps to use
+Usage: please read README in project-***, and follow the steps to use
 
 -----------------------------------------------------------
-
 
 Note:
    1. All the feature files except waveforms should be saved as binary, float32, little-endian.

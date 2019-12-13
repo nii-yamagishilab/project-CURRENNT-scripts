@@ -83,6 +83,14 @@ path_waveform = tmp_path + os.path.sep + 'wav32k'
 #  waveform_mu_law_bits = -1: float-valued waveform (for NSF)
 waveform_mu_law_bits = 10
 
+# Set train/validation data list
+#  each list should be a list of file names (without file extension)
+trn_list = prjdir + '/../DATA/list/train.lst'
+val_list = prjdir + '/../DATA/list/val.lst'
+# 
+# To randomly divide data into train/val, set trn_list = None and val_list = None
+#  and use the train_utts to divide the data
+
 # training/validation set divition
 #  train_utts = N, where N is an integer: uses N randomly selected utterances as training set
 #      for example, train_utts = 1000, uses 1000 utterances out of all the data as training set

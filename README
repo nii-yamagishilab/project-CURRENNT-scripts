@@ -151,9 +151,9 @@ Usage:
 
 Usage: please read README in project-***, and follow the steps to use
 
------------------------------------------------------------
-
-Note:
+---------------------- Notes -----------------------------------
+--------
+Data IO:
    1. All the feature files except waveforms should be saved as binary, float32, little-endian.
       You may check the data included in waveform-modeling/TESTDATA-for-pretrained/mfbsp/*.
       $: source ./init.sh
@@ -231,4 +231,44 @@ Note:
 	     [ 0.73407894,  0.6574951 ],
 	     [ 0.5137015 , -0.6718578 ],
 	     [-0.6220881 , -0.35707846]], dtype=float32)
-							       
+
+--------
+Useful CURRENNT commands
+
+1. Continue training using epoch***.autosave
+   $: currennt --continue epoch***.autosave
+   
+   If autosave = true is configured in train_config.cfg, CURRENNT will save trained models after
+   every training epoch. The name of the saved model will be epoch***.autosave.
+
+   If the training is terminated for any reason, you can simply use the above command to resume
+   the training from the lastes training epoch.
+
+   No additional argument is needed because epoch***.autosave saves all the arguments, weights,
+   intermediate gradients ...
+   
+2. Convert ***.autosave to ***.jsn
+   $: currennt --print_weight_to epoch***.jsn --print_weight_opt 2 --cuda off --network epoch***.autosave
+
+   ***.autosave is the trained model after *** epochs. It can be used as a trained network to generate output.
+   However, ***.autosave training arguments, gradients, etc, which makes ***.autosave very large.
+
+   ***.jsn is the trained model, without data unnecessary for generation.
+
+   To save space, use the above command to convert ***.auto to ***.jsn.
+
+   Note that network.jsn usually denotes the initial network without any trained weight.
+   
+3. Plot the network typology
+   $: currennt --network_graph network.gv --network network.jsn --cuda off
+   $: dot -Tpdf -o network.pdf network.gv
+
+   Step1 converts network.jsn to network.gv, a file in dot-language
+   Step2 uses "dot" to produce a picture given the network.gv
+   You can check ./acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/network.pdf
+
+4. For debugging, you can use
+   $: gdb --args currennt ***
+   where *** is the argument string to CURRENNT.
+   To compile a version of currennt for debugging, please check README in
+   https://github.com/nii-yamagishilab/project-CURRENNT-public/tree/master/CURRENNT_codes

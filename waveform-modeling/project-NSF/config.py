@@ -164,7 +164,17 @@ if os.getenv('TEMP_ADDITIONAL_COMMAND') is None:
     additiona_command = None                                 
 else:                                                        
     additiona_command = os.getenv('TEMP_ADDITIONAL_COMMAND')
-    
+
+
+# trim the end of generated waveforms by 2 frames
+#  Depends on the training data, the trained network may produce
+#  unstable values around the ending silence.
+#  This may be caused by training data that contain DC offset.
+#  In such a case, simply trim the ending silence
+#
+#  Normally, it is 0
+trim_generated_waveform = 0
+
 # --------------- Configuration done --------------
 # -------------------------------------------------
 

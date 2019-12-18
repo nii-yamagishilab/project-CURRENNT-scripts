@@ -184,10 +184,16 @@ if cfg.step3:
         
     exe_cmd(cmd, cfg.debug)
 
-
+    # trim the end of the waveform is necessary
+    if hasattr(cfg, 'trim_generated_waveform') and cfg.trim_generated_waveform > 0:
+        tmp_trim_value = cfg.trim_generated_waveform
+    else:
+        tmp_trim_value = 0
+        
     exe_cmd("ls %s/*.htk > %s/gen.scp" % (cfg.gen_output_dir, cfg.gen_output_dir), cfg.debug)
     cmd = "python %s/wavScripts/genWav.py " % (cfg.path_pyTools_scripts)
-    cmd = cmd + '  %s %d %s' % (cfg.gen_output_dir, cfg.waveform_mu_law_bits, cfg.gen_wav_samp)
+    cmd = cmd + '  %s %d %s %d' % (cfg.gen_output_dir, cfg.waveform_mu_law_bits, cfg.gen_wav_samp,
+                                   tmp_trim_value)
     exe_cmd(cmd, cfg.debug)
     
     display.self_print("\noutput will be in %s" % (cfg.gen_output_dir), "highlight")

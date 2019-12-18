@@ -272,3 +272,31 @@ Useful CURRENNT commands
    where *** is the argument string to CURRENNT.
    To compile a version of currennt for debugging, please check README in
    https://github.com/nii-yamagishilab/project-CURRENNT-public/tree/master/CURRENNT_codes
+
+
+----------
+Error messages
+
+1. Memory error when using CURRENNT
+
+   'thrust::system::system_error'
+    what():  device free failed: an illegal memory access was encountered
+    Aborted (core dumped)
+
+    or 
+
+    Could not create layer: __copy::trivial_device_copy H->D: failed: invalid argument
+
+    The two errors above indicate insufficient GPU memory.
+    Either reduce layer size, utterance length, or ask Xin Wang
+
+2. Scripts configuration error:
+    
+    resolution not found in --resolutionsFAILED: Resolution error
+
+    This means that upsampling_rate in wavefor-modeling/*/config.py is not correctly
+    configured. Note that this upsampling_rate denotes the up-sampling of acoustic
+    features (from frame-level to waveform-sampling-level), its value should be equal
+    to frame_shift * sampling_rate_of_waveform. See config.py for example
+
+

@@ -1,11 +1,160 @@
 
-using cache file: /tmp/ce23-ea11-a6d6-db48
+using cache file: /tmp/e120-a598-e4b6-b27a
 ... 
-using cache file: /tmp/6677-dd12-93b5-0d23
+using cache file: /tmp/bf86-9391-8819-6c75
 ... Epoch:1 (training set)
 FractionNum, error, secError
-0, 18545.9, 0
+0, 18568.3, 0
 Epoch:1(validation set)
 FractionNum, error, secError
-0, 64412.1, 0
-Terminated
+0, 63600.6, 0
+Epoch:2 (training set)
+FractionNum, error, secError
+0, 17301.3, 0
+Epoch:2(validation set)
+FractionNum, error, secError
+0, 57956.2, 0
+Epoch:3 (training set)
+FractionNum, error, secError
+0, 14459.2, 0
+Epoch:3(validation set)
+FractionNum, error, secError
+0, 51904.9, 0
+Epoch:4 (training set)
+FractionNum, error, secError
+0, 12179.5, 0
+Epoch:4(validation set)
+FractionNum, error, secError
+0, 49087.8, 0
+Epoch:5 (training set)
+FractionNum, error, secError
+0, 10586.3, 0
+Epoch:5(validation set)
+FractionNum, error, secError
+0, 49132.8, 0
+Epoch:6 (training set)
+FractionNum, error, secError
+0, 9225.38, 0
+Epoch:6(validation set)
+FractionNum, error, secError
+0, 47763.5, 0
+Epoch:7 (training set)
+FractionNum, error, secError
+0, 7809.64, 0
+Epoch:7(validation set)
+FractionNum, error, secError
+0, 43773.1, 0
+Epoch:8 (training set)
+FractionNum, error, secError
+0, 6672.94, 0
+Epoch:8(validation set)
+FractionNum, error, secError
+0, 39597.9, 0
+Epoch:9 (training set)
+FractionNum, error, secError
+0, 5982.72, 0
+Epoch:9(validation set)
+FractionNum, error, secError
+0, 37649.3, 0
+Epoch:10 (training set)
+FractionNum, error, secError
+0, 5199.62, 0
+Epoch:10(validation set)
+FractionNum, error, secError
+0, 35893.3, 0
+Epoch:11 (training set)
+FractionNum, error, secError
+0, 4693.2, 0
+Epoch:11(validation set)
+FractionNum, error, secError
+0, 33258.1, 0
+Epoch:12 (training set)
+FractionNum, error, secError
+0, 4215.98, 0
+Epoch:12(validation set)
+FractionNum, error, secError
+0, 31574.4, 0
+Epoch:13 (training set)
+FractionNum, error, secError
+0, 3845.18, 0
+Epoch:13(validation set)
+FractionNum, error, secError
+0, 29936.3, 0
+Epoch:14 (training set)
+FractionNum, error, secError
+0, 3580.74, 0
+Epoch:14(validation set)
+FractionNum, error, secError
+0, 28171.9, 0
+Epoch:15 (training set)
+FractionNum, error, secError
+0, 3339.96, 0
+Epoch:15(validation set)
+FractionNum, error, secError
+0, 28530.6, 0
+Epoch:16 (training set)
+FractionNum, error, secError
+0, 3011.13, 0
+Epoch:16(validation set)
+FractionNum, error, secError
+0, 30347, 0
+Epoch:17 (training set)
+FractionNum, error, secError
+0, 2858.92, 0
+Epoch:17(validation set)
+FractionNum, error, secError
+0, 31255.4, 0
+Epoch:18 (training set)
+FractionNum, error, secError
+0, 2632.53, 0
+Epoch:18(validation set)
+FractionNum, error, secError
+0, 29473.6, 0
+Epoch:19 (training set)
+FractionNum, error, secError
+0, 2508.8, 0
+Epoch:19(validation set)
+FractionNum, error, secError
+0, 27241.7, 0
+Epoch:20 (training set)
+FractionNum, error, secError
+0, 2372.88, 0
+Epoch:20(validation set)
+FractionNum, error, secError
+0, 25621.9, 0
+Epoch:21 (training set)
+FractionNum, error, secError
+0, 2245.99, 0
+Epoch:21(validation set)
+FractionNum, error, secError
+0, 23774.3, 0
+Epoch:22 (training set)
+FractionNum, error, secError
+0, 2152.76, 0
+Epoch:22(validation set)
+FractionNum, error, secError
+0, 27461.7, 0
+Epoch:23 (training set)
+FractionNum, error, secError
+0, 2001.51, 0
+Epoch:23(validation set)
+FractionNum, error, secError
+0, 28397, 0
+Epoch:24 (training set)
+FractionNum, error, secError
+0, 1917.5, 0
+Epoch:24(validation set)
+FractionNum, error, secError
+0, 25794.8, 0
+Epoch:25 (training set)
+FractionNum, error, secError
+0, 1798.46, 0
+Epoch:25(validation set)
+FractionNum, error, secError
+0, 24084.3, 0
+Epoch:26 (training set)
+FractionNum, error, secError
+0, 1730.15, 0
+Epoch:26(validation set)
+FractionNum, error, secError
+0, 24540.8, 0

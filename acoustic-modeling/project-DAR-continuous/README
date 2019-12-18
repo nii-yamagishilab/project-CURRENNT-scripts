@@ -21,11 +21,18 @@
 
 This script is used to train the acoustic models for speaker anonymization.
 
-Input: phoneme-posterior-gram, xvector, f0
-Output: Mel-spectrogram
+Input:
+	../DATA, phoneme-posterior-gram, xvector (utterance-level), f0
+Output:
+	../DATA, Mel-spectrogram
+Network:
+	./MODELS/DAR_001/network.jsn, network file in json
+Config:
+	config.py: general script configuration
+	train_config.cfg: specific configuration for neural network training
 
--------------------------------------
-For quick demonstration:
+---------------------- PART I --------------------------
+For quick demonstration using 2 training utterances
 ---
 Step1. prepare software enviroment
 
@@ -34,7 +41,7 @@ Step1. prepare software enviroment
 1.2 CURRENNT: https://github.com/nii-yamagishilab/project-CURRENNT-public
     please compile it following CURRENNT-modified/README
     
-1.3 python2 or python3, with Numpy and Scipy
+1.3 python2 (python3 may work, not test), with Numpy and Scipy
 
 
 ---
@@ -69,14 +76,24 @@ Also check /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts
 
 It means that the network is being trained.
 You can quit this demonstration by Ctrl + D.
-You can check ./log_sample_run, which has the full log printed on my screen.
+Or you can wait for a few minutes until the demonstration terminates.
 
-Note: this script is only for demonstration, it
-only uses one data provided in ../DATA/vctk_anonymize for training
+For reference, you can check ./log_sample_run by $: less -R ./log_sample_run,
+which has the full log printed on my screen
+
+If you wait until the job terminates, you will see
+MODELS/DAR_001/log_train: the training log of neural network
+MODELS/DAR_001/trained_network.jsn: the trained neural network
+
+Note:
+1. this script is only for demonstration, it only uses one data provided in ../DATA/vctk_anonymize for training
+2. this script will not save models during training. If you want to save intermediate models, please set
+   autosave = true in ./train_config.cfg
 
 ---
 Step4. run the 01_gen.sh script for demonstration of generation
 
+$: source ../../init.sh
 $: sh 01_gen.sh
 
 You will see many messages printed on the screen:
@@ -93,36 +110,26 @@ It means the generation has been done.
 The output features will be saved in MODELS/DAR_001/output
 You can check ./log_sample_gen, which has the log printed on my screen
 
-Note: this script generate random noisy because the network is not trained.
+Note: this script generate random noisy because the network was trained using one utterance.
 
 
+---------------------- PART II --------------------------
+To train your network on your data:
 
-
--------------------------------------
-To train your own network
----
 Step1. prepare your own data, and change config.py
 
-Input: phoneme-posterior-gram, xvector, f0
-Output: Mel-spectrogram
+    Input: phoneme-posterior-gram, xvector, f0
+    Output: Mel-spectrogram
 
-You need to change config.py so that the script will know
-the path to the features, the dimension, and name extensions.
+    You need to change config.py so that the script will know
+    the path to the features, the dimension, and name extensions.
 
-Just follow the example in config.py.
+    Just follow the example/instruction in config.py.
 
-
----
 Step2. if necessary, change MODELS/DAR_001/network.jsn
 
-MODELS/DAR_001/network.jsn is the network configuration file.
-It tells the script the hidden layer type/size, input/output of the neural network.
-
-By default, I assume the ppg is 1944 dimenions, xvector is 512 dimensions, f0 is 1 dimension. Thus, the input features have 2457 = 1944 + 512 + 1 dimensions.
-
-If the input feature dimension is changed, it should be also specified in "size" of the "exinput" in network.jsn
-
-
----
+    If you know how CURRENNT works and want to change hidden layers, please change it.
+    
 Step3. change the path in ../../init.sh
-Step4. run the 00_run.sh script for training
+Step4. change the configuration in train_config.cfg if necessary.
+Step5. run the 00_run.sh script for training

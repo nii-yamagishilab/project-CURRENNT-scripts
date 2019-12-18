@@ -87,8 +87,8 @@ dataLists = [tmpDir + '/scp/train.lst',
 #   feature file should also contain N frames, where every frame has the same speaker-id.
 
 tmpDir  = os.path.join(prjdir, '../DATA/vctk_anonymize')
-inputDirs = [[tmpDir + '/ppg/', tmpDir + '/xvector', tmpDir + '/f0'],
-             [tmpDir + '/ppg/', tmpDir + '/xvector', tmpDir + '/f0']]
+inputDirs = [[tmpDir + '/ppg/', tmpDir + '/xvector_utterance_level', tmpDir + '/f0'],
+             [tmpDir + '/ppg/', tmpDir + '/xvector_utterance_level', tmpDir + '/f0']]
 
 # inputDim: dimensions of each type of input features
 #   len(inputDim) should be equal to len(inputDirs[0])
@@ -107,6 +107,16 @@ inputExt  = ['.ppg', '.xvec', '.f0']
 #  here, we normalize all the input features
 inputNormMask = [[], [], []]
 
+
+# Utterance-level inputFeature
+#   len(inputUtteranceLevelFlag) should be equal to len(inputDirs[0])
+#   inputUtteranceLevelFlag[i] = 1 denotes that inputDirs[i] is utterance-level feature
+#   inputUtteranceLevelFlag[i] = 0 denotes that inputDirs[i] is frame-level feature
+#
+#   utterance-level feature may be x-vector, speaker-embedding, etc. The input feature
+#   file only needs to store the feature vector for 1 frame. The code will automatically
+#   load the feature vector and duplicate it to all frames
+inputUtteranceLevelFlag = [0, 1, 0]
 
 # -- output feature configuration
 #  similar to input feature configurations

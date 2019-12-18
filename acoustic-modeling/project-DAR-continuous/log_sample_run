@@ -1,14 +1,14 @@
 [94m---------------------------------------------------------[0m
-[94m---  Step1. preparing data 2019-11-18 15:58:46.296702 ---[0m
+[94m---  Step1. preparing data 2019-12-18 14:56:26.950195 ---[0m
 [94m---------------------------------------------------------[0m
 /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
-python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PrePareData.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data_config.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train
+python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PrePareData.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data_config.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train
 ====== Generating the Scp File ======
 No Mask configuration
 Generating normMask
 [0. 0.]
 Mask shape:(2,)
-Writing norMask to /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/normMask 
+Writing norMask to /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/normMask 
 No normMethod configuration
 
 Note: Different feature files of one utterance may contain different number of frames.
@@ -23,33 +23,33 @@ Output 0 1
 ======     Data statistics     ======
 Number of utternaces:          1
 Number of frames:              210
-Max utterance lab length:      145
+Max utterance lab length:      135
 
 
 Generating scps to:            
-	/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/all.scp1
+	/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/all.scp1
 Number of frames per file:     [210]
 Number of utterances per file: [1]
 
 
-Generating /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/all.scp as batch file
-python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PackData.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/all.scp None /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train 1 0 0 None 1 None None
+Generating /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/all.scp as batch file
+python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PackData.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/all.scp None /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train 1 0 0 None 1 None None
 ===== Reading and loading data =====
-Creating nc file /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1
+Creating nc file /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1
 Input dimension:  1
  output dimension: 1
-*** /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1 exists. It will be overwritten
+*** /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1 exists. It will be overwritten
 Reading LA_E_1002903
 Read and write done
 
 /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
-python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PrePareData.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data_config.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val
+python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PrePareData.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data_config.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val
 ====== Generating the Scp File ======
 No Mask configuration
 Generating normMask
 [0. 0.]
 Mask shape:(2,)
-Writing norMask to /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/normMask 
+Writing norMask to /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/normMask 
 No normMethod configuration
 
 Note: Different feature files of one utterance may contain different number of frames.
@@ -64,59 +64,59 @@ Output 0 1
 ======     Data statistics     ======
 Number of utternaces:          1
 Number of frames:              428
-Max utterance lab length:      145
+Max utterance lab length:      135
 
 
 Generating scps to:            
-	/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/all.scp1
+	/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/all.scp1
 Number of frames per file:     [428]
 Number of utterances per file: [1]
 
 
-Generating /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/all.scp as batch file
-python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PackData.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/all.scp None /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val 1 0 0 None 1 None None
+Generating /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/all.scp as batch file
+python /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataProcess/PackData.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/all.scp None /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val 1 0 0 None 1 None None
 ===== Reading and loading data =====
-Creating nc file /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1
+Creating nc file /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1
 Input dimension:  1
  output dimension: 1
-*** /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1 exists. It will be overwritten
+*** /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1 exists. It will be overwritten
 Reading LA_E_1003128
 Read and write done
 
 [92mProcessing train data[0m
 [92mCreating time index files[0m
-[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataPrepare/getLabIdx5ms.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/ppg/ ppg 1944 /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/idxFiles idx /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/lists/train.lst
+[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataPrepare/getLabIdx5ms.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/ppg/ ppg 1944 /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/idxFiles idx /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/lists/train.lst
 [0m
 [92mPacking data[0m
-[92msh /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/sub_05_package_datanc.sh /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
+[92msh /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/sub_05_package_datanc.sh /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
 [0m
 [92mProcessing val data[0m
 [92mCreating time index files[0m
-[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataPrepare/getLabIdx5ms.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/ppg/ ppg 1944 /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/idxFiles idx /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/lists/val.lst
+[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataPrepare/getLabIdx5ms.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/ppg/ ppg 1944 /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/idxFiles idx /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/lists/val.lst
 [0m
 [92mPacking data[0m
-[92msh /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/sub_05_package_datanc.sh /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
+[92msh /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/sub_05_package_datanc.sh /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
 [0m
 [92mCalculating mean and std[0m
-Mean std on /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/ppg.scp
+Mean std on /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/ppg.scp
 0/1
-Mean std on /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/xvec.scp
+Mean std on /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/xvec.scp
 0/1
-Mean std on /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/f0.scp
+Mean std on /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/f0.scp
 0/1
 normmask []
 normmask []
 normmask []
 [92m
-Save input mean-std as /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/input_meanstd.bin[0m
-Mean std on /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/mel.scp
+Save input mean-std as /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/input_meanstd.bin[0m
+Mean std on /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/mel.scp
 0/1
 normmask []
 [92m
-Save output mean-std as /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/output_meanstd.bin[0m
+Save output mean-std as /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/output_meanstd.bin[0m
 [92mskip calculating mean and std[0m
 [94m-----------------------------------------------------------[0m
-[94m---  Step2. network training 2019-11-18 15:58:48.700672 ---[0m
+[94m---  Step2. network training 2019-12-18 14:56:28.797675 ---[0m
 [94m-----------------------------------------------------------[0m
 # Configuration for training neural network
 random_seed          = 1811626773
@@ -128,7 +128,7 @@ max_epochs           = 50
 max_epochs_no_best   = 5
 
 # whether save epoch***.autosave
-autosave 	     = true
+autosave 	     = false
 
 # where to store the cache file
 cache_path           = /tmp
@@ -156,17 +156,17 @@ shuffle_sequences    = false
 # Remember to end this file with a new line
 
 
-train_file = /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1
-val_file = /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1
-ExtInputDirs = /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/link_input,/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/link_input,/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/link_input 
+train_file = /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1
+val_file = /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1
+ExtInputDirs = /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/ppg/,/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/xvector_utterance_level,/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/f0 
 ExtInputExts = .ppg,.xvec,.f0 
 ExtInputDims = 1944_512_1 
-ExtOutputDirs = /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/link_output 
+ExtOutputDirs = /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../DATA/vctk_anonymize/mel 
 ExtOutputExts = .mel 
 ExtOutputDims = 80 
-target_data_ms = /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/output_meanstd.bin 
-source_data_ms = /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/input_meanstd.bin 
-[92mcp /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/train_config.cfg /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/config.cfg
+target_data_ms = /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/output_meanstd.bin 
+source_data_ms = /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/input_meanstd.bin 
+[92mcp /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/train_config.cfg /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/config.cfg
 [0m
 [92m******** train config ******
 [0m
@@ -174,8 +174,8 @@ source_data_ms = /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-s
 [0m
 [94mGPU job submitted. Please wait until terminated.[0m
 [94mPlease open another terminal to check nvidia-smi[0m
-[94mAlso check /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_train[0m
-[94mAlso check /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_err[0m
+[94mAlso check /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_train[0m
+[94mAlso check /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_err[0m
 [92m/home/smg/wang/WORK/WORK/TOOL/local/bin/currennt --options_file config.cfg --verbose 1 >log_train 2>log_err
 [0m
-[94mProcessed terminated. Please check /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_train /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_err 15:59:17.866637[0m
+[94mProcessed terminated. Please check /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_train /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/log_err 14:58:13.143364[0m

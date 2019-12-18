@@ -1,0 +1,7 @@
+f0: f0 value, uninterpolated, linear scale
+mel: mel-spectrogram, which can be extracted using misc/mel-spectrogram-scripts
+ppg: phone posterior gram
+scp: list of training/dev data
+
+xvector_utterance_level: xvector, one vector for the whole utterance
+xvector_frame_level: xvector duplicated to each frame

@@ -74,13 +74,21 @@ def createFileLst(dataDirs, dataExts, dataDim, dataListDirs, trnList, valList):
         inputFile = os.path.join(inputDir, dataList[0]) + '.' + featName.lstrip('.')
         if os.path.isfile(inputFile):
             tmpframeNum = readwrite.read_raw_mat(inputFile, featDim).shape[0]
-            if frameNum is None:
+            if frameNum is None or frameNum < tmpframeNum:
                 frameNum = tmpframeNum
-            elif np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
-                display.self_print("Large mismatch of frame numbers %s" % (dataList[0]))
-                display.self_print("Please check whether inputDim are correct", 'error')
-                display.self_print("Or check input features are corrupted", 'error')
-                raise Exception("Error: mismatch of frame numbers")
+    
+    for inputDir, featDim, featName in zip(dataDirs[0:-1], dataDims[0:-1], dataExts[0:-1]):
+        inputFile = os.path.join(inputDir, dataList[0]) + '.' + featName.lstrip('.')
+        if os.path.isfile(inputFile):
+            tmpframeNum = readwrite.read_raw_mat(inputFile, featDim).shape[0]
+            if np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
+                if featDim == readwrite.read_raw_mat(inputFile, 1).shape[0]:
+                    pass
+                else:
+                    display.self_print("Large mismatch of frame numbers %s" % (inputFile))
+                    display.self_print("Please check whether inputDim are correct", 'error')
+                    display.self_print("Or check input features are corrupted", 'error')
+                    raise Exception("Error: mismatch of frame numbers")
     
     
     display.self_print('Generating data lists in to %s' % (dataListDirs), 'highlight')

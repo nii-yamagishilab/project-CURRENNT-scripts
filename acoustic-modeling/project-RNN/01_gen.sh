@@ -1,15 +1,5 @@
 #!/bin/sh
 
-
-# --------
-# Method 1: configure config and run
-#python ../SCRIPTS/03_syn.py config
-
-
-# -------
-# Method 2: set system environment variables  and run
-#  this may be more convenient
-
 # input feature directories
 #  for example, we can use the lab files in ../TESTDATA/vctk_acous/lab_test
 #  and the one-hot speaker vectors in ../TESTDATA/vctk_acous/spk_test

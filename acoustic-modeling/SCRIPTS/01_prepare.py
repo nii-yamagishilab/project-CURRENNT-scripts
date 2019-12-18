@@ -117,7 +117,7 @@ def prepareData():
     if len(cfg.inputDirs) == 1 and len(cfg.outputDirs) == 1:
         # no validation set
         flagFileUseSymbolLink = False
-    elif listSameContent(cfg.inputDirs) and listSameContent(cfg.outputDirs) and listSameContent(cfg.inputDirs[0]) and listSameContent(cfg.outputDirs[0]):
+    elif listSameContent(cfg.inputDirs) and listSameContent(cfg.outputDirs):
         # all data have been in the same directory
         flagFileUseSymbolLink = False
     else:
@@ -137,10 +137,15 @@ def prepareData():
     else:
         if os.path.islink(dataLinkDirInput):
             os.system("rm %s" % (dataLinkDirInput))
+        if os.path.isdir(dataLinkDirInput):
+            os.system("rm -r %s" % (dataLinkDirInput))
         if os.path.islink(dataLinkDirOutput):
             os.system("rm %s" % (dataLinkDirOutput))
-        os.system("ln -s %s %s" % (cfg.inputDirs[0][0], dataLinkDirInput))
-        os.system("ln -s %s %s" % (cfg.outputDirs[0][0], dataLinkDirOutput))
+        if os.path.isdir(dataLinkDirOutput):
+            os.system("rm -r %s" % (dataLinkDirOutput))    
+            
+        #os.system("ln -s %s %s" % (cfg.inputDirs[0][0], dataLinkDirInput))
+        #os.system("ln -s %s %s" % (cfg.outputDirs[0][0], dataLinkDirOutput))
 
     
     # create file list
@@ -175,33 +180,63 @@ def prepareData():
             fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
             os.system("cp %s %s" % (dataList, fileListFilePath))
             fileList = readwrite.read_txt_list(fileListFilePath)
-            
-
 
         # before start, take a simple test on the configuration of feature dimension
         frameNum = None
+        # get the maximum number of frame
         for inputDir, featDim, featName in zip(inputDirSet, cfg.inputDim, cfg.inputExt):
             inputFile = os.path.join(inputDir, fileList[0]) + '.' + featName
             if os.path.isfile(inputFile):
                 tmpframeNum = readwrite.read_raw_mat(inputFile, featDim).shape[0]
                 if frameNum is None:
                     frameNum = tmpframeNum
-                elif np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
-                    display.self_print("Large mismatch of frame numbers %s" % (fileList[0]))
-                    display.self_print("Please check whether inputDim are correct", 'error')
-                    display.self_print("Or check input features are corrupted", 'error')
-                    raise Exception("Error: mismatch of frame numbers")
+                elif frameNum < tmpframeNum:
+                    frameNum = tmpframeNum
+                else:
+                    pass
+            else:
+                raise Exception("Error: cannot find %s" % (inputFile))
+        for outputDir, featDim, featName in zip(outputDirSet, cfg.outputDim, cfg.outputExt):
+            outputFile = os.path.join(outputDir, fileList[0]) + '.' + featName
+            if os.path.isfile(outputFile):
+                tmpframeNum = readwrite.read_raw_mat(outputFile, featDim).shape[0]
+                if frameNum < tmpframeNum:
+                    frameNum = tmpframeNum
+                else:
+                    pass
+            else:
+                raise Exception("Error: cannot find %s" % (outputFile))
+
+        # check the number of frames in input / output feature files
+        for inputFeatIdx, (inputDir, featDim, featName) in enumerate(zip(inputDirSet, cfg.inputDim, cfg.inputExt)):
+            inputFile = os.path.join(inputDir, fileList[0]) + '.' + featName
+            if os.path.isfile(inputFile):
+                tmpframeNum = readwrite.read_raw_mat(inputFile, featDim).shape[0]
+                
+                if np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
+                    if hasattr(cfg, 'inputUtteranceLevelFlag') and cfg.inputUtteranceLevelFlag[inputFeatIdx] == 1:
+                        pass
+                    else:
+                        display.self_print("Large mismatch of frame numbers %s" % (inputFile))
+                        display.self_print("Please check whether inputDim are correct", 'error')
+                        display.self_print("Or check input features are corrupted", 'error')
+                        raise Exception("Error: mismatch of frame numbers")
+            else:
+                raise Exception("Error: cannot find %s" % (inputFile))
 
         for outputDir, featDim, featName in zip(outputDirSet, cfg.outputDim, cfg.outputExt):
             outputFile = os.path.join(outputDir, fileList[0]) + '.' + featName
             if os.path.isfile(outputFile):
                 tmpframeNum = readwrite.read_raw_mat(outputFile, featDim).shape[0]
                 if np.abs(frameNum - tmpframeNum)*1.0/frameNum > 0.1:
-                    display.self_print("Large mismatch of frame numbers %s" % (fileList[0]))
+                    display.self_print("Large mismatch of frame numbers %s" % (outputFile))
                     display.self_print("Please check whether inputDim are correct", 'error')
                     display.self_print("Or check input features are corrupted", 'error')
                     raise Exception("Error: mismatch of frame numbers")
-        
+                else:
+                    pass
+            else:
+                raise Exception("Error: cannot find %s" % (outputFile))
         
         # create file directories
         dataSaveDir = dataDir + os.path.sep + dataPart
@@ -248,10 +283,25 @@ def prepareData():
 
         # create index files
         if cfg.step01Prepare_IDX is True or cfg.step01Prepare_PACK is True:
+            # find the frame-level feature input
+            inputFeatIdx = None
+            if hasattr(cfg, 'inputUtteranceLevelFlag'):
+                for tmpInputFeatIdx, tmpFlagValue in enumerate(cfg.inputUtteranceLevelFlag):
+                    if tmpFlagValue == 0:
+                        inputFeatIdx = tmpInputFeatIdx
+                        break
+                if inputFeatIdx is None:
+                    raise Exception("Error: cannot process all utterance-level input")
+            else:
+                inputFeatIdx = 0
+                
             # create the lab index lists
             cmd = 'python %s/dataPrepare/getLabIdx5ms.py' % (cfg.path_pyTools_scripts)
-            cmd = '%s %s %s %s %s %s %s' % (cmd, inputDirSet[0], cfg.inputExt[0],
-                                            cfg.inputDim[0], dataRawDir,
+            cmd = '%s %s %s %s %s %s %s' % (cmd,
+                                            inputDirSet[inputFeatIdx],
+                                            cfg.inputExt[inputFeatIdx],
+                                            cfg.inputDim[inputFeatIdx],
+                                            dataRawDir,
                                             cfg.idxFileName,
                                             fileListFilePath)
             display.self_print('Creating time index files', 'highlight')

@@ -2,12 +2,12 @@ ver:2019/11/05
 Configuration Infor:
 	Training Mode: Started in hybrid online/batch
 		Writting network  to 'trained_network.jsn'.
+		WARNING: overwriting 'trained_network.jsn'
 	Validation every 1 epochs.
 
 	Training epoch number maximum: 50
 
 	Training epoch number no lowest validation error: 5
-	Autosave after EVERY EPOCH enabled.
 	Utilizing the GPU on 10 sequences in parallel.
 
 	Initialization method:
@@ -15,16 +15,16 @@ Configuration Infor:
 
 		Random seed: 1811626773
 
-Using device #0 (Tesla V100-DGXS-32GB)
+Using device #0 (Tesla K80)
 Reading network from 'network.jsn'... done.
 
-Loading training set '/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1' ...done.
+Loading training set '/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/data.nc1' ...done.
 Loaded fraction:  100%
 Sequences:        1
 Sequence lengths: 210..210
 Total timesteps:  210
 
-Loading validation set '/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1' ...done.
+Loading validation set '/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/val/data.nc1' ...done.
 Loaded fraction:  100%
 Sequences:        1
 Sequence lengths: 428..428
@@ -34,7 +34,7 @@ Creating the neural network...
 Layer (0) [ input ]  input 
 Layer (1) [ exinput ]  externalloader 
 	Trainable layer: initialize weight randomly
-	Read MV from /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/input_meanstd.bin
+	Read MV from /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/input_meanstd.bin
 Layer (2) [ ARmodel_forward_1 ]  feedforward_logistic 
 	Trainable layer: initialize weight randomly
 Layer (3) [ ARmodel_forward_2 ]  feedforward_logistic 
@@ -170,7 +170,7 @@ Layer (34) [ ARmodel_s3 ]  skipadd
 	Receive input from layer(s): ARmodel_cnn5, ARmodel_s2,
 
 Layer (35) [ postoutput ]  sse_multi 
-	Read MV from /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/output_meanstd.bin
+	Read MV from /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/DATATEMP/train/output_meanstd.bin
 Creating the feedback link:
 	Reading previous layer [0-256] dim
 	From sse_multi [0-80]	Look Back []
@@ -234,4 +234,39 @@ Starting training...
 Print error per sequence / per timestep / secondary error (optional)
  Epoch | Duration |           Training error         |           Validation error       |           Test error             |New best 
 -------+----------+----------------------------------+----------------------------------+----------------------------------+---------
-     1 |      1.2 |   18545.906 /    88.314/    0.000|   64412.141 /   150.496/    0.000|                                  |  yes ADAM
+     1 |      1.2 |   18549.535 /    88.331/    0.000|   64115.895 /   149.803/    0.000|                                  |  yes ADAM
+     2 |      0.8 |   17237.311 /    82.082/    0.000|   57360.305 /   134.019/    0.000|                                  |  yes ADAM
+     3 |      0.8 |   14361.996 /    68.390/    0.000|   51995.203 /   121.484/    0.000|                                  |  yes ADAM
+     4 |      0.8 |   12139.111 /    57.805/    0.000|   48544.656 /   113.422/    0.000|                                  |  yes ADAM
+     5 |      0.8 |   10684.795 /    50.880/    0.000|   48324.309 /   112.907/    0.000|                                  |  yes ADAM
+     6 |      0.8 |    9212.605 /    43.870/    0.000|   48305.906 /   112.864/    0.000|                                  |  yes ADAM
+     7 |      0.8 |    7700.796 /    36.670/    0.000|   45649.898 /   106.659/    0.000|                                  |  yes ADAM
+     8 |      0.8 |    6573.758 /    31.304/    0.000|   42623.297 /    99.587/    0.000|                                  |  yes ADAM
+     9 |      0.8 |    5875.637 /    27.979/    0.000|   40784.055 /    95.290/    0.000|                                  |  yes ADAM
+    10 |      0.8 |    5175.128 /    24.643/    0.000|   39833.594 /    93.069/    0.000|                                  |  yes ADAM
+    11 |      0.8 |    4701.770 /    22.389/    0.000|   37359.000 /    87.287/    0.000|                                  |  yes ADAM
+    12 |      0.8 |    4186.721 /    19.937/    0.000|   34804.992 /    81.320/    0.000|                                  |  yes ADAM
+    13 |      0.8 |    3818.633 /    18.184/    0.000|   33155.422 /    77.466/    0.000|                                  |  yes ADAM
+    14 |      0.8 |    3542.903 /    16.871/    0.000|   32351.812 /    75.588/    0.000|                                  |  yes ADAM
+    15 |      0.8 |    3313.254 /    15.777/    0.000|   32441.949 /    75.799/    0.000|                                  |  no  ADAM
+    16 |      0.8 |    2941.654 /    14.008/    0.000|   32437.914 /    75.790/    0.000|                                  |  no  ADAM
+    17 |      0.8 |    2796.702 /    13.318/    0.000|   33005.367 /    77.115/    0.000|                                  |  no  ADAM
+    18 |      0.8 |    2553.973 /    12.162/    0.000|   31737.477 /    74.153/    0.000|                                  |  yes ADAM
+    19 |      0.8 |    2439.767 /    11.618/    0.000|   29764.418 /    69.543/    0.000|                                  |  yes ADAM
+    20 |      0.8 |    2320.537 /    11.050/    0.000|   30450.373 /    71.146/    0.000|                                  |  no  ADAM
+    21 |      0.8 |    2217.012 /    10.557/    0.000|   28445.357 /    66.461/    0.000|                                  |  yes ADAM
+    22 |      0.8 |    2078.880 /     9.899/    0.000|   29709.180 /    69.414/    0.000|                                  |  no  ADAM
+    23 |      0.8 |    2003.058 /     9.538/    0.000|   31065.445 /    72.583/    0.000|                                  |  no  ADAM
+    24 |      0.8 |    1918.959 /     9.138/    0.000|   28694.910 /    67.044/    0.000|                                  |  no  ADAM
+    25 |      0.8 |    1782.080 /     8.486/    0.000|   25829.523 /    60.349/    0.000|                                  |  yes ADAM
+    26 |      0.8 |    1753.721 /     8.351/    0.000|   27925.688 /    65.247/    0.000|                                  |  no  ADAM
+    27 |      0.8 |    1759.770 /     8.380/    0.000|   28401.762 /    66.359/    0.000|                                  |  no  ADAM
+    28 |      0.8 |    1623.110 /     7.729/    0.000|   28144.492 /    65.758/    0.000|                                  |  no  ADAM
+    29 |      0.8 |    1531.449 /     7.293/    0.000|   27639.688 /    64.579/    0.000|                                  |  no  ADAM
+    30 |      0.8 |    1529.719 /     7.284/    0.000|   28640.453 /    66.917/    0.000|                                  |  no  Finished
+
+No new lowest error since 5 epochs. Training stopped.
+Lowest validation error: 25829.523438
+
+Storing the trained network in 'trained_network.jsn'... done.
+Removing cache file(s) ...

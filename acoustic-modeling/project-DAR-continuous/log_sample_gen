@@ -1,5 +1,5 @@
 [94m-------------------------------------------------------------------[0m
-[94m---  Step3. Generating from networks 2019-11-18 15:59:31.040654 ---[0m
+[94m---  Step3. Generating from networks 2019-12-18 15:03:39.289211 ---[0m
 [94m-------------------------------------------------------------------[0m
 /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
 rm: cannot remove './tmp_int_out/testset_1/all*': No such file or directory
@@ -46,16 +46,22 @@ Read and write done
 ver:2019/11/05
 Configuration Infor:
 	Started in forward pass mode.
-	Writting output to '/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output'.
-		WARNING: overwriting '/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output
+	Writting output to '/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output'.
+		WARNING: overwriting '/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output
 	Utilizing the GPU on 1 sequences in parallel.
 
-Using device #0 (Tesla V100-DGXS-32GB)
-Reading network from '/home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/network.jsn'... done.
+Using device #0 (Tesla K80)
+Reading network from '/home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/trained_network.jsn'... done.
 
 Loading feed forward input set './tmp_int_out/testset_1/data.nc1' ...
-using cache file: /tmp/783c-bac7-5953-1f94
-... done.
+using cache file: /tmp/eb1d-77d2-ba4a-d695
+... 
+WARNING: ./tmp_int_out/link/LA_E_1002903.xvec has 512 data elements, which is less than 107520.
+	WARNING: Extra data memory will be set to 0.0.
+
+WARNING: ./tmp_int_out/link/LA_E_1003128.xvec has 512 data elements, which is less than 219136.
+	WARNING: Extra data memory will be set to 0.0.
+done.
 Loaded fraction:  100%
 Sequences:        2
 Sequence lengths: 210..428
@@ -65,13 +71,13 @@ Creating the neural network...
 Layer (0) [ input ]  input 
 Layer (1) [ exinput ]  externalloader 
 	Trainable layer: initialize weight randomly
-	Skip reading MV
+	Read MV from network
 Layer (2) [ ARmodel_forward_1 ]  feedforward_logistic 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (3) [ ARmodel_forward_2 ]  feedforward_logistic 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (4) [ ARmodel_blstm_level_1 ]  blstm 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (5) [ feedback ]  feedback 
 	Trainable layer: initialize weight randomly
 Layer (6) [ feedback_ini ]  skipini 
@@ -94,19 +100,19 @@ Layer (9) [ feedback_modulate-2 ]  operator
 Layer (10) [ feedback_modulate-3 ]  gatedact 
 	Trainable layer: initialize weight randomly
 Layer (11) [ ARmodel_feedback_ff_1 ]  feedforward_identity 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (12) [ ARmodel_feedback_ff_2 ]  feedforward_identity 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (13) [ feedback_end ]  skipcat 
 	Trainable layer: initialize weight randomly
 	Receive input from layer(s): feedback_ini [0 256], ARmodel_feedback_ff_2 [0 80],
 
 Layer (14) [ ARmodel_lstm_l1 ]  lstm 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (15) [ ARmodel_lstm_l2 ]  lstm 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (16) [ ARmodel_outputnew ]  feedforward_identity 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 Layer (17) [ ARmodel_s1 ]  skipini 
 	Trainable layer: initialize weight randomly
 	Receive input from layer(s): ARmodel_outputnew,
@@ -123,7 +129,7 @@ Layer (19) [ ARmodel_modulate_post1 ]  operator
 Layer (20) [ ARmodel_modulate_post2 ]  gatedact 
 	Trainable layer: initialize weight randomly
 Layer (21) [ ARmodel_cnn1 ]  cnn 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 	CNN 1-D convolution
 	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
 	CNN winwidth:    80*2
@@ -139,7 +145,7 @@ Layer (22) [ ARmodel_modulate_post3 ]  operator
 Layer (23) [ ARmodel_modulate_post4 ]  gatedact 
 	Trainable layer: initialize weight randomly
 Layer (24) [ ARmodel_cnn2 ]  cnn 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 	CNN 1-D convolution
 	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
 	CNN winwidth:    80*2
@@ -155,7 +161,7 @@ Layer (25) [ ARmodel_modulate_post5 ]  operator
 Layer (26) [ ARmodel_modulate_post6 ]  gatedact 
 	Trainable layer: initialize weight randomly
 Layer (27) [ ARmodel_cnn3 ]  cnn 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 	CNN 1-D convolution
 	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
 	CNN winwidth:    80*2
@@ -171,7 +177,7 @@ Layer (28) [ ARmodel_modulate_post7 ]  operator
 Layer (29) [ ARmodel_modulate_post8 ]  gatedact 
 	Trainable layer: initialize weight randomly
 Layer (30) [ ARmodel_cnn4 ]  cnn 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 	CNN 1-D convolution
 	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
 	CNN winwidth:    80*2
@@ -187,7 +193,7 @@ Layer (31) [ ARmodel_modulate_post9 ]  operator
 Layer (32) [ ARmodel_modulate_post10 ]  gatedact 
 	Trainable layer: initialize weight randomly
 Layer (33) [ ARmodel_cnn5 ]  cnn 
-	Trainable layer: initialize weight randomly
+	Trainable layer: re-read weight
 	CNN 1-D convolution
 	CNN trainable weights: 32080 (weights in Network summary may be inaccurate)
 	CNN without tanh output function
@@ -201,7 +207,7 @@ Layer (34) [ ARmodel_s3 ]  skipadd
 	Receive input from layer(s): ARmodel_cnn5, ARmodel_s2,
 
 Layer (35) [ postoutput ]  sse_multi 
-	Skip reading MV
+	Read MV from network
 Creating the feedback link:
 	Reading previous layer [0-256] dim
 	From sse_multi [0-80]	Look Back []
@@ -251,33 +257,34 @@ Network summary:
 Total weights: 4900736
 
 
-Outputs from layer -1, HTK format (float32, big-endian), NOT de-normalized
+Mean and var loaded from externalDataMV
+Outputs from layer -1, HTK format (float32, big-endian), de-normalized
 Computing outputs for data fraction 1 ... LA_E_1002903 SSAMPOpt: 0, SSAMPPara: 0
 
-Time (s): 0.913000
+Time (s): 0.440000
  done.
 Computing outputs for data fraction 2 ... LA_E_1003128 SSAMPOpt: 0, SSAMPPara: 0
 
-Time (s): 0.369000
+Time (s): 0.319000
  done.
 Outputs from layer -1
-Removing cache file: /tmp/783c-bac7-5953-1f94
+Removing cache file: /tmp/eb1d-77d2-ba4a-d695
 Writing acoustic data: LA_E_1002903
 Writing acoustic data: LA_E_1003128
 [92mProcessing testset_1 data[0m
 [92mCreating idx[0m
-[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataPrepare/getLabIdx5ms.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../TESTDATA/vctk_anonymize/ppg ppg 1944 ./tmp_int_out/idxFiles idx ./tmp_int_out/lists/testset_1.lst
+[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataPrepare/getLabIdx5ms.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../TESTDATA/vctk_anonymize/ppg ppg 1944 ./tmp_int_out/idxFiles idx ./tmp_int_out/lists/testset_1.lst
 [0m
 [92mPacking data[0m
-[92msh /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/sub_05_package_datanc.sh ./tmp_int_out/testset_1 /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
+[92msh /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/sub_05_package_datanc.sh ./tmp_int_out/testset_1 /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new
 [0m
 [92m./tmp_int_out/testset_1[0m
-[92m/home/smg/wang/WORK/WORK/TOOL/local/bin/currennt --options_file /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/commonConfig/syn.cfg --network /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/network.jsn --ff_input_file ./tmp_int_out/testset_1/data.nc1 --ff_output_file /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output --mdn_samplePara 0.000000 --ExtInputDirs ./tmp_int_out/link,./tmp_int_out/link,./tmp_int_out/link --ExtInputExts .ppg,.xvec,.f0 --ExtInputDims 1944_512_1 
+[92m/home/smg/wang/WORK/WORK/TOOL/local/bin/currennt --options_file /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/../SCRIPTS/commonConfig/syn.cfg --network /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/trained_network.jsn --ff_input_file ./tmp_int_out/testset_1/data.nc1 --ff_output_file /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output --mdn_samplePara 0.000000 --ExtInputDirs ./tmp_int_out/link,./tmp_int_out/link,./tmp_int_out/link --ExtInputExts .ppg,.xvec,.f0 --ExtInputDims 1944_512_1 
 [0m
-[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataGen/GenSynData.py ./tmp_int_out/data_split.py /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output NONE
+[92mpython /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-public/pyTools/scripts/utilities-new/dataGen/GenSynData.py ./tmp_int_out/data_split.py /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output NONE
 [0m
-[92mOutput features are generated to /home/smg/wang/WORK/WORK/CODE/git_local/team/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output[0m
+[92mOutput features are generated to /home/smg/wang/WORK/WORK/TEMP/temp/project-CURRENNT-scripts/acoustic-modeling/project-DAR-continuous/MODELS/DAR_001/output[0m
 [92mSkip generating waveform[0m
 [94m------------------------------------------[0m
-[94m---  Finish 2019-11-18 15:59:35.218270 ---[0m
+[94m---  Finish 2019-12-18 15:03:43.284606 ---[0m
 [94m------------------------------------------[0m

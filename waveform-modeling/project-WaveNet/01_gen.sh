@@ -1,21 +1,5 @@
 #!/bin/sh
 
-# Copied from init.sh
-export TEMP_CURRENNT_PROJECT_PYTOOLS_PATH=/work/smg/wang/GIT/TEAM/project-CURRENNT-public/pyTools/
-export TEMP_CURRENNT_PROJECT_CURRENNT_PATH=/work/smg/wang/GIT/TEAM/project-CURRENNT-public/CURRENNT_codes/build/currennt
-export PYTHONPATH=${PYTHONPATH}:${TEMP_CURRENNT_PROJECT_PYTOOLS_PATH}
-export TEMP_CURRENNT_PROJECT_SOX_PATH=None
-export TEMP_CURRENNT_PROJECT_SV56_PATH=None
-
-# ----- Method 1 
-# For generation, you can configure config.py and run
-# python ../SCRIPTS/02_genwaveform.py config
-
-
-# ----- Method 2
-# Equivalently, you can set the environment variables below,
-#  rather than manually changing config.py
-
 # Directories of the input features, which are separated by ','
 export TEMP_WAVEFORM_MODEL_INPUT_DIRS=$PWD/../TESTDATA-for-pretrained/mfbsp
 

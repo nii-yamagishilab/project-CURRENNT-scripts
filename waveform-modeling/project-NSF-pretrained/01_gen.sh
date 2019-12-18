@@ -8,15 +8,6 @@ fi
 cd ../
 
 
-
-# Configuration in init.sh
-# Please change the PATH of TEMP_CURRENNT_PROJECT_PYTOOLS_PATH and TEMP_CURRENNT_PROJECT_CURRENNT_PATH
-export TEMP_CURRENNT_PROJECT_PYTOOLS_PATH=/work/smg/wang/GIT/TEAM/project-CURRENNT-public/pyTools/
-export TEMP_CURRENNT_PROJECT_CURRENNT_PATH=/work/smg/wang/GIT/TEAM/project-CURRENNT-public/CURRENNT_codes/build/currennt
-export PYTHONPATH=${PYTHONPATH}:${TEMP_CURRENNT_PROJECT_PYTOOLS_PATH}
-export TEMP_CURRENNT_PROJECT_SOX_PATH=None
-export TEMP_CURRENNT_PROJECT_SV56_PATH=None
-
 # Which pre-trained model?
 # NSF: original NSF
 # NSF-FFCond: NSF using a condition module with only one feedforward layer

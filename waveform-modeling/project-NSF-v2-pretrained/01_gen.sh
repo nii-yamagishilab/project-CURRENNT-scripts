@@ -8,21 +8,12 @@ fi
 cd ../
 
 
-
-# Configuration in init.sh
-# Please change the PATH of TEMP_CURRENNT_PROJECT_PYTOOLS_PATH and TEMP_CURRENNT_PROJECT_CURRENNT_PATH
-export TEMP_CURRENNT_PROJECT_PYTOOLS_PATH=/work/smg/wang/GIT/TEAM/project-CURRENNT-public/pyTools/
-export TEMP_CURRENNT_PROJECT_CURRENNT_PATH=/work/smg/wang/GIT/TEAM/project-CURRENNT-public/CURRENNT_codes/build/currennt
-export PYTHONPATH=${PYTHONPATH}:${TEMP_CURRENNT_PROJECT_PYTOOLS_PATH}
-export TEMP_CURRENNT_PROJECT_SOX_PATH=None
-export TEMP_CURRENNT_PROJECT_SV56_PATH=None
-
 # Which pre-trained model?
 # s-NSF: simplified NSF
 # h-NSF: harmonic-plus-noise NSF
 # h-sinc-NSF: h-NSF with sinc-based trainable filters
 
-MODEL=s-NSF
+MODEL=h-sinc-NSF
 
 # Directories of the input features, which are separated by ','
 export TEMP_WAVEFORM_MODEL_INPUT_DIRS=$PWD/../TESTDATA-for-pretrained/mfbsp,$PWD/../TESTDATA-for-pretrained/f0

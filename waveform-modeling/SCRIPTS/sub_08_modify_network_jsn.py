@@ -81,6 +81,17 @@ if __name__ == "__main__":
                             tmp_dim[-1] = acous_dim
                             tmp = '_'.join(str(x) for x in tmp_dim)
                             network_data['layers'][layer_idx]['preSkipLayerDim'] = tmp
+                            
+            # change the filtering of cut-off-frequency for h-sinc-NSF
+            # this change is only used for network.jsn provided
+            if 'layerFlag' in network_data['layers'][layer_idx] and waveform_quantization_bits <= 0:
+                if network_data['layers'][layer_idx]['layerFlag'] == 'cutoff-freq-filtering':
+                    if 'filterCoeffs' in network_data['layers'][layer_idx]:
+                        # change the network.jsn when up-sampling rate has been changed
+                        # use 4 windows filtering on cut-off-frequency was found to be better
+                        tmp1 = resolution * 4
+                        tmp2 = 1.0 / tmp1
+                        network_data['layers'][layer_idx]['filterCoeffs'] = "%d*%f" % (tmp1, tmp2)
 
             # update the layer size in case the network uses waveform quantization
             # both output and feedback layer sizes must be changed

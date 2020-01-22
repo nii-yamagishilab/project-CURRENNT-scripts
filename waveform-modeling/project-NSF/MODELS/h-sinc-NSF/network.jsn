@@ -150,6 +150,7 @@
         {
             "filterCoeffs": "320*0.003125",
             "name": "condSelectiveSignal6",
+	    "layerFlag": "cutoff-freq-filtering",
             "noncausal": 1,
             "bias": 1,
             "size": 1,

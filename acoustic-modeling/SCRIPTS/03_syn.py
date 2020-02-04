@@ -103,34 +103,41 @@ def writeDataConfig(filePath, idxScpName, fileNameInEachNCPack):
     filePtr.close()
 
 
-def prepareData(dataDir):
-    
-    # create directories
-    try:
-        os.mkdir(dataDir)
-    except OSError:
-        pass
+def prepareData(dataDir, flag_create_new_data):
 
-    dataListPath = dataDir + os.path.sep + 'lists'
-    try:
-        os.mkdir(dataListPath)
-    except OSError:
-        pass
-    
-    dataRawDir = dataDir + os.path.sep + cfg.idxDirName
-    try:
-        os.mkdir(dataRawDir)
-    except OSError:
-        pass
-
-    dataLinkDir = dataDir + os.path.sep + cfg.linkDirname
-    try:
-        os.mkdir(dataLinkDir)
-    except OSError:
-        pass
-    
     testdataDirs = []
+    
+    dataListPath = dataDir + os.path.sep + 'lists'
+    dataRawDir = dataDir + os.path.sep + cfg.idxDirName    
+    dataLinkDir = dataDir + os.path.sep + cfg.linkDirname
+    
+    if flag_create_new_data:
+        # create directories
+        try:
+            os.mkdir(dataDir)
+        except OSError:
+            pass
+        try:
+            os.mkdir(dataListPath)
+        except OSError:
+            pass
+        try:
+            os.mkdir(dataRawDir)
+        except OSError:
+            pass
+        try:
+            os.mkdir(dataLinkDir)
+        except OSError:
+            pass
+    else:
+        for tmp_dataDir in [dataDir, dataListPath, dataRawDir, dataLinkDir]:
+            if not os.path.isdir(tmp_dataDir) and not os.path.islink(tmp_dataDir):
+                display.self_print('Error: cannot find ' + tmp_dataDir, 'error')
+                display.self_print('Please use step03Prepare_DATA = True', 'error')
+                display.self_print('and create test data again', 'error')
+                return
 
+    
     # create file list
     for inputDirSet, outputDirSet, dataPart in zip(cfg.test_inputDirs,
                                                    cfg.test_outputDirs,
@@ -168,6 +175,11 @@ def prepareData(dataDir):
         # create file directories
         dataSaveDir = dataDir + os.path.sep + dataPart
         testdataDirs.append(dataSaveDir)
+
+        # if data has been created, just return the directory
+        if not flag_create_new_data:
+            continue
+        
         try:
             os.mkdir(dataSaveDir)
         except OSError:
@@ -223,7 +235,7 @@ def prepareData(dataDir):
                                                                 cfg.path_pyTools_scripts)
         display.self_print('Packing data', 'highlight')
         exe_cmd(packDataCmd, cfg.debug)
-        return testdataDirs
+    return testdataDirs
 
 
 def genSynCfg(testDataDir):
@@ -351,9 +363,11 @@ if __name__ == "__main__":
         display.self_print_with_date('Step3. Generating from networks', 'h')
         
         if cfg.step03Prepare_DATA is True:
-            testDataDirs = prepareData(cfg.nnDataDirNameTest)
+            testDataDirs = prepareData(cfg.nnDataDirNameTest,
+                                       cfg.step03Prepare_DATA)
         else:
-            testDataDirs = []
+            testDataDirs = prepareData(cfg.nnDataDirNameTest,
+                                       cfg.step03Prepare_DATA)
             display.self_print('Skip packaing data', 'highlight')
 
         # for each test data dir

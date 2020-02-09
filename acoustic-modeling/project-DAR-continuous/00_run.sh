@@ -1,11 +1,11 @@
 #!/bin/sh
 
-
-
-
-# preparing the training data
+# preparing data
 python ../SCRIPTS/01_prepare.py config
+status=$?
+if [ $status -eq 0 ]; then
 
-# training the RNN model
-python ../SCRIPTS/02_train.py config
+    # model training
+    python ../SCRIPTS/02_train.py config
 
+fi

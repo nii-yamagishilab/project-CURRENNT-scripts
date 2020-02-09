@@ -34,13 +34,14 @@ try:
     cfg = __import__(sys.argv[1])
 except IndexError:
     print("Error: missing argument. Usage: python **.py CONFIG_NAME")
-    quit()
+    sys.exit(1)
 except ImportError:
     print("Error: cannot load library: ", sys.argv[1])
-    quit()
+    sys.exit(1)
 sys.path.append(cfg.path_pyTools)
 from pyTools import display
 from ioTools import readwrite
+import subprocess
 
 try:
     meanStdToolPath = os.path.join(cfg.path_pyTools_scripts, 'dataProcess/meanStd.py')
@@ -48,11 +49,18 @@ try:
 except ImportError:
     print("Cannot load %s" % meanStdToolPath)
     
-
 def exe_cmd(cmd, debug=False):
+    display.self_print("Execute command:", 'ok')
     display.self_print(cmd + '\n', 'highlight')
     if not debug:
-        os.system(cmd)
+        try:
+            subprocess.check_call(cmd, shell=True)
+            display.self_print("Command is successfully executed:\n%s\n\n" % (cmd), 'ok')
+        except subprocess.CalledProcessError as e:
+            display.self_print("Failed to run:" + cmd, 'error')
+            display.self_print("Please check the printed error message", 'error')
+            display.self_print("Process terminated with %s" % (e.returncode), 'error')
+            sys.exit(1)
                         
 def crossSet(list1, list2):
     """ return the cross-set of list1 and list2

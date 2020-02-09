@@ -31,19 +31,26 @@ try:
     cfg = __import__(sys.argv[1])
 except IndexError:
     print("Error: missing argument. Usage: python **.py CONFIG_NAME")
-    quit()
+    sys.exit(1)
 except ImportError:
     print("Error: cannot load library: ", sys.argv[1])
-    quit()
+    sys.exit(1)
 sys.path.append(cfg.path_pyTools)
 from pyTools import display
-
+import subprocess
 
 def exe_cmd(cmd, debug=False):
-    
+    display.self_print("Execute command:", 'ok')
     display.self_print(cmd + '\n', 'highlight')
     if not debug:
-        os.system(cmd)
+        try:
+            subprocess.check_call(cmd, shell=True)
+            display.self_print("Command is successfully executed:\n%s\n\n" % (cmd), 'ok')
+        except subprocess.CalledProcessError as e:
+            display.self_print("Failed to run:" + cmd, 'error')
+            display.self_print("Please check the printed error message", 'error')
+            display.self_print("Process terminated with %s" % (e.returncode), 'error')
+            sys.exit(1)
     
 
 if cfg.step1:
@@ -84,7 +91,7 @@ if cfg.step1:
                 exe_cmd(cmd, cfg.debug)
             else:
                 display.self_print('cannot find %s %s' % (cfg.trn_list, cfg.val_list), 'error')
-                quit()
+                sys.exit(1)
         else:
             display.self_print_with_date('step1.1 generating data lists', 'm')
             tmp_acous_path = ','.join(cfg.path_acous_feats)
@@ -134,7 +141,7 @@ if cfg.step1:
 
                     if not os.path.isfile(tmp_mdn_config):
                         display.self_print('Error %s not generated' % (tmp_mdn_config), 'error')
-                        quit()
+                        sys.exit(1)
                     
                 else:
                     # float waveform
@@ -147,7 +154,7 @@ if cfg.step1:
             else:
                 if tmp_lst == tmp_train_lst:
                     display.self_print('Error %s not found' % (tmp_train_lst), 'error')
-                    quit()
+                    sys.exit(1)
                     
     if cfg.step1s[2]:
         display.self_print_with_date('step1.3 time index files', 'm')

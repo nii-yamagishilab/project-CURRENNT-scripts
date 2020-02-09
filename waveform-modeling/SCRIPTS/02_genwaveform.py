@@ -31,20 +31,27 @@ try:
     cfg = __import__(sys.argv[1])
 except IndexError:
     print("Error: missing argument. Usage: python **.py CONFIG_NAME")
-    quit()
+    sys.exit(1)
 except ImportError:
     print("Error: cannot load library: ", sys.argv[1])
-    quit()
+    sys.exit(1)
 sys.path.append(cfg.path_pyTools)
 from pyTools import display
 from ioTools import readwrite
-
+import subprocess
 
 def exe_cmd(cmd, debug=False):
-    
+    display.self_print("Execute command:", 'ok')
     display.self_print(cmd + '\n', 'highlight')
     if not debug:
-        os.system(cmd)
+        try:
+            subprocess.check_call(cmd, shell=True)
+            display.self_print("Command is successfully executed:\n%s\n\n" % (cmd), 'ok')
+        except subprocess.CalledProcessError as e:
+            display.self_print("Failed to run:" + cmd, 'error')
+            display.self_print("Please check the printed error message", 'error')
+            display.self_print("Process terminated with %s" % (e.returncode), 'error')
+            sys.exit(1)
 
         
 if cfg.step3:
@@ -72,7 +79,7 @@ if cfg.step3:
 
     #if not os.path.isfile(tmp_mv_data):
     #    display.self_print('Error: %s is not generated in 00_*.pt' % (tmp_mv_data), 'error')
-    #    quit()
+    #    sys.exit(1)
         
     if True:
         display.self_print_with_date('step3.1 generating data lists', 'm')
@@ -119,11 +126,11 @@ if cfg.step3:
         tmp_test_data_nc_list = readwrite.read_txt_list(tmp_test_nc_scp)
         if len(tmp_test_data_nc_list) < 1:
             display.self_print('Error: not found test data.nc in %s' % (tmp_sub_nc_dir), 'error')
-            quit()
+            sys.exit(1)
         tmp_test_data_nc_args = ','.join(tmp_test_data_nc_list)
     else:
         display.self_print('Error: not found %s' % (tmp_test_nc_scp), 'error')
-        quit()        
+        sys.exit(1)        
 
         
     # No need to get F0 mean and std

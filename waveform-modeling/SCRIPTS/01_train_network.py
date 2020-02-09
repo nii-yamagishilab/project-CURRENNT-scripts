@@ -31,21 +31,28 @@ try:
     cfg = __import__(sys.argv[1])
 except IndexError:
     print("Error: missing argument. Usage: python **.py CONFIG_NAME")
-    quit()
+    sys.exit(1)
 except ImportError:
     print("Error: cannot load library: ", sys.argv[1])
-    quit()
+    sys.exit(1)
 sys.path.append(cfg.path_pyTools)
 
 from pyTools import display
 from ioTools import readwrite
-
+import subprocess
 
 def exe_cmd(cmd, debug=False):
-    
+    display.self_print("Execute command:", 'ok')
     display.self_print(cmd + '\n', 'highlight')
     if not debug:
-        os.system(cmd)
+        try:
+            subprocess.check_call(cmd, shell=True)
+            display.self_print("Command is successfully executed:\n%s\n\n" % (cmd), 'ok')
+        except subprocess.CalledProcessError as e:
+            display.self_print("Failed to run:" + cmd, 'error')
+            display.self_print("Please check the printed error message", 'error')
+            display.self_print("Process terminated with %s" % (e.returncode), 'error')
+            sys.exit(1)
     
 if cfg.step2:
     display.self_print_with_date('Step2. model training', 'h')
@@ -71,7 +78,7 @@ if cfg.step2:
         tmp_trn_data_nc_list = readwrite.read_txt_list(tmp_trn_nc_scp)
         if len(tmp_trn_data_nc_list) < 1:
             display.self_print('Error: not found train data.nc in %s' % (tmp_trn_nc_dir), 'error')
-            quit()
+            sys.exit(1)
             
         # check if in path, otherwise, change path
         tmp_data_nc_list = []
@@ -84,7 +91,7 @@ if cfg.step2:
         tmp_trn_data_nc_args = ','.join(tmp_data_nc_list)
     else:
         display.self_print('Error: not found %s' % (tmp_trn_nc_scp), 'error')
-        quit()        
+        sys.exit(1)        
 
     if os.path.isfile(tmp_val_nc_scp):
         tmp_val_data_nc_list = readwrite.read_txt_list(tmp_val_nc_scp)
@@ -111,15 +118,15 @@ if cfg.step2:
         pass
     else:
         display.self_print('Error: not found %s' % (tmp_trn_config_template), 'error')
-        quit()        
+        sys.exit(1)        
 
     if not os.path.isfile(tmp_network_file):
         display.self_print('Error: not found %s' % (tmp_network_file), 'error')
-        quit()
+        sys.exit(1)
 
     if not os.path.isfile(tmp_mv_data):
         display.self_print('Error: %s is not generated in 00_*.pt' % (tmp_mv_data), 'error')
-        quit()
+        sys.exit(1)
         
     # Get F0 mean and std if necessary
     if cfg.f0_ext is not None:
@@ -169,7 +176,7 @@ if cfg.step2:
             cmd = cmd + ' --mdn_config %s' % (tmp_mdn_config)
         else:
             display.self_print('Error: %s is not generated in 00_*.py' % (tmp_mdn_config), 'error')
-            quit()
+            sys.exit(1)
 
     os.chdir(tmp_network_dir)
 

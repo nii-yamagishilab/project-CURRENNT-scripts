@@ -274,6 +274,7 @@ def genSynCfg(testDataDir):
     config = config + '--ExtInputDirs %s ' % (inputDirs)
     config = config + '--ExtInputExts %s ' % (inputExts)
     config = config + '--ExtInputDims %s ' % (inputDims)
+    config = config + '--random_seed 12345231 '
     #config = config + '--target_data_ms %s ' % (outputMV)
     #config = config + '--source_data_ms %s ' % (inputMV)
     if hasattr(cfg, 'f0quantize') and cfg.f0quantize:

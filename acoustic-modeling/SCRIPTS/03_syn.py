@@ -22,16 +22,15 @@ from __future__ import print_function
 
 import os
 import sys
-import imp
 import random
-
+import importlib
 
 """ ----- Prepare data.nc files for CURRENNT -----
 """
 
 sys.path.append(os.getcwd())
 try:
-    cfg = __import__(sys.argv[1])
+    cfg = importlib.import_module(sys.argv[1])
 except IndexError:
     print("Error: missing argument. Usage: python **.py CONFIG_NAME")
     sys.exit(1)
@@ -44,12 +43,6 @@ from ioTools import readwrite
 import subprocess
 
 
-try:
-    networkToolPath = os.path.join(cfg.path_pyTools_scripts, 'networkTool/netCreate.py')
-    networkTool = imp.load_source('netCreate', networkToolPath)
-except ImportError:
-    print("Cannot load %s" % networkToolPath)
-    
 def exe_cmd(cmd, debug=False):
     display.self_print("Execute command:", 'ok')
     display.self_print(cmd + '\n', 'highlight')
@@ -173,7 +166,6 @@ def prepareData(dataDir, flag_create_new_data):
                     listOutput2  = lstdirNoExt(outputDir)
                     fileList   = crossSet(fileList, listOutput2)
         fileList.sort()
-        
         # writing file lst
         fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
         filePtr = open(fileListFilePath, 'w')

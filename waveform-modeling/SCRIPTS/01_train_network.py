@@ -24,11 +24,12 @@ from __future__ import print_function
 
 import os
 import sys
+import importlib
 
 # Load configure
 sys.path.append(os.getcwd())
 try:
-    cfg = __import__(sys.argv[1])
+    cfg = importlib.import_module(sys.argv[1])
 except IndexError:
     print("Error: missing argument. Usage: python **.py CONFIG_NAME")
     sys.exit(1)

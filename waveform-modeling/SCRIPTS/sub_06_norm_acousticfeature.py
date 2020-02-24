@@ -4,12 +4,13 @@ from __future__ import print_function
 
 import os
 import sys
-import imp
+import importlib
 from ioTools import readwrite as py_rw
 
 try:
     meanStdToolPath = sys.argv[9] + os.path.sep + 'dataProcess'
-    meanStdTool = imp.load_source('meanStd', meanStdToolPath + os.path.sep + 'meanStd.py')
+    sys.path.append(meanStdToolPath)
+    meanStdTool = importlib.import_module('meanStd')
 except ImportError:
     print("Cannot found %s/dataProcess" % (sys.argv[9]))
         

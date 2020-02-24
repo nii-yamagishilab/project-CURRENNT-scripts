@@ -22,16 +22,16 @@ from __future__ import print_function
 
 import os
 import sys
-import imp
 import random
 import numpy as np
+import importlib
 
 """ ----- Prepare data.nc files for CURRENNT -----
 """
 
 sys.path.append(os.getcwd())
 try:
-    cfg = __import__(sys.argv[1])
+    cfg = importlib.import_module(sys.argv[1])
 except IndexError:
     print("Error: missing argument. Usage: python **.py CONFIG_NAME")
     sys.exit(1)
@@ -43,9 +43,10 @@ from pyTools import display
 from ioTools import readwrite
 import subprocess
 
-try:
-    meanStdToolPath = os.path.join(cfg.path_pyTools_scripts, 'dataProcess/meanStd.py')
-    meanStdTool = imp.load_source('meanStd', meanStdToolPath)
+try:    
+    meanStdToolPath = os.path.join(cfg.path_pyTools_scripts, 'dataProcess')
+    sys.path.append(meanStdToolPath)
+    meanStdTool = importlib.import_module('meanStd')
 except ImportError:
     print("Cannot load %s" % meanStdToolPath)
     

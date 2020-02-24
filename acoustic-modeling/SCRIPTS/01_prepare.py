@@ -181,6 +181,7 @@ def prepareData():
                     readwrite.write_txt_list(diffSet,tmpName)
         
             # writing the list of file name
+            random.seed(1234567)
             random.shuffle(fileList)
             fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
             readwrite.write_txt_list(fileList, fileListFilePath)

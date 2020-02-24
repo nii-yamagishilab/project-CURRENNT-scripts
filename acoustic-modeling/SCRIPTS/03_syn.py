@@ -172,7 +172,8 @@ def prepareData(dataDir, flag_create_new_data):
                 for outputDir in outputDirSet:
                     listOutput2  = lstdirNoExt(outputDir)
                     fileList   = crossSet(fileList, listOutput2)
-
+        fileList.sort()
+        
         # writing file lst
         fileListFilePath = dataListPath + os.path.sep + dataPart + '.lst'
         filePtr = open(fileListFilePath, 'w')

@@ -51,6 +51,8 @@ def createFileLst(dataDirs, dataExts, dataDim, dataListDirs, trainortest, trainS
         raise Exception("Error: fail to generate file list.")
         
     # randomize the data file list
+    # sort at first, 
+    dataList.sort() 
     random.seed(random_seed)
     random_shuffle(dataList)
 

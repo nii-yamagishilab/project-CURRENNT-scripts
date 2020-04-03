@@ -1,8 +1,8 @@
 # PATCH for CURRENNT
 This patch conposed these program.    
 
-* INSTALLER : Install shell script for Ubuntu/Debian ([install.sh]()) and [Dockerfile]()
-* PREPROCESS: [Preprocess.py]() make dataset for sample program of CURRENNT
+* INSTALLER : Install shell script for Ubuntu/Debian ([install.sh](./INSTALLER/install.sh)) and [Dockerfile](./INSTALLER/dockerfile/Dockerfile)
+* PREPROCESS: [preprocess.py](./PREPROCESS/preprocess.py) make dataset for sample program of CURRENNT
 
 # Dependence
 #### You must install before using this patch 

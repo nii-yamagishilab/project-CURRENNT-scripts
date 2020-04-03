@@ -58,7 +58,7 @@ def save_dataset(fnames, save_dir, per_val):
         f.write("\n".join(fnames[0:-num_val]))
     with open(save_dir + os.sep + "list" + os.sep + "val.lst", "w", encoding="utf-8") as f:
         f.write("\n".join(fnames[-num_val:]))
-    print(fnames, fnames[0:-num_val], fnames[-num_val:], fnames[-1])
+
     return len(fnames) - num_val, num_val
 
 
@@ -107,9 +107,6 @@ class ExtractFeatures(object):
             aps.append(ap)
 
         return f0s, taxes, mceps, aps
-    
-    def transpose_in_list(self, ls):
-        return [array.T for array in ls]
 
     def cal_mean_std(self, mceps):
         mceps_concatenated = np.concatenate(mceps, axis=1)
@@ -165,7 +162,7 @@ if __name__ == "__main__":
     parser.add_argument("-s", '--save_dir', type=str, help="Directory for saving preprocessed samples")
     parser.add_argument("--sample_rate", type=int, default=16000, help="Sample rate")
     parser.add_argument("--frame_period", type=float, default=5.0, help="Frame period")
-    parser.add_argument("--dimension", type=int, default=24, help="Dimension for mcep")
+    parser.add_argument("--dimension", type=int, default=80, help="Dimension for mcep")
     parser.add_argument("--mono", type=bool, default=True, help="Convert signal to mono")
     parser.add_argument("--per_valuation", type=float, default=0.3, help="Percentage of valuation (0.0 < x < 1.0)")
     args = parser.parse_args()

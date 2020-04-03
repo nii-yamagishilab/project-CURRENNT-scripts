@@ -1,19 +1,20 @@
 #! /bin/bash
 set -e
 << COMMENTOUT
-Neural Source Filter(NSF)をビルドするシェルスクリプトです。
-詳しくは以下のURLを見てください。
-NSFのSource code: https://github.com/nii-yamagishilab/project-CURRENNT-public
-NSFのExample Code: https://github.com/nii-yamagishilab/project-CURRENNT-scripts
+This script is building and installing 'CURRENNT'.
+'CURRENNT' is frontend program of Neural Source Filter (NSF).
+
+References
+Source code   : https://github.com/nii-yamagishilab/project-CURRENNT-public
+Sample scripts: https://github.com/nii-yamagishilab/project-CURRENNT-scripts
 COMMENTOUT
 
 cat <<-EOS
 ---WORNING!!-------------------------------------------------------------------
-ビルドにはNumpyとScipyがインストールされている必要があります。
-また、Cuda 6.5以上が必要です。(Cuda 6.5, 7.0, 8.0, 10.0でビルドの確認済み)
-依存関係のバージョンは製作者の方がビルドしたときのものに合わせています。
-バージョンを変更したい場合はシェルスクリプト内の各依存パッケージのバージョンを
-変更してください。
+'CURRENNT' depends on 'Numpy', 'Scipy' and 'Cython'.
+And 'CURRENNT' needs 'CUDA 6.5' or later. (Test building under 'CUDA 6.5, 7.0, 8.0, 10.0')
+This scripts install dependent packages that is same as the version when TonyWangX (contributer) was build.
+You want to install other or later version, you can change version of dependent packages in this script.
 -------------------------------------------------------------------------------
 EOS
 
@@ -24,12 +25,12 @@ VER_NETCDF=4.3.3.1
 VER_SZIP=2.1.1
 VER_ZLIB=1.2.11
 
-read -p "NumpyとScipyとCythonはインストールされていますか？[y/N]:" ANS
+read -p "Did you installed 'Numpy', 'Scipy', 'Cython'? [y/N]:" ANS
 
 case $ANS in
     [Yy]* )
     cat <<-EOS
-以下のパッケージをビルドしてインストールします。
+Build and install these dependent packages.
 ・BOOST -> ${VER_BOOST}
 ・HDF5 -> ${VER_HDF5}
 ・NETCDF -> ${VER_NETCDF}
@@ -38,15 +39,15 @@ case $ANS in
 EOS
     ;;
     * )
-    echo "NumpyとScipyとCythonをインストールして再度実行してください。"
+    echo "You try again after you install 'Numpy', 'Scipy', 'Cython'."
     exit
     ;;
 esac
 
-read -p "インストールしてよろしいですか？[y/N]:" ANS
+read -p "Do you agree to install dependent packages? [y/N]:" ANS
 case $ANS in 
     [Yy]* )
-        read -p "インストール先のパス(default=$HOME):" INSTALLPATH
+        read -p "Install path for dependent packages(default=$HOME):" INSTALLPATH
         INSTALLPATH=${INSTALLPATH:-$HOME}
         NSF=$INSTALLPATH/nsf
         BUILDPATH=$NSF/build
@@ -57,10 +58,10 @@ case $ANS in
 
         ;;
     *)
-        read -p "既に依存パッケージがインストールされていますか？[y/N]" ANS2
+        read -p "Did you installed dependent packages？[y/N]" ANS2
         case $ANS2 in
             [Yy]* )
-                echo "各依存パッケージへのパスを入力してください"
+                echo "Path of dependent packages."
                 echo -n "BOOST:"
                 read BOOST
                 echo -n "HDF5:"
@@ -71,13 +72,13 @@ case $ANS in
                 read SZIP
                 echo -n "ZLIB:"
                 read ZLIB
-                echo "NSFをインストールするパスを入力してください"
-                echo -n "NSFのインストール先:"
+                echo "Install path for CURRENNT"
+                echo -n "Path:"
                 read NSF
                 BUILDPATH=$NSF/build
                 ;;
             *)
-                echo "インストールを中断しました。"
+                echo "Breaked install script."
                 exit 0
                 ;;
         esac
@@ -104,9 +105,9 @@ case $ANS2 in
         ;;
     *)  
         DJOBS=$[$(grep cpu.cores /proc/cpuinfo | sort -u | sed 's/[^0-9]//g')+1]
-        read -p "ビルドに使用する物理コア数を入力してください。(default=All）:" JOBS
+        read -p "Physical core for build. (default=All）:" JOBS
         JOBS=${JOBS:-$DJOBS}
-        echo "ビルドに${JOBS}cores使用されます。"
+        echo "Using ${JOBS}cores for build."
         read -sp "Password for sudo:" PASS
         sudo -S apt install -y --no-install-recommends build-essential ca-certificates cmake git libpthread-stubs0-dev m4 ninja-build sox wget
         mkdir $BUILDPATH
@@ -198,12 +199,12 @@ export PATH="$PATH:$NSF/currennt"
 EOS
 
 # Generate sample data
-read -p "続けてサンプルデータの生成を行いますか？[y/N]:" ANS
+read -p "Do you agree to run sample generate scripts? [y/N]:" ANS
 
 case $ANS in
     [Yy]* )
         cd $HOME/project-CURRENNT-scripts
-        echo "サンプルデータを生成します。"
+        echo "Start sample generate scripts."
         source ./init.sh
         cd ./waveform-modeling/project-NSF-pretrained/
         SECONDS=0
@@ -220,9 +221,9 @@ case $ANS in
         bash ./01_gen.sh
         time3=$SECONDS
         cat <<-EOS
-サンプルデータの生成が完了しました。
+Finish sample generate scripts!
 ------------------
-かかった時間
+Taking time
 ------------------
 NSF    : $time1
 NSF-v2 : $time2
@@ -244,15 +245,15 @@ EOS
 esac
 
 cat <<-EOS
-ビルドが完了しました。
+Finish build!
 ---WORNING!!----------------------------------------------------------------------------------------
-'currennt'を使用する前に`source $HOME/project-CURRENNT-scripts/init.sh`を実行してパスを通してください。
-任意で~/.bashrcなどに$HOME/project-CURRENNT-scripts/init.shにあるパスを追加してください。
+You must run `source $HOME/project-CURRENNT-scripts/init.sh` before using 'CURRENNT'.
 ----------------------------------------------------------------------------------------------------
-NSFの実行コマンド'currennt'の詳細は$NSF/currennt/READMEを参照してください。
-NSFのpythonラッパーの詳細は$NSF/currennt/pyTools/READMEを参照してください。
-NSFのソースコード等は$NSF/project-CURRENNT-publicを参照してください。
-'currennt'のサンプル実行の詳細は$NSF/project-CURRENNT-scripts/READMEを参照してください。
+References
+CURRENNT                  : $NSF/currennt/README
+pyTools of CURRENNT       : $NSF/currennt/pyTools/README
+Source code of CURRENNT   : $NSF/project-CURRENNT-public
+Sample scripts of CURRENNT: $NSF/project-CURRENNT-scripts/README
 EOS
 
 exit 0

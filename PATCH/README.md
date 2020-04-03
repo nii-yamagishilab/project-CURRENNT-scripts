@@ -11,7 +11,7 @@ This patch conposed these program.
 * cython
 * tqdm
 
-#### These pacages install after [install.sh]().
+#### These pacages install after [install.sh](./INSTALLER/install.sh).
 * BOOST == 1.59
 * HDF5 == 1.10.6
 * NETCDF == 4.3.3.1

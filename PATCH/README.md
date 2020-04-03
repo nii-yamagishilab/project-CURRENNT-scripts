@@ -9,6 +9,8 @@ This patch conposed these program.
 * numpy == 1.16.4
 * scipy
 * cython
+* pyworld
+* librosa
 * tqdm
 
 #### These pacages install after [install.sh](./INSTALLER/install.sh).
@@ -17,3 +19,4 @@ This patch conposed these program.
 * NETCDF == 4.3.3.1
 * SZIP == 2.1.1
 * ZLIB == 1.2.11
+* CURRENNT

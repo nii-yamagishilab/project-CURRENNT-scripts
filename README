@@ -2,7 +2,7 @@
 ##  prodject-CURRENNT-scrits -------------------------------------------  #
 ## ---------------------------------------------------------------------  #
 ##                                                                        #
-##  Copyright (c) 2018  National Institute of Informatics                 #
+##  Copyright (c) 2020  National Institute of Informatics                 #
 ##                                                                        #
 ##  THE NATIONAL INSTITUTE OF INFORMATICS AND THE CONTRIBUTORS TO THIS    #
 ##  WORK DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING  #
@@ -15,13 +15,15 @@
 ##  OF THIS SOFTWARE.                                                     #
 ###########################################################################
 ##                         Author: Xin Wang                               #
-##                         Date:   2016 - 2019                            #
+##                         Date:   2016 - 2020                            #
 ##                         Contact: wangxin at nii.ac.jp                  #
 ###########################################################################
 
 This repository contains the scripts to use CURRENNT
 \- waveform-modeling: scripts for waveform models
 \- acoustic-modeling: scripts for acoustic models
+
+----------------- 0. before using ----------------------
 
 Please install CURRENNT and pyTools before using this repository.
 https://github.com/nii-yamagishilab/project-CURRENNT-public
@@ -30,7 +32,7 @@ Please also install sox http://sox.sourceforge.net
 
 Please modify the environment variables in ./init.sh
 
-Please read the intruction below to use this repository.
+Please read the intruction below to use this repository
 
 ----------------- 1. waveform models --------------------
 ./waveform-modeling
@@ -49,13 +51,6 @@ Please read the intruction below to use this repository.
   - SCRIPTS
   Scripts of the training/generation processes
 
-  - project-NSF-v2-pretrained
-  Simplified and harmonic-plu-noise NSFs trained on SLT. This is a demonstration
-  script to generate waveforms from a trained NSF model.
-  These new NSF models are explained here: https://nii-yamagishilab.github.io/samples-nsf/nsf-v2.html
-
-  If you want to train models on your own corpus, please use the training scripts in project-NSF
-
   - project-NSF-pretrained
   Neural source-filter model trained on SLT. This is a demonstration
   script to generate waveforms from a trained NSF model.
@@ -66,24 +61,49 @@ Please read the intruction below to use this repository.
 
   If you want to train models on your own corpus, please use the training scripts in project-NSF
   
+  
+  - project-NSF-v2-pretrained
+  Simplified and harmonic-plus-noise (hn-sinc) NSFs trained on SLT. This is a demonstration
+  script to generate waveforms from a trained NSF model.
+  These new NSF models are explained here: https://nii-yamagishilab.github.io/samples-nsf/nsf-v2.html,
+  https://nii-yamagishilab.github.io/samples-nsf/nsf-v3.html
+
+  If you want to train models on your own corpus, please use the training scripts in project-NSF
+
+  - project-NSF-pretrained-v4-CMU-4speakers
+  hn-sinc-NSF using different types of source signals, including cyclic-noise-based source.
+  All models trained on CMU-arctic using CLB, RMS, BDL, and SLT in a speaker-independent wavy.
+  This is a demonstration script to generate waveforms from a trained NSF model.
+  These new NSF models are explained here: https://nii-yamagishilab.github.io/samples-nsf/nsf-v4.html,
+
+  If you want to train models on your own corpus, please use the training scripts in project-NSF
+  
+
   - project-NSF
   Scripts to train NSF on CMU-arctic SLT voice.
   Note that project-NSF/MODELS contains both network.jsn for models in both project-NSF-pretrained/MODELS
   and project-NSF-v2-pretrained/MODELS:
    ./project-NSF/MODELS
-     |- s-NSF:  simplified NSF, used in project-NSF-v2-pretrained/MODELS/s-NSF
-     |- h-NSF:   harmonic-plus-noise NSF, used in project-NSF-v2-pretrained/MODELS/h-NSF
-     |- h-sinc-NSF: h-NSF with trainable filters, used in project-NSF-v2-pretrained/MODELS/h-sinc-NSF
+     |- s-NSF:  simplified NSF, which is used in project-NSF-v2-pretrained/MODELS/s-NSF
+     |- h-NSF:  harmonic-plus-noise NSF, which is used in project-NSF-v2-pretrained/MODELS/h-NSF
+     |- h-sinc-NSF: h-NSF with trainable filters, which is used in project-NSF-v2-pretrained/MODELS/h-sinc-NSF
+     |- cyclic-noise-h-sinc-NSF, h-sinc-NSF using cyclic-noise-source, which is used in /project-NSF-pretrained-v4-CMU-4speakers/MODELS/05_beta2/
      
-     |- NSF: baseline NSF, used in project-NSF-pretrained/MODELS/NSF
-     |- NSF-L3,  NSF-MSE,  NSF-N2,  NSF-S3, used in project-NSF-pretrained/MODELS/NSF-*
+     |- NSF: baseline NSF, which is used in project-NSF-pretrained/MODELS/NSF
+     |- NSF-L3,  NSF-MSE,  NSF-N2,  NSF-S3, which used in project-NSF-pretrained/MODELS/NSF-*
     
+   You can find other model definition files called network.jsn  in pre-trained model directories.
 
   - project-WaveNet-pretrained
   Wavenet trained on SLT. This is a demonstration
   script to generate waveforms from a trained WaveNet model.
   The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/nsf-v1.html
-  
+
+  - project-WaveNet-pretrained-v4-CMU-4speakers
+  Wavenet trained on SLT, BDL, CLB, RMS. This is a demonstration
+  script to generate waveforms from a trained WaveNet model.
+  The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/nsf-v4.html
+
   - project-WaveNet
   Scripts to train WaveNet on CMU-arctic SLT voice. 
 

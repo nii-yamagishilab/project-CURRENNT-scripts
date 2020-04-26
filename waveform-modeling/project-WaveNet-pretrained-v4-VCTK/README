@@ -1,0 +1,4 @@
+Directory for pretrained WaveNet model on VCTK
+Usage:
+1. prepare the scripts and tools following ../../README
+2. $: sh 00_gen_from_pretrained_models.sh

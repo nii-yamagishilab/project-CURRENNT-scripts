@@ -78,7 +78,11 @@ Please read the intruction below to use this repository
 
   If you want to train models on your own corpus, please use the training scripts in project-NSF
   
-
+  - project-NSF-pretrained-v4-VCTK
+  hn-sinc-NSF and cyclic-noise-based hn-sinc-NSF
+  (see protocol in downloaded TESTDATA-for-pretrained-vc-VCTK after running 00_gen_from_pretrained_models.sh)
+  These new NSF models are explained here: https://nii-yamagishilab.github.io/samples-nsf/nsf-v4.html
+  
   - project-NSF
   Scripts to train NSF on CMU-arctic SLT voice.
   Note that project-NSF/MODELS contains both network.jsn for models in both project-NSF-pretrained/MODELS
@@ -102,6 +106,11 @@ Please read the intruction below to use this repository
   - project-WaveNet-pretrained-v4-CMU-4speakers
   Wavenet trained on SLT, BDL, CLB, RMS. This is a demonstration
   script to generate waveforms from a trained WaveNet model.
+  The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/nsf-v4.html
+
+  - project-WaveNet-pretrained-v4-VCTK
+  WaveNet trained on VCTK (see protocol in downloaded TESTDATA-for-pretrained-vc-VCTK after running
+  00_gen_from_pretrained_models.sh)
   The samples have been uploaded to https://nii-yamagishilab.github.io/samples-nsf/nsf-v4.html
 
   - project-WaveNet

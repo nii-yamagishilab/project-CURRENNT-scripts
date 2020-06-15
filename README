@@ -23,6 +23,9 @@ This repository contains the scripts to use CURRENNT
 \- waveform-modeling: scripts for waveform models
 \- acoustic-modeling: scripts for acoustic models
 
+For NSF waveform-models, pytorch re-implementation is available now:
+https://github.com/nii-yamagishilab/project-NN-Pytorch-scripts
+
 ----------------- 0. before using ----------------------
 
 Please install CURRENNT and pyTools before using this repository.
